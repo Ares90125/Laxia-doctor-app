@@ -9,7 +9,7 @@
           <div class="form-group">
             <label class="col-form-label text-md-right">{{ $t('メールアドレス') }}</label>
             <div>
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
+              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email" v-bind:placeholder="$t('例：XXX@example.com')" />
               <has-error :form="form" field="email" />
             </div>
           </div>
@@ -18,13 +18,13 @@
           <div class="form-group">
             <label class="col-form-label text-md-right">{{ $t('パスワード') }}</label>
             <div>
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
+              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
               <has-error :form="form" field="password" />
             </div>
           </div>
 
-          <div class="auth-btn--wrapper">
-            <v-button :loading="form.busy">{{ $t('登録') }}</v-button>
+          <div class="auth-btn--wrapper register-btn--wrapper">
+            <v-button :loading="form.busy">{{ $t('アカウントを作成') }}</v-button>
           </div>
         </form>
       </div>

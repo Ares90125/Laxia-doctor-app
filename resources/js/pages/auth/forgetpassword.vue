@@ -4,9 +4,9 @@
       <div v-if="isSendingEmail" class="forgetpw-form ">
         <h2 class="auth-title">パスワードをリセット</h2>
 
-        <div class="row mb-2">
+        <div class="row">
           <div class="col-12">
-            <p>登録したメールアドレスを入力してください。</p>
+            <p class="forget-desc">登録したメールアドレスを入力してください。</p>
           </div>
         </div>
         <!-- Email -->
@@ -20,17 +20,20 @@
         </div>
       </div>
 
-      <div v-if="!isSendingEmail" class="forgetpw-form ">
-        <h2 class="auth-title">メールを送信しました</h2>
+      <div v-if="!isSendingEmail" class="forgetpw-form confirm-form">
+        <h2 class="auth-title confirm-title">メールを送信しました</h2>
         <div class="row mt-4">
           <div class="col-12">
-            <p style="line-height: 2">xxx@example.com にメールを送信しましたので、新しいパスワードを設定してください。<br>
-              メールが届かない場合は、入力したアドレスに間違いがあるか、登録したメールアドレスが違う可能性があります。</p>
+            <p>
+              <b>xxx@example.com</b>にメールを送信しましたので、<br/>
+              新しいパスワードを設定してください。<br/>
+              メールが届かない場合は、入力したアドレスに間違いがあるか、登録したメールアドレスが違う可能性があります。
+            </p>
           </div>
         </div>
-        <div class="auth-btn--wrapper d-flex justify-content-center mt-5">
-          <button class="btn btn-sm non-bootstrap-btn mr-2"  @click="handleSendEmail">もう一度試してみる</button>
-          <router-link :to="{ name: 'resetpassword' }" class="btn btn-primary btn-sm ml-2">
+        <div class="auth-btn--wrapper d-flex justify-content-center">
+          <button class="btn btn-sm non-bootstrap-btn"  @click="handleSendEmail">もう一度試してみる</button>
+          <router-link :to="{ name: 'resetpassword' }" class="btn btn-primary btn-sm">
             もう一度試してみる
           </router-link>
         </div>
@@ -53,7 +56,7 @@ export default {
         email:'',
       },
 
-      isSendingEmail: true,
+      isSendingEmail: false,
 
     }
   },
@@ -67,18 +70,3 @@ export default {
 }
 
 </script>
-
-<style>
-.forgetpw-form{
-  max-width: 430px;
-  padding: 100px 0;
-  margin: auto;
-}
-
-.auth--wrapper .forgetpw-form .auth-title{
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 50px;
-  font-weight: 600;
-}
-</style>
