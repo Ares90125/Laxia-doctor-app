@@ -1,0 +1,785 @@
+{
+	"info": {
+		"_postman_id": "b4bd9191-c347-4934-9ff1-ffb999fbefaa",
+		"name": "Doctor_saijiro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "doctor_register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"doctor_116\",\n    \"email\": \"doctor116@gmail.com\",\n    \"password\": \"123456789\",\n    \"password_confirmation\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://laxia.test/api/doctor/register"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"doctor@gmail.com\",\n    \"password\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/login"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_get_profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxODg1MjYsImV4cCI6MTYxOTE5MjEyNiwibmJmIjoxNjE5MTg4NTI2LCJqdGkiOiJkbGt1dDVpZEFOS214cndXIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.tsdTAguAnSuIuZb2f56RZJgoRtcltWuc9iNe7-ufurs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "doctor_tester",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "doctor@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "123456789",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "123456789",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/profile"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxODg1MjYsImV4cCI6MTYxOTE5MjEyNiwibmJmIjoxNjE5MTg4NTI2LCJqdGkiOiJkbGt1dDVpZEFOS214cndXIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.tsdTAguAnSuIuZb2f56RZJgoRtcltWuc9iNe7-ufurs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"tanakataro\",\n    \"kata_name\": \"田中太郎\",\n    \"hira_name\": \"タナカタロウ\",\n    \"job_id\": 1,\n    \"experience_year\": 3,\n    \"spec0\": 4,\n    \"spec1\": 2,\n    \"spec2\": null,\n    \"profile\": \"1997年ラシア大学医学部卒業\\n2000年ABCクリニック 開業\",\n    \"career\": \"日本美容外科学会会員\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/profile"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_get_id_profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxNzI3ODUsImV4cCI6MTYxOTE3NjM4NSwibmJmIjoxNjE5MTcyNzg1LCJqdGkiOiJzeFg0b0dnUWFEZlJodTI4Iiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.5T49EwnyS9WuPG85s5brxsAlSMeZrvdn_DKWZZBP3C8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "doctor_tester",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "doctor@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "123456789",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "123456789",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/profile/61"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_update_email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxODg1MjYsImV4cCI6MTYxOTE5MjEyNiwibmJmIjoxNjE5MTg4NTI2LCJqdGkiOiJkbGt1dDVpZEFOS214cndXIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.tsdTAguAnSuIuZb2f56RZJgoRtcltWuc9iNe7-ufurs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"doctor@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/update/email"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_update_password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxNzI3ODUsImV4cCI6MTYxOTE3NjM4NSwibmJmIjoxNjE5MTcyNzg1LCJqdGkiOiJzeFg0b0dnUWFEZlJodTI4Iiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.5T49EwnyS9WuPG85s5brxsAlSMeZrvdn_DKWZZBP3C8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"current_password\": \"123456789\",\n    \"new_password\": \"123456789\",\n    \"new_password_confirmation\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/update/password"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxNDYzNTksImV4cCI6MTYxOTE0OTk1OSwibmJmIjoxNjE5MTQ2MzU5LCJqdGkiOiJiQ2s1MEtSQk5SbGszQWtvIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.L00pD1T0D2jiMH-KVaUSMjnfPcr-40j_Nay1jRzZtII",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "123456789",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "per_page",
+							"value": "20",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_load_master",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxNzI3ODUsImV4cCI6MTYxOTE3NjM4NSwibmJmIjoxNjE5MTcyNzg1LCJqdGkiOiJzeFg0b0dnUWFEZlJodTI4Iiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.5T49EwnyS9WuPG85s5brxsAlSMeZrvdn_DKWZZBP3C8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "doctor@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "per_page",
+							"value": "20",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/load/master"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_load_enum",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxNzI3ODUsImV4cCI6MTYxOTE3NjM4NSwibmJmIjoxNjE5MTcyNzg1LCJqdGkiOiJzeFg0b0dnUWFEZlJodTI4Iiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.5T49EwnyS9WuPG85s5brxsAlSMeZrvdn_DKWZZBP3C8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "doctor@gmail.com",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "per_page",
+							"value": "20",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/load/enum"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_upload_profile_avatar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkxNzI3ODUsImV4cCI6MTYxOTE3NjM4NSwibmJmIjoxNjE5MTcyNzg1LCJqdGkiOiJzeFg0b0dnUWFEZlJodTI4Iiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.5T49EwnyS9WuPG85s5brxsAlSMeZrvdn_DKWZZBP3C8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/Users/dragonsky/Documents/ic_filter_star_full.png"
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/profile/photoupload"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_question_search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkyNTk4NzgsImV4cCI6MTYxOTI2MzQ3OCwibmJmIjoxNjE5MjU5ODc4LCJqdGkiOiJmNXJGSExXRVFiSFhmNGdCIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cWB4b_dQ1lI1zWif4iG-FB4ZD4f-7tPoXGMfZfqL4kU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"per_page\": 20,\n    \"orderby\": \"updated_at\", // comments_count, news, updated_at\n    \"category_id[]\": 31,\n    \"category_id[]\": 22\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/questions/search"
+			},
+			"response": []
+		},
+		{
+			"name": "doctor_question_detail",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkyNTk4NzgsImV4cCI6MTYxOTI2MzQ3OCwibmJmIjoxNjE5MjU5ODc4LCJqdGkiOiJmNXJGSExXRVFiSFhmNGdCIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cWB4b_dQ1lI1zWif4iG-FB4ZD4f-7tPoXGMfZfqL4kU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/questions/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Answer Image",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkyNTU2OTUsImV4cCI6MTYxOTI1OTI5NSwibmJmIjoxNjE5MjU1Njk1LCJqdGkiOiJqY0lIR0NDMlFUZ1dLWldaIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.YBpbsP-iOIXdZ2b2c4zxKTO7poLLxXWi_X8t_bl_tDU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/Users/dragonsky/Documents/favicon.png"
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/questions/uploadAnswerPhoto"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Answer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkyNTk4NzgsImV4cCI6MTYxOTI2MzQ3OCwibmJmIjoxNjE5MjU5ODc4LCJqdGkiOiJmNXJGSExXRVFiSFhmNGdCIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cWB4b_dQ1lI1zWif4iG-FB4ZD4f-7tPoXGMfZfqL4kU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"answer\": \"4,5ヶ月前に瞼の脂肪吸引・埋没を行ったのですが、瞼は以前同様腫れぼったく、二重も線が薄く元の奥二重線の方が強く残り、三重のようになっています。\",\n    \"photo\": [\"doctor/answers/mzMpalGdrfLbvk02dAC47L8ur.png\", \"doctor/answers/hD1SbBwEoO7PRPLFpbmmiltIz.png\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/questions/1/answers"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Answer",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkyNTk4NzgsImV4cCI6MTYxOTI2MzQ3OCwibmJmIjoxNjE5MjU5ODc4LCJqdGkiOiJmNXJGSExXRVFiSFhmNGdCIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cWB4b_dQ1lI1zWif4iG-FB4ZD4f-7tPoXGMfZfqL4kU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/questions/2/answers/14"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Answer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkyNTk4NzgsImV4cCI6MTYxOTI2MzQ3OCwibmJmIjoxNjE5MjU5ODc4LCJqdGkiOiJmNXJGSExXRVFiSFhmNGdCIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.cWB4b_dQ1lI1zWif4iG-FB4ZD4f-7tPoXGMfZfqL4kU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"answer\": \"5ヶ月前に瞼の脂肪吸引・埋没を行ったのですが、瞼は以前同様腫れぼったく、二重も線が薄く元の奥二重線の方が強く残り、三重のようになっています。\",\n    \"deleted_phot1o\": [1, 3],\n    \"added_photo\": [\"doctor/answers/mzMpalGdrfLbvk02dAC47L8ur.png\", \"doctor/answers/hD1SbBwEoO7PRPLFpbmmiltIz.png\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/questions/1/answers/17"
+			},
+			"response": []
+		},
+		{
+			"name": "Case Upload Photo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNDQ4NTYsImV4cCI6MTYxOTM0ODQ1NiwibmJmIjoxNjE5MzQ0ODU2LCJqdGkiOiI3NnNPRURHMVROQW5tTDlVIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.FpxHlAzQ_jARMECI98Fw61QxTkFVBpLTgizUGbfMip0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/Users/dragonsky/Documents/favicon.png"
+						}
+					]
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases/uploadPhoto"
+			},
+			"response": []
+		},
+		{
+			"name": "Case Add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNDg0OTgsImV4cCI6MTYxOTM1MjA5OCwibmJmIjoxNjE5MzQ4NDk4LCJqdGkiOiIyenZHT0JiUWVuQVM3Zm9yIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.JLXIjwye1jDrErbA77NJYz-o-IuD4RJdcgM77JfJaiY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"奥二重の二重埋没と目頭切開\",\n    \"category\": [13, 30, 51],\n    \"age\": \"3\",\n    \"gender\": \"1\",\n    \"operation\": \"二重全切開法＋目頭切開の症例です。 少々離れ目がちな印象でしたが、目頭切開を行うことでバランスが整いました。\",\n    \"operationRisk\": \"①傷跡が体質等により盛り上がる場合があります。 ②ごく稀に、局所麻酔によるアレルギー反応を起こす可能性があります。\",\n    \"majordoctorComment\": \"二重幅がかなり狭かったので、くっきりな二重になるように幅をとって切開しました。 ヒアルロン酸を入れることによって、目元がよりきれいにぱっちりなると思います。\",\n    \"before_photo\": [\"doctor/cases/1chYvfhaTXIa4W3qun5SexOzb.png\", \"doctor/cases/1chYvfhaTXIa4W3qun5SexOzb.png\"],\n    \"after_photo\": [\"doctor/cases/1chYvfhaTXIa4W3qun5SexOzb.png\", \"doctor/cases/1chYvfhaTXIa4W3qun5SexOzb.png\"],\n    \"menuProperty\": [\n        {\"name\": \"二重切開 \", \"cost\": 250000},\n        {\"name\": \"目頭切開 \", \"cost\": 100000},\n        {\"name\": \"ヒアルロン酸注入 \", \"cost\": 300000}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases"
+			},
+			"response": []
+		},
+		{
+			"name": "Case Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNDg0OTgsImV4cCI6MTYxOTM1MjA5OCwibmJmIjoxNjE5MzQ4NDk4LCJqdGkiOiIyenZHT0JiUWVuQVM3Zm9yIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.JLXIjwye1jDrErbA77NJYz-o-IuD4RJdcgM77JfJaiY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases/39"
+			},
+			"response": []
+		},
+		{
+			"name": "Case Detail",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNDg0OTgsImV4cCI6MTYxOTM1MjA5OCwibmJmIjoxNjE5MzQ4NDk4LCJqdGkiOiIyenZHT0JiUWVuQVM3Zm9yIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.JLXIjwye1jDrErbA77NJYz-o-IuD4RJdcgM77JfJaiY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases/40"
+			},
+			"response": []
+		},
+		{
+			"name": "Case Doctor Case",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNDg0OTgsImV4cCI6MTYxOTM1MjA5OCwibmJmIjoxNjE5MzQ4NDk4LCJqdGkiOiIyenZHT0JiUWVuQVM3Zm9yIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.JLXIjwye1jDrErbA77NJYz-o-IuD4RJdcgM77JfJaiY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases/doctor/61"
+			},
+			"response": []
+		},
+		{
+			"name": "Case My List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNDg0OTgsImV4cCI6MTYxOTM1MjA5OCwibmJmIjoxNjE5MzQ4NDk4LCJqdGkiOiIyenZHT0JiUWVuQVM3Zm9yIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.JLXIjwye1jDrErbA77NJYz-o-IuD4RJdcgM77JfJaiY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases"
+			},
+			"response": []
+		},
+		{
+			"name": "Case Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2RvY3RvclwvbG9naW4iLCJpYXQiOjE2MTkzNTI3MDAsImV4cCI6MTYxOTM1NjMwMCwibmJmIjoxNjE5MzUyNzAwLCJqdGkiOiJuUmZucmUxT0ZtYnBrU0swIiwic3ViIjo2MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.WIonUjqf3oMCaUKN2lZ3uTqkjVD9g1p-jP0p1SMOpCY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"奥二重の二重埋没と目頭切開22\",\n    \"category\": {\n        \"delete\": [24, 23],\n        \"add\": [13, 46]\n    },\n    \"age\": \"3\",\n    \"gender\": \"1\",\n    \"operation\": \"二重全切開法＋目頭切開の症例です。 少々離れ目がちな印象でしたが、目頭切開を行うことでバランスが整いました。\",\n    \"before_photo\": {\n       \"add\": [\"doctor/cases/1chYvfhaTXIa4W3qun5SexOzdb.png\", \"doctor/cases/1chYvfhaTXIasssswer4W3qun5SexOzb.png\"],\n       \"delete\": [42, 80, 81, 82, 83, 58, 59, 76, 77]\n    },\n    \"after_photo\": {\n       \"add\": [\"doctor/cases/asdasda.png\", \"doctor/cases/dfsdfsdfsdf.png\"],\n       \"delete\": [76, 57]\n    },\n    \"menuProperty\": {\n        \"add\": [\n            {\"name\": \"11 \", \"cost\": 250000}\n        ],\n        \"delete\": [30, 31, 32, 33],\n        \"update\": [\n            {\"id\": 34, \"name\": \"33 \", \"cost\": 250000}\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://doctor.lxa.jp/api/doctor/cases/46"
+			},
+			"response": []
+		}
+	]
+}

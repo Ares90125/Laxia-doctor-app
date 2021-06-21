@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "208f6d8b-51cc-41ca-bab9-4c866cbe3ec1",
+		"name": "Clinic_saijiro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "clinic_login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"clinic@gmail.com\",\n    \"password\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/login"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"clinic_116\",\n    \"email\": \"clinic116@gmail.com\",\n    \"password\": \"123456789\",\n    \"password_confirmation\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/register"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkxNzEyNDQsImV4cCI6MTYxOTE3NDg0NCwibmJmIjoxNjE5MTcxMjQ0LCJqdGkiOiJNc2ZobG00N3B6U2xyZ1RWIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.s3WJ0Ca3sFLH6e2lV770HRZkNSoYQNCZFXCukKLO_iw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"q\": \"tanakataro\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/search/doctor"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_update_email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkxODkzNTIsImV4cCI6MTYxOTE5Mjk1MiwibmJmIjoxNjE5MTg5MzUyLCJqdGkiOiJudXNJUG1SOVBqNDlHTUFTIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.XtJpmyfBU9asppOzbQ-9FPW2MBHOu4e29dZtnlWZjWQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"clinic@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/update/email"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_update_password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTk1MDYyMjMsImV4cCI6MTYxOTUwOTgyMywibmJmIjoxNjE5NTA2MjIzLCJqdGkiOiJIS2k1NnVPek8wTE9sdUxLIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NjdATexEtS8mmqbPmHGmEm_fvWPuVKAySx77U6sJTzc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"current_password\": \"123456789\",\n    \"new_password\": \"123456789\",\n    \"new_password_confirmation\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/update/password"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_doctor_add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkxNzEyNDQsImV4cCI6MTYxOTE3NDg0NCwibmJmIjoxNjE5MTcxMjQ0LCJqdGkiOiJNc2ZobG00N3B6U2xyZ1RWIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.s3WJ0Ca3sFLH6e2lV770HRZkNSoYQNCZFXCukKLO_iw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"doctor_id\": 69\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/doctors"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_doctor_remove",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkxOTUxOTAsImV4cCI6MTYxOTE5ODc5MCwibmJmIjoxNjE5MTk1MTkwLCJqdGkiOiJMbERXTzd6YXRwNEpwMEdEIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.VojFz2abe0rDK1MC_SZ0jx-rqoO46y_i9acuqWL-BdM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/doctors/69"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_doctors_list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkxOTUxOTAsImV4cCI6MTYxOTE5ODc5MCwibmJmIjoxNjE5MTk1MTkwLCJqdGkiOiJMbERXTzd6YXRwNEpwMEdEIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.VojFz2abe0rDK1MC_SZ0jx-rqoO46y_i9acuqWL-BdM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/doctors"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkwOTY4NzksImV4cCI6MTYxOTEwMDQ3OSwibmJmIjoxNjE5MDk2ODc5LCJqdGkiOiJ6ZkpNTEFQdUl2QjFEMnZGIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.7p_LfZHoGwey4-ZILh7qH4rUMf4c9s1fdbTjDKKu65E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "123456789",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "per_page",
+							"value": "20",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "clinic_upload_profile_avatar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sYXhpYS50ZXN0XC9hcGlcL2NsaW5pY1wvbG9naW4iLCJpYXQiOjE2MTkxNzEyNDQsImV4cCI6MTYxOTE3NDg0NCwibmJmIjoxNjE5MTcxMjQ0LCJqdGkiOiJNc2ZobG00N3B6U2xyZ1RWIiwic3ViIjo2MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.s3WJ0Ca3sFLH6e2lV770HRZkNSoYQNCZFXCukKLO_iw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/Users/dragonsky/Documents/ic_filter_star_full.png"
+						}
+					]
+				},
+				"url": "http://clinic.lxa.jp/api/clinic/profile/photoupload"
+			},
+			"response": []
+		}
+	]
+}
