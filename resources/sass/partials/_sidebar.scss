@@ -1,0 +1,48 @@
+.sidebar {
+    width: 240px;
+    line-height: 1.75;
+
+    .menu-avatar-container {
+
+        .menu-avatar-img-container {
+
+            img {
+                width: 116px;
+                height: 127px;
+                object-fit: cover;
+            }
+        }
+
+        .menu-avatar-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #131340;
+        }
+    }
+
+    .menu {
+        
+        ul {
+
+            li {
+
+                a {
+
+                    p {
+                        margin: 0 25px;
+                        width: 32px;
+                        height: 32px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    span {
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+    }
+}

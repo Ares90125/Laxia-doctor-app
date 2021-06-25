@@ -1,0 +1,190 @@
+.main-in {
+    &.profile-main-in {
+        padding: 100px 50px 50px;
+        line-height: 1.75;
+
+        .main-content {
+            padding: 30px 50px;
+            border-radius: 10px;
+
+            .profile-edit-btn {
+                font-size: 18px;
+                border-radius: 5px;
+
+                p {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 5px;
+                }
+            }
+
+            .avatar-img-con {
+                padding-left: 50px;
+                margin-bottom: 35px;
+
+                img {
+                    width: 145px;
+                    height: 145px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+
+            .profile-con {
+                padding-left: 50px;
+                display: flex;
+
+                &--left-con {
+                    width: 50%;
+                }
+
+                .profile-item {
+                    margin-bottom: 20px;
+
+                    label {
+                        font-size: 16px;
+                        color: #8D909E;
+                        margin-bottom: 0;
+                    }
+
+                    &--value {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+
+        .form-modal-wrapper {
+
+            &.profile-modal{
+                position: absolute;
+                width: unset;
+                height: unset;
+                left: calc(50% - 425px);
+                top: 150px;
+
+                .form-modal-content {
+                    width: 850px;
+
+                    .form-modal-header {
+                        padding: 9px 0;
+
+                        .form-modal-title {
+                            font-size: 24px;
+                            font-weight: 700;
+                        }
+
+                        .form-modal-close-btn {
+                            top: 15px;
+                        }
+                    }
+
+                    .form-modal-body {
+                        padding: 20px 125px 70px;
+                        max-height: unset;
+
+                        .main-modal {
+                            padding: 0;
+
+                            .profile-item {
+                                margin-bottom: 25px;
+
+                                label.caseinfo-title {
+                                    font-size: 16px;
+                                    color: #5F6377;
+                                }
+
+                                .profile-photo {
+                                    width: 145px;
+                                    height: 145px;
+                                    margin: 0 auto 15px;
+
+                                    img {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                        border-radius: 50%;
+                                    }
+
+                                    .dropzone-title {
+
+                                        img {
+                                            width: unset;
+                                            height: unset;
+                                            border-radius: 0;
+                                        }
+                                    }
+                                }
+
+                                .upload-btn {
+
+                                    button {
+                                        margin: 0 auto 50px;
+                                        font-size: 18px;
+                                    }
+                                }
+
+                                .id-desc {
+                                    font-size: 10px;
+                                    color: #8D909E;
+                                }
+
+                                &.row {
+                                    margin-left: -5px;
+                                    margin-right: -5px;
+                                }
+
+                                .col-6, .col-4 {
+                                    padding-right: 5px;
+                                    padding-left: 5px;
+                                }
+
+                                button {
+                                    margin: auto;
+                                    display: block;
+                                }
+
+                                &:last-child {
+                                    margin-top: 70px;
+                                    margin-bottom: 0px;
+                                }
+
+                                .form-control {
+                                    border: 1px solid #C9D6DF;
+                                    border-radius: 5px;
+                                    line-height: 1.75;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: #13BD38;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0.25 7C0.25 3.27208 3.27208 0.25 7 0.25C10.7261 0.25434 13.7457 3.27388 13.75 7C13.75 10.7279 10.7279 13.75 7 13.75C3.27208 13.75 0.25 10.7279 0.25 7ZM7.04612 10.0876L10.8964 4.8625C11.0266 4.70139 11.0577 4.48179 10.9774 4.29087C10.8971 4.09996 10.7183 3.96863 10.5121 3.94902C10.306 3.92942 10.1057 4.02471 9.99081 4.19706L6.48812 8.95075L4.19537 7.11644C3.95275 6.92228 3.59866 6.96156 3.4045 7.20419C3.21034 7.44681 3.24962 7.8009 3.49225 7.99506L6.24175 10.1933C6.36195 10.2873 6.51485 10.329 6.66611 10.3091C6.81737 10.2892 6.9543 10.2094 7.04612 10.0876Z' fill='%2313BD38'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  border-color: #13BD38 !important;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    border-color: #FF3654;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.2175 11.4999L7.88929 1.45926C7.69247 1.08865 7.30348 0.856445 6.87945 0.856445C6.45543 0.856445 6.06643 1.08865 5.86961 1.45926L0.540804 11.4999C0.355671 11.8486 0.368776 12.2675 0.575358 12.6044C0.781939 12.9412 1.15194 13.147 1.55093 13.1469H12.2074C12.6064 13.147 12.9764 12.9412 13.183 12.6044C13.3896 12.2675 13.4027 11.8486 13.2175 11.4999ZM6.30912 4.98785C6.30912 4.67719 6.56434 4.42535 6.87917 4.42535C7.194 4.42535 7.44922 4.67719 7.44922 4.98785V8.36285C7.44922 8.67351 7.194 8.92535 6.87917 8.92535C6.56434 8.92535 6.30912 8.67351 6.30912 8.36285V4.98785ZM6.89171 11.4622H6.90767C7.13404 11.4586 7.34936 11.3651 7.50493 11.2028C7.6605 11.0405 7.74317 10.8231 7.73424 10.5999C7.71589 10.1394 7.33252 9.77526 6.86549 9.77471H6.84953C6.62372 9.77879 6.40905 9.87227 6.25382 10.0341C6.09858 10.196 6.0158 10.4126 6.0241 10.6353C6.04182 11.0959 6.4246 11.4607 6.89171 11.4622Z' fill='%23FF3654'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    border-color: #FF3654 !important;
+}
+
+.invalid-feedback-custom {
+    font-size: 12px;
+    color: #FF3654;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="main-in">
+  <div class="main-in illcase-main-in">
     <div class="staff-header">
       <p>
         <select class="staff-sort">
@@ -11,6 +11,7 @@
         <button class="btn btn-primary" @click="handleNewCase"><img src="/img/plus.svg"> {{ $t('新規スタッフを追加') }}</button>
       </p>
     </div>
+
     <div class="main-content">
       <div class="case-list">
         <div v-for="(item, index) in caseList" :key="index" class="case-one">
@@ -42,6 +43,7 @@
         :page-count="pageInfo.last_page"
         :click-handler="handlePaginate" />
     </div>
+    
     <form-modal
       ref="illcaseModal"
       id="case-modal"
