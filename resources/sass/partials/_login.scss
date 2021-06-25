@@ -11,7 +11,7 @@
         display: flex;
 
         .auth-form {
-            max-width: 400px;
+            max-width: unset;
             padding: 0;
 
             .auth-title {
@@ -50,6 +50,10 @@
                     min-width: 138px;
                     padding: 5px 30px;
                     font-size: 18px;
+                }
+
+                &.reset-btn {
+                    margin-top: 65px;
                 }
             }
         }

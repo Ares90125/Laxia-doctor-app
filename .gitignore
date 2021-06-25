@@ -16,6 +16,3 @@ yarn-error.log
 phpunit.dusk.xml
 *.code-workspace
 resources/js/firebase_info.js
-package-lock.json
-composer.lock
-yarn.lock

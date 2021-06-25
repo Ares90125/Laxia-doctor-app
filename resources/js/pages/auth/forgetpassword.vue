@@ -56,7 +56,7 @@ export default {
         email:'',
       },
 
-      isSendingEmail: false,
+      isSendingEmail: true,
 
     }
   },
