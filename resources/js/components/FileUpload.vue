@@ -18,7 +18,7 @@
         <div class="dropzone-in">
           <div class="dropzone-title">
             <div><img src="/img/file.png"/></div>
-            <p>写真をドラック<br>&ドロップ</p>
+            <p>写真をドラック&ドロップ</p>
           </div>
       </div>
     </div>

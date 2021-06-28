@@ -17,3 +17,42 @@
         }
     }
 }
+
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: rgba(19, 19, 64, 0.3) !important;
+    opacity: 1 !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: rgba(19, 19, 64, 0.3) !important;
+    opacity: 1 !important;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: rgba(19, 19, 64, 0.3) !important;
+    opacity: 1 !important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba(19, 19, 64, 0.3) !important;
+    opacity: 1 !important;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgba(19, 19, 64, 0.3) !important;
+    opacity: 1 !important;
+}
+::placeholder { /* Most modern browsers support this now. */
+    color: rgba(19, 19, 64, 0.3) !important;
+    opacity: 1 !important;
+}
+
+.form-control {
+    border-color: #C9D6DF;
+    border-radius: 5px;
+}
+
+.form-control:focus-visible {
+    text-shadow: none !important;
+}
+
+.form-control:-moz-focusring {
+    text-shadow: none !important;
+}

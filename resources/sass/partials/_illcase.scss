@@ -1,5 +1,6 @@
 .main-in {
     &.illcase-main-in {
+        line-height: 1.75;
         padding: 70px 30px 35px;
 
         .staff-header {
@@ -26,6 +27,284 @@
         .main-content {
             padding: 30px 30px 50px;
             border-radius: 10px;
+
+            .case-list {
+                justify-content: space-between;
+
+                .case-one {
+                    width: 260px;
+                    height: 240px;
+                    margin-bottom: 15px;
+                    margin-right: 0px;
+
+                    .case-one-in {
+                        width: 100%;
+                        height: 240px;
+
+                        .case-img {
+
+                            p {
+
+                                &::after {
+                                    bottom: 0;
+                                    left: 0;
+                                    font-size: 10px;
+                                    line-height: 13px;
+                                    padding: 0;
+                                    background: rgba(0, 0, 0, 0.5);
+                                    border-radius: 0px 5px 0px 0px;
+                                    width: 45px;
+                                    height: 15px;
+                                    text-align: center;
+                                }
+                            }
+                        }
+
+                        .case-info {
+                            padding: 5px 8px;
+
+                            .case-cat {
+                                line-height: 1.75;
+                                margin-right: 5px;
+
+                                &.empty-cat {
+                                    border-color: white;
+                                }
+                            }
+
+                            .case-ttl {
+                                font-size: 15px;
+                                color: #131340;
+                                line-height: 1.75;
+                                margin: 4px 0 0px;
+                            }
+
+                            .case-name {
+                                margin-top: 20px;
+                                font-size: 12px;
+                                color: #8D909E;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .form-modal-wrapper {
+
+            &.illcase-modal {
+                position: absolute;
+                width: unset;
+                height: unset;
+                left: calc(50% - 425px);
+                top: 150px;
+
+                .form-group {
+                    margin-bottom: 0;
+                }
+
+                .form-modal-content {
+                    width: 850px;
+
+                    .form-modal-header {
+                        padding: 9px 0;
+
+                        .form-modal-title {
+                            font-size: 24px;
+                            font-weight: 700;
+                        }
+
+                        .form-modal-close-btn {
+                            top: 15px;
+                        }
+                    }
+
+                    .form-modal-body {
+                        padding: 35px 125px 95px;
+                        max-height: unset;
+
+                        .main-modal {
+                            padding: 0;
+
+                            .profile-item {
+                                margin-bottom: 25px;
+
+                                label.caseinfo-title {
+                                    font-size: 16px;
+                                    color: #5F6377;
+                                }
+
+                                .profile-photo {
+                                    width: 145px;
+                                    height: 145px;
+                                    margin: 0 auto 15px;
+
+                                    img {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                        border-radius: 50%;
+                                    }
+
+                                    .dropzone-title {
+
+                                        img {
+                                            width: unset;
+                                            height: unset;
+                                            border-radius: 0;
+                                        }
+                                    }
+                                }
+
+                                .upload-btn {
+
+                                    button {
+                                        margin: 0 auto 50px;
+                                        font-size: 18px;
+                                    }
+                                }
+
+                                .id-desc {
+                                    font-size: 10px;
+                                    color: #8D909E;
+                                }
+
+                                &.row {
+                                    margin-left: -5px;
+                                    margin-right: -5px;
+                                }
+
+                                .col-6, .col-4 {
+                                    padding-right: 5px;
+                                    padding-left: 5px;
+                                }
+
+                                button {
+                                    margin: auto;
+                                    display: block;
+                                }
+
+                                &:last-child {
+                                    margin-top: 70px;
+                                    margin-bottom: 0px;
+                                }
+
+                                .form-control {
+                                    border: 1px solid #C9D6DF;
+                                    border-radius: 5px;
+                                    line-height: 1.75;
+                                }
+                            }
+                        }
+
+                        .modal-container {
+                            padding: 0;
+
+                            .caseinfo-title {
+                                color: #5F6377;
+                                font-size: 16px;
+                            }
+
+                            .case-img-list {
+                                height: 100px;
+                            }
+
+                            p.caseinfo-title.t-c {
+                                text-align: center;
+                            }
+
+                            .col-4, .col-6, .col-8, .col-12 {
+                                padding-right: 5px;
+                                padding-left: 5px;
+                            }
+
+                            .row {
+                                margin-right: -5px;
+                                margin-left: -5px;
+                                margin-bottom: 35px;
+
+                                &.btn-row {
+                                    margin-bottom: 0;
+                                    margin-top: 75px;
+                                }
+
+                                &.price-row {
+                                    margin-bottom: 10px;
+                                }
+
+                                &.year-row {
+                                    margin-top: 35px;
+                                }
+                            }
+
+                            .row.btn-row {
+                                button {
+                                    font-size: 24px;
+                                    padding: 5px 30px;
+                                }
+                            }
+
+                            .photo-con {
+                                display: flex;
+                                justify-content: center;
+                                margin-bottom: 35px;
+
+                                .photo-con--sub-con {
+
+                                    &.before-con {
+                                        margin-right: 50px;
+                                    }
+
+                                    .file-upload-con {
+                                        width: 245px;
+                                        height: 245px;
+                                        margin-bottom: 20px;
+                                    }
+
+                                    .file-upload-btn-con {
+
+                                        button {
+                                            margin: auto;
+                                            font-size: 18px;
+
+                                            p {
+                                                margin-right: 5px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #illcaseInfo {
+            p.caseinfo-title {
+                text-align: left;
+                color: #8D909E;
+
+                &.t-c {
+                    text-align: center;
+                }
+            }
+
+            .caseinfo-content {
+                font-size: 20px;
+            }
+
+            .images-group {
+
+                img {
+                    height: 100px;
+                    margin-right: 10px;
+                }
+            }
+
+            .case-img-list {
+                height: 100px;
+            }
         }
     }
 }
