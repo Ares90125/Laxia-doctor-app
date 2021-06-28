@@ -6,6 +6,7 @@ import Checkbox from './Checkbox'
 import Pagination from './Pagination'
 import FormModal from './FormModal'
 import ResetConfirmModal from './ResetConfirmModal'
+import QuestionMenuModal from './QuestionMenuModal'
 import FileUpload from './FileUpload'
 import { HasError, AlertError, AlertSuccess } from 'vform'
 
@@ -21,6 +22,7 @@ import { HasError, AlertError, AlertSuccess } from 'vform'
   Pagination,
   FormModal,
   ResetConfirmModal,
+  QuestionMenuModal,
   FileUpload,
 ].forEach(Component => {
   Vue.component(Component.name, Component)
