@@ -8,6 +8,7 @@ import FormModal from './FormModal'
 import ResetConfirmModal from './ResetConfirmModal'
 import QuestionMenuModal from './QuestionMenuModal'
 import FileUpload from './FileUpload'
+import FileUploadAnswer from './FileUploadAnswer'
 import { HasError, AlertError, AlertSuccess } from 'vform'
 
 // Components that are registered globaly.
@@ -24,6 +25,7 @@ import { HasError, AlertError, AlertSuccess } from 'vform'
   ResetConfirmModal,
   QuestionMenuModal,
   FileUpload,
+  FileUploadAnswer,
 ].forEach(Component => {
   Vue.component(Component.name, Component)
 })
