@@ -88,30 +88,31 @@
             </div>
           </div>
           <div class="col-2 d-flex justify-content-end">
-            <a @click.prevent.stop="handleMordetailClick($event, item)" class="more-detail-clicker">
-              <svg width="21" height="5" viewBox="0 0 21 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="2.53448" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 2.53448 2.5)" fill="#131340"/>
-                <ellipse cx="10.4993" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 10.4993 2.5)" fill="#131340"/>
-                <ellipse cx="18.4661" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 18.4661 2.5)" fill="#131340"/>
-              </svg>
-            </a>
+            <v-popover
+              offset="16"
+            >
+              <a class="more-detail-clicker tooltip-target">
+                <svg width="21" height="5" viewBox="0 0 21 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <ellipse cx="2.53448" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 2.53448 2.5)" fill="#131340"/>
+                  <ellipse cx="10.4993" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 10.4993 2.5)" fill="#131340"/>
+                  <ellipse cx="18.4661" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 18.4661 2.5)" fill="#131340"/>
+                </svg>
+              </a>
+
+              <template slot="popover">
+                <div class="more-btn-grp">
+                  <div class="question-edit-btn question-btn-item">編集</div>
+                  <div class="question-delete-btn question-btn-item">削除</div>
+                </div>
+              </template>
+            </v-popover>
           </div>
         </div>
         <div class="detaildescription">
           <p>{{item.answer}}</p>
         </div>
       </div>
-
-      <vue-simple-context-menu
-        :elementId="'myFirstMenu'"
-        :options="optionsArray"
-        :ref="'vueSimpleContextMenu1'"
-        @option-clicked="optionClicked1"
-      >
-      </vue-simple-context-menu>
-
     </div>
-
 
     <form-modal
       ref="modal"
@@ -142,9 +143,14 @@ import axios from 'axios'
 import { mapGetters } from 'vuex'
 import moment from 'moment';
 
-import VueSimpleContextMenu from 'vue-simple-context-menu'
-Vue.component('vue-simple-context-menu', VueSimpleContextMenu)
-import 'vue-simple-context-menu/dist/vue-simple-context-menu.css'
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+
+VTooltip.options.popover.defaultPlacement = 'top'
+VTooltip.options.popover.defaultClass = 'question-control-tooltip'
+
+Vue.directive('tooltip', VTooltip)
+Vue.directive('close-popover', VClosePopover)
+Vue.component('v-popover', VPopover)
 
 export default {
   middleware: 'auth',
@@ -159,17 +165,6 @@ export default {
       editForm: undefined,
       answers: [],
       doctorAnswer:'',
-      optionsArray: [
-        {
-          name: '編集',
-          slug: 'edit'
-        },
-        {
-          name: '削除',
-          slug: 'delete'
-        }
-      ],
-
       modalInfo: {
         title: '',
         confirmBtnTitle: '',
@@ -213,42 +208,42 @@ export default {
         })
     },
 
-    handleMordetailClick (event, item) {
-      this.$refs.vueSimpleContextMenu1.showMenu(event, item)
-    },
+    // handleMordetailClick (event, item) {
+    //   this.$refs.vueSimpleContextMenu1.showMenu(event, item)
+    // },
 
-    optionClicked1 (event) {
-      // window.alert(JSON.stringify(event))
+    // optionClicked1 (event) {
+    //   // window.alert(JSON.stringify(event))
 
 
-      let answerId = event.item.id;
+    //   let answerId = event.item.id;
 
-      if(event.option.name === 'Delete'){
-        let url = '/api/doctor/questions/' + this.detailid + '/answers/' + answerId;
-        axios.delete(url)
-          .then(res => {
-            this.$store.dispatch('state/removeIsLoading')
-            this.answers = this.answers.filter(function (el){
-              return el.id !== answerId;
-            })
-          })
-          .catch(error => {
-            this.$store.dispatch('state/removeIsLoading')
-          })
-      }
-      else{
-        this.editForm = {
-          answer: event.item.answer
-        }
+    //   if(event.option.name === 'Delete'){
+    //     let url = '/api/doctor/questions/' + this.detailid + '/answers/' + answerId;
+    //     axios.delete(url)
+    //       .then(res => {
+    //         this.$store.dispatch('state/removeIsLoading')
+    //         this.answers = this.answers.filter(function (el){
+    //           return el.id !== answerId;
+    //         })
+    //       })
+    //       .catch(error => {
+    //         this.$store.dispatch('state/removeIsLoading')
+    //       })
+    //   }
+    //   else{
+    //     this.editForm = {
+    //       answer: event.item.answer
+    //     }
 
-        this.modalInfo = {
-          title: 'Edit',
-          confirmBtnTitle: 'メニューを変更'
-        }
+    //     this.modalInfo = {
+    //       title: 'Edit',
+    //       confirmBtnTitle: 'メニューを変更'
+    //     }
 
-        this.$refs.modal.show();
-      }
-    },
+    //     this.$refs.modal.show();
+    //   }
+    // },
 
     handleAddAnswer(){
 
@@ -301,3 +296,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>
