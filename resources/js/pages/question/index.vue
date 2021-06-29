@@ -69,22 +69,26 @@
       <div v-if="optionContent" class="create-menu-content">
         <div class="operation-option row">
           <div class="option-category">
-            <div class="list-group">
-              <a href="#" v-for="item in treatCategories" @click="handleSpecChange(item.id)"   class="list-category list-group-item-action">
-                <p v-if="item.id === category_top_id" class="list-category-p active">{{item.name}}</p>
-                <p v-else class="list-category-p">{{item.name}}</p>
-              </a>
-            </div>
+            <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
+              <div class="list-group">
+                <a href="#" v-for="item in treatCategories" @click="handleSpecChange(item.id)"   class="list-category list-group-item-action">
+                  <p v-if="item.id === category_top_id" class="list-category-p active">{{item.name}}</p>
+                  <p v-else class="list-category-p">{{item.name}}</p>
+                </a>
+              </div>
+            </vue-custom-scrollbar>
           </div>
           <div class="option-content">
-            <div class="row">
-              <div class="col-6" v-for="subCategories in treatSubCategories.all_children">
-                <div class="custom-control custom-radio">
-                  <input type="radio" :id="subCategories.id" name="customRadio" class="custom-control-input" @change="onChangeTreatCubCategory(treatSubCategories, subCategories)" v-model="optionContent" :value="treatSubCategories.id + '/' + subCategories.id">
-                  <label class="custom-control-label" :for="subCategories.id">{{ subCategories.name }}</label>
+            <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
+              <div class="row">
+                <div class="col-6" v-for="subCategories in treatSubCategories.all_children">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" :id="subCategories.id" name="customRadio" class="custom-control-input" @change="onChangeTreatCubCategory(treatSubCategories, subCategories)" v-model="optionContent" :value="treatSubCategories.id + '/' + subCategories.id">
+                    <label class="custom-control-label" :for="subCategories.id">{{ subCategories.name }}</label>
+                  </div>
                 </div>
               </div>
-            </div>
+            </vue-custom-scrollbar>
           </div>
         </div>
       </div>
@@ -99,9 +103,15 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
 export default {
   middleware: 'auth',
+  
+  components: {
+    vueCustomScrollbar
+  },
 
   data() {
     return {
@@ -120,7 +130,12 @@ export default {
       treatSubCategories:undefined,
       selectedTreatSubCategory:[],
       formCategories: [],
-      isSelectedTreatSubCategory:false
+      isSelectedTreatSubCategory:false,
+      settings: {
+        suppressScrollY: false,
+        suppressScrollX: true,
+        wheelPropagation: false
+      }
     }
   },
 
@@ -151,6 +166,10 @@ export default {
   },
 
   methods: {
+    scrollHanle(evt) {
+      // console.log(evt)
+    },
+
     getData() {
       this.$store.dispatch('state/setIsLoading')
       let formData = {

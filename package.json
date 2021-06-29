@@ -26,6 +26,7 @@
     "sweetalert2": "^8.19.0",
     "vform": "^1.0.1",
     "vue": "^2.6.11",
+    "vue-custom-scrollbar": "^1.4.1",
     "vue-easy-lightbox": "^0.14.0",
     "vue-firestore": "^0.3.30",
     "vue-i18n": "^8.20.0",
