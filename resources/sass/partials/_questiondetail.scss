@@ -142,6 +142,10 @@
             .answer-item {
                 margin-top: 30px;
 
+                .detail-edit-con {
+                    margin-top: 15px;
+                }
+
                 .detaildescription {
                     font-size: 18px;
                     color: #000;
@@ -173,23 +177,103 @@
                     }
                 }
             }
+        }
 
-            // .vue-simple-context-menu {
-            //     display: flex;
-            //     background: #FFFFFF;
+        .question-delete-modal-wrapper {
+            transition-duration: .2s;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            position: fixed;
+            width: unset;
+            height: unset;
+            left: calc(50% - 300px);
+            top: 150px;
 
-            //     li {
-            //         margin: 0;
-            //         padding: 10px;
+            .form-modal-mask {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 9;
+            }
 
-            //         span {
-            //             font-size: 16px;
-            //             font-weight: bold;
-            //             font-family: "Noto Sans JP", sans-serif;
-            //             line-height: 1.75;
-            //         }
-            //     }
-            // }
+            .form-modal-header {
+                position: relative;
+                padding: 33px 30px 23px;
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 1.75;
+                text-align: center;
+            }
+
+            .form-modal-body {
+                padding: 0 120px;
+                font-size: 18px;
+            }
+
+            .form-modal-footer {
+                margin: 0;
+                padding: 30px 20px;
+                text-align: center;
+
+                .custom-btn-outline {
+                    font-size: 18px;
+                    padding: 5px 30px;
+                    border-radius: 40px;
+                    border: 1px solid #5CA3F6;
+                    color: #5CA3F6;
+                }
+
+                .btn-primary {
+                    font-size: 18px;
+                    border-radius: 40px;
+                    padding: 5px 30px;
+                    border: 1px solid #5CA3F6;
+                    margin-left: 150px;
+                }
+            }
+        
+            &.is-open {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .question-delete-modal-content {
+                position: relative;
+                background-color: #fff;
+                top: 0;
+                width: 600px;
+                height: 268px;
+                z-index: 10;
+                background-color: #fff;
+                border-radius: 10px;
+                overflow: hidden;
+                transform: translateY(20px);
+                transition: .4s;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        
+                .question-delete-modal-title {
+                    font-size: 24px;
+                    font-weight: bold;
+                    text-align: center;
+                    padding: 67px 0 56px;
+                    line-height: 1.75;
+                }
+        
+                .question-delete-modal-body {
+                    font-size: 18px;
+                    max-width: 477px;
+                    margin: 0 auto 57px;
+                    line-height: 1.75;
+                }
+        
+                .question-delete-modal-footer {
+                    text-align: center;
+                }
+            }
         }
     }
 }

@@ -23,10 +23,10 @@ export default {
 	name: "FormModal",
 
 	props: {
-    title: {
-      type: String,
-      default: "確認"
-    },
+		title: {
+			type: String,
+			default: "確認"
+		},
 	},
 
 	data: () => ({

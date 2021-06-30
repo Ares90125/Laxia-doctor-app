@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row"> 
         <div class="col-12">
           <div class="more-add-image-container">
             <textarea rows="5" id="user_profile" class="form-control" v-model="doctorAnswer"></textarea>
@@ -78,7 +78,7 @@
 
       <div class="answer-cnt-con">32コメント</div>
 
-      <div class="answer-item" v-for="item in answers">
+      <div class="answer-item" v-for="(item, index) in answers" :key="index">
         <div class="row">
           <div class="avatar-container col-10">
             <img class="avatar-img" :src="'/'+item.doctor.photo || '/img/menu-img.png'">
@@ -101,40 +101,60 @@
 
               <template slot="popover">
                 <div class="more-btn-grp">
-                  <div class="question-edit-btn question-btn-item">編集</div>
-                  <div class="question-delete-btn question-btn-item">削除</div>
+                  <div class="question-edit-btn question-btn-item" @click="handleEditQuestion(item)" v-close-popover>編集</div>
+                  <div class="question-delete-btn question-btn-item" @click="handleDeleteQuestion(item)" v-close-popover>削除</div>
                 </div>
               </template>
             </v-popover>
           </div>
         </div>
-        <div class="detaildescription">
+        <div class="detaildescription" v-if="!item.edit_flag">
           <p>{{item.answer}}</p>
         </div>
-      </div>
-    </div>
+        <div class="detail-edit-con" v-if="item.edit_flag">
+          <div class="row"> 
+            <div class="col-12">
+              <div class="more-add-image-container">
+                <textarea rows="5" class="form-control" v-model="item.answer"></textarea>
+                <a @click="handleMoreEditImageClick(item)" class="more-add-image-clicker">
+                  <img src="/img/file-upload.png" class="more-add-image"/>
+                </a>
+              </div>
 
-    <form-modal
-      ref="modal"
-      id="menu-modal"
-      :title="modalInfo.title"
-      @cancel="handleModalClose"
-    >
-      <div v-if="editForm" class="create-menu-content">
-        <div class="operation-option row">
-          <div class="option-content">
-            <div class="row">
+              <div class="row file-upload-answer-con" v-if="item.upload_flag">
+                  <div class="col-12">
+                      <file-upload-answer
+                        ref="beforeImageUploadComponent"
+                        uploadUrl="/api/doctor/cases/uploadPhoto"
+                        :maxFiles="10"
+                      />
+                  </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+              <button type="button" class="bootstrap-btn btn btn-primary add-answer-btn" @click="handleEditAnswer(item)">修正を完了</button>
             </div>
           </div>
         </div>
       </div>
-      <template v-slot:footer>
-        <button type="button" class="btn custom-btn-outline" @click="handleCancel">クリア</button>
-        <button type="button" class="btn btn-primary" @click="handleEditAnswer">{{ modalInfo.confirmBtnTitle }}</button>
-      </template>
-    </form-modal>
+    </div>
 
+    <question-delete-modal
+      ref="modal"
+      id="question-delete_modal"
+    >
+      <p class="content">
+        あなたのコメントを削除しますか？ <br/>
+        削除すると復元することはできません。
+      </p>
+      <template v-slot:footer>
+        <button type="button" class="btn custom-btn-outline">キャンセル</button>
+        <button type="button" class="btn btn-primary">削除する</button>
+      </template>
+    </question-delete-modal>
   </div>
 </template>
 
@@ -201,6 +221,12 @@ export default {
         .then(res => {
           this.$store.dispatch('state/removeIsLoading')
           this.questionDetail = res.data.data.question;
+
+          res.data.data.question.answers.forEach((item) => {
+            item.edit_flag = false;
+            item.upload_flag = false;
+          });
+
           this.answers = res.data.data.question.answers;
         })
         .catch(error => {
@@ -246,41 +272,40 @@ export default {
     // },
 
     handleAddAnswer(){
+      // this.$store.dispatch('state/setIsLoading')
+      // let url = '/api/doctor/questions/' + this.detailid + '/answers'
+      // let formData = {
+      //   answer: this.doctorAnswer,
+      //   photo: []
+      // }
+      // axios.post(url, formData)
+      //   .then(res => {
+      //     this.doctorAnswer = '';
+      //     this.answers.push(
+      //       {...res.data.data}
+      //     )
+      //     // this.query = {
+      //     //   ...this.query,
+      //     //   per_page: res.data.menus.per_page
+      //     // }
+      //     // this.pageInfo = {
+      //     //   last_page: res.data.menus.last_page,
+      //     // }
 
-      this.$store.dispatch('state/setIsLoading')
-      let url = '/api/doctor/questions/' + this.detailid + '/answers'
-      let formData = {
-        answer: this.doctorAnswer,
-        photo: []
-      }
-      axios.post(url, formData)
-        .then(res => {
-          this.doctorAnswer = '';
-          this.answers.push(
-            {...res.data.data}
-          )
-          // this.query = {
-          //   ...this.query,
-          //   per_page: res.data.menus.per_page
-          // }
-          // this.pageInfo = {
-          //   last_page: res.data.menus.last_page,
-          // }
-
-          this.$refs.beforeImageUploadComponent.removeAllFiles();
-          this.isuploadfileBlock = false
-          this.$store.dispatch('state/removeIsLoading')
-        })
-        .catch(error => {
-          this.$store.dispatch('state/removeIsLoading')
-        })
+      //     this.$refs.beforeImageUploadComponent.removeAllFiles();
+      //     this.isuploadfileBlock = false
+      //     this.$store.dispatch('state/removeIsLoading')
+      //   })
+      //   .catch(error => {
+      //     this.$store.dispatch('state/removeIsLoading')
+      //   })
     },
     handleCancel(){
 
     },
 
-    handleEditAnswer(){
-
+    handleEditAnswer(item){
+      console.log(item);
     },
     handleModalClose(){
 
@@ -292,6 +317,23 @@ export default {
       else{
         this.isuploadfileBlock = true;
       }
+    },
+    handleEditQuestion(item) {
+      this.answers.forEach((answer) => {
+        if(answer.id == item.id) answer.edit_flag = true;
+      });
+
+      this.$forceUpdate();
+    },
+    handleDeleteQuestion(item) {
+      this.$refs.modal.show();
+    },
+    handleMoreEditImageClick(item) {
+      this.answers.forEach((answer) => {
+        if(answer.id == item.id) answer.upload_flag = !answer.upload_flag;
+      });
+
+      this.$forceUpdate();
     }
   }
 }

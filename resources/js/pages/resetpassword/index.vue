@@ -1,39 +1,27 @@
  <template>
-  <div class="main-in">
+  <div class="main-in reset-password-main-in">
     <div class="main-content">
-      <div class="row my-4">
-        <div class="col-12">
-          <p class="page-title">アカウント設定</p>
-        </div>
+      <div class="page-title">
+        <p>アカウント設定</p>
       </div>
 
-      <div class="row my-4">
-        <div class="col-12">
-          <p class="page-notice-msg">アカウントID、メールアドレス、パスワードに関する情報はこちらで変更することができます。</p>
-        </div>
+      <div class="page-notice-msg">
+        <p>アカウントID、メールアドレス、パスワードに関する情報はこちらで変更することができます。</p>
       </div>
 
-      <div class="divider"></div>
-
-      <div class="row my-3">
-        <div class="col-12">
-          <p class="p-title">アカウントID</p>
-        </div>
+      <div class="p-title">
+        <p>アカウントID</p>
       </div>
 
-      <div class="row mt-3 mb-4">
-        <div class="col-12">
-          <p class="p-content">{{ doctor.name }}</p>
-        </div>
+      <div class="p-content">
+        <p>{{ doctor.name }}</p>
       </div>
 
-      <div class="row my-3">
-        <div class="col-12">
-          <p class="p-title">メールアドレス</p>
-        </div>
+      <div class="p-title">
+        <p>メールアドレス</p>
       </div>
 
-      <div class="row my-3">
+      <div class="row input-item-con">
         <div class="col-4">
           <p class="p-content">{{ doctor.email }}</p>
         </div>
@@ -42,46 +30,33 @@
         </div>
       </div>
 
-      <div class="row mt-3 mb-4">
-        <div class="col-6">
-          <p class="p-title">パスワード</p>
-        </div>
+      <div class="p-title">
+        <p>パスワード</p>
       </div>
 
-      <div class="row my-3">
+      <div class="row input-item-con">
         <div class="col-4">
-          <p class="p-content">●●●●●●●</p>
+          <p class="p-content">●●●●●●●●</p>
         </div>
         <div class="col-6">
           <button class="bootstrap-btn btn btn-secondary"  @click="handlePassword">変更する</button>
         </div>
       </div>
     </div>
+
     <form-modal
       ref="emailModal"
       id="email-modal"
       :title="modalInfo.title"
     >
       <div v-if="isEmailModal" class="main-modal">
-        <div class="profile-dialog-container">
-          <div class="row  my-3">
-            <div class="col-12">
-              <span >{{ $t('新しいメールアドレス') }}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-11">
-              <input class="form-control" type="text" v-model="form.email" />
-            </div>
-          </div>
-          <div class="row my-5">
-            <div class="col-6">
-              <button class="btn btn-secondary btn-sm"  @click="handleCancelEmail">キャンセル</button>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-primary btn-sm"  @click="handleUpdateEmail">メールアドレスを変更</button>
-            </div>
-          </div>
+        <div class="new-email-con">
+          <label>{{ $t('新しいメールアドレス') }}</label>
+          <input class="form-control" type="text" v-model="form.email" @keyup="checkEmailFormStatus" />
+        </div>
+        <div class="btn-grp-con">
+            <button class="btn btn-secondary btn-sm"  @click="handleCancelEmail">キャンセル</button>
+            <button :class="'btn btn-primary btn-sm ' + activeEmailClass"  @click="handleUpdateEmail">メールアドレスを変更</button>
         </div>
       </div>
     </form-modal>
@@ -92,60 +67,35 @@
       :title="modalInfo.title"
     >
       <div v-if="isPasswordModal" class="main-modal">
-        <div class="profile-dialog-container">
-          <div class="row  my-3">
-            <div class="col-12">
-              <span >{{ $t('新しいメールアドレス') }}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-11">
+          <div class="password-item current-pass">
+              <div class="label-con">
+                <label>{{ $t('現在のパスワード') }}</label>
+                <label class="sm-lab">{{ $t('パスワードを忘れた場合') }}</label>
+              </div>
               <div class="input-group">
-                <input  v-if="'text' === curPwType" type="text" class="form-control" v-model="passwordForm.current_password"/>
-                <input v-else type="password" class="form-control" v-model="passwordForm.current_password" />
+                <input  v-if="'text' === curPwType" type="text" class="form-control" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
+                <input v-else type="password" class="form-control" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
                 <a @click="showCurPassword" class="icon-eye"></a>
               </div>
               <div v-if="errors && errors.current_password" class="error invalid-feedback-custom">{{ errors.current_password[0] }}</div>
-            </div>
           </div>
-
-          <div class="row  my-3">
-            <div class="col-12">
-              <span >{{ $t('新しいメールアドレス') }}</span>
+          <div class="password-item new-pass">
+            <label>{{ $t('新しいメールアドレス') }}</label>
+            <div class="input-group">
+              <input  v-if="'text' === newPwType" type="text" class="form-control" v-model="passwordForm.new_password" @keyup="checkPassFormStatus"/>
+              <input v-else type="password" class="form-control" v-model="passwordForm.new_password" @keyup="checkPassFormStatus" />
+              <a @click="showNewPassword" class="icon-eye"></a>
             </div>
+            <div v-if="errors && errors.new_password" class="error invalid-feedback-custom">{{ errors.new_password[0] }}</div>
           </div>
-          <div class="row">
-            <div class="col-11">
-              <div class="input-group">
-                <input  v-if="'text' === newPwType" type="text" class="form-control" v-model="passwordForm.new_password"/>
-                <input v-else type="password" class="form-control" v-model="passwordForm.new_password" />
-                <a @click="showNewPassword" class="icon-eye"></a>
-              </div>
-              <div v-if="errors && errors.new_password" class="error invalid-feedback-custom">{{ errors.new_password[0] }}</div>
-            </div>
+          <div class="password-item confirm-pass">
+            <label>{{ $t('新しいパスワード(再入力)') }}</label>
+            <input class="form-control" type="password" v-model="passwordForm.new_password_confirmation" @keyup="checkPassFormStatus" />
           </div>
-
-          <div class="row  my-3">
-            <div class="col-12">
-              <span >{{ $t('新しいパスワード(再入力)') }}</span>
-            </div>
+          <div class="btn-grp-con">
+            <button class="btn btn-secondary btn-sm"  @click="handleCancelPassword">キャンセル</button>
+            <button :class="'btn btn-primary btn-sm ' + activePassClass"  @click="handleUpdatePassword">パスワードを変更</button>
           </div>
-          <div class="row">
-            <div class="col-11">
-              <input class="form-control" type="password" v-model="passwordForm.new_password_confirmation" />
-<!--              <div v-if="errors && errors.menus.price" class="error invalid-feedback">{{ errors.menus.price[0] }}</div>-->
-            </div>
-          </div>
-
-          <div class="row my-5">
-            <div class="col-6">
-              <button class="btn btn-secondary btn-sm"  @click="handleCancelPassword">キャンセル</button>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-primary btn-sm"  @click="handleUpdatePassword">メールアドレスを変更</button>
-            </div>
-          </div>
-        </div>
       </div>
     </form-modal>
 
@@ -191,6 +141,9 @@ export default {
       curPwType: 'password',
       newPwType: 'password',
       confirmPwType: 'password',
+
+      activeEmailClass: '',
+      activePassClass: '',
     }
   },
 
@@ -278,38 +231,21 @@ export default {
       }else{
         this.newPwType = 'text'
       }
+    },
+
+    checkEmailFormStatus() {
+      if(this.form.email == '')
+        this.activeEmailClass = '';
+      else
+        this.activeEmailClass = 'active-btn';
+    },
+
+    checkPassFormStatus() {
+      if(this.passwordForm.current_password == '' || this.passwordForm.new_password == '' || this.passwordForm.new_password_confirmation == '')
+        this.activePassClass = '';
+      else
+        this.activePassClass = 'active-btn';
     }
   }
 }
 </script>
-
-<style scoped>
-
-  .page-title{
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 6px;
-  }
-  .page-notice-msg{
-    font-size: 14px;
-    letter-spacing: 2px;
-    font-weight: 600;
-  }
-
-  .divider{
-    height: 50px;
-  }
-  .p-title{
-    letter-spacing: 5px;
-  }
-  .p-content{
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-
-  .profile-dialog-container{
-    padding: 0 30px;
-  }
-
-</style>

@@ -7,8 +7,10 @@ import Pagination from './Pagination'
 import FormModal from './FormModal'
 import ResetConfirmModal from './ResetConfirmModal'
 import QuestionMenuModal from './QuestionMenuModal'
+import QuestionDeleteModal from './QuestionDeleteModal'
 import FileUpload from './FileUpload'
 import FileUploadAnswer from './FileUploadAnswer'
+import QuestionAddBox from './QuestionAddBox'
 import { HasError, AlertError, AlertSuccess } from 'vform'
 
 // Components that are registered globaly.
@@ -24,8 +26,10 @@ import { HasError, AlertError, AlertSuccess } from 'vform'
   FormModal,
   ResetConfirmModal,
   QuestionMenuModal,
+  QuestionDeleteModal,
   FileUpload,
   FileUploadAnswer,
+  QuestionAddBox,
 ].forEach(Component => {
   Vue.component(Component.name, Component)
 })
