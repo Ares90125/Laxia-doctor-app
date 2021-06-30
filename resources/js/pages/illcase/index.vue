@@ -32,7 +32,8 @@
                   <path d="M9.62913 9.02881H3.37012V9.74796H9.62913V9.02881Z" fill="#8D909E"/>
                   <path d="M9.62929 11.5469H6.5V12.2665H9.62929V11.5469Z" fill="#8D909E"/>
                 </svg>
-                {{ item.majordoctorComment }}</p>
+                <span>{{ item.majordoctorCommentShort }}</span>
+              </p>
             </div>
           </div>
         </div>

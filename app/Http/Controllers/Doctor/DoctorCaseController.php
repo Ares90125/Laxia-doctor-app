@@ -106,6 +106,10 @@ class DoctorCaseController extends Controller
         $doctor_id = auth()->guard('doctor')->user()->id;
         $case = $this->service->get($doctor_id);
 
+        foreach($case as $item) {
+            $item->majordoctorCommentShort = (mb_strlen($item->majordoctorComment) < 15 ? $item->majordoctorComment : mb_substr($item->majordoctorComment, 0, 15) . '...');
+        }
+
         return response()->json([
             'status' => 1,
             'data' => $case
