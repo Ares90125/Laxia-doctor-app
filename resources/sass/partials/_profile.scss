@@ -134,6 +134,13 @@
                                             line-height: initial;
                                             margin-right: 10px;
                                         }
+
+                                        &:hover {
+                                            p svg path {
+                                                stroke: unset;
+                                                fill: white;
+                                            }
+                                        }
                                     }
                                 }
 
