@@ -1,4 +1,5 @@
 .header {
+    box-shadow: unset;
 
     .header-right{
 
@@ -13,6 +14,38 @@
                     height: 40px;
                     margin-right: 15px;
                 }
+            }
+
+            .header-menu {
+                margin-top: 15px;
+                padding: 0px;
+                border-radius: 10px;
+                filter: drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.25));
+
+                a {
+                    font-size: 18px;
+                    padding: 7px 15px;
+                    line-height: 1.75;
+                    font-weight: 400;
+
+                    &:first-child {
+                        border-radius: 10px 10px 0 0;
+                    }
+
+                    &:last-child {
+                        border-radius: 0 0 10px 10px;
+                    }
+
+                    &:hover {
+                        background: #F5F5F5;
+                        color: #131340;
+                    }
+                }
+
+                a:first-child {
+                    border-bottom: none;
+                }
+
             }
         }
     }
@@ -47,6 +80,14 @@
 .form-control {
     border-color: #C9D6DF;
     border-radius: 5px;
+    height: 52px;
+    padding: 10px 15px;
+    font-size: 18px;
+
+    &:focus {
+        box-shadow: unset;
+        border-color: #C9D6DF;
+    }
 }
 
 .form-control:focus-visible {
@@ -69,4 +110,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 18px;
     line-height: 1.75;
     letter-spacing: 0.1em;
+}
+.btn:focus, .btn.focus {
+    box-shadow: unset;
 }

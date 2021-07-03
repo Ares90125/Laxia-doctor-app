@@ -9,7 +9,7 @@
           <div class="form-group pass-form-grp">
             <label class="col-form-label text-md-right">{{ $t('新しいパスワード') }}</label>
             <div>
-              <input v-model="form.password" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password') }" class="custom-pw-form-control" type="password" name="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
+              <input v-model="form.password" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password') }" class="custom-pw-form-control form-control" type="password" name="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
               <has-error :form="form" field="password" />
             </div>
           </div>
@@ -18,7 +18,7 @@
           <div class="form-group pass-form-grp">
             <label class="col-form-label text-md-right">{{ $t('再入力してください') }}</label>
             <div>
-              <input v-model="form.password_confirm" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password') }" class="custom-pw-form-control" type="password" name="password_confirm" v-bind:placeholder="$t('6文字以上で入力してください')" />
+              <input v-model="form.password_confirm" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password') }" class="custom-pw-form-control form-control" type="password" name="password_confirm" v-bind:placeholder="$t('6文字以上で入力してください')" />
               <has-error :form="form" field="password_confirm" />
             </div>
           </div>

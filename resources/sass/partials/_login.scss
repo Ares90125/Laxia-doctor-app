@@ -19,7 +19,7 @@
             .auth-title {
                 font-size: 24px;
                 font-weight: bold;
-                margin-bottom: 40px;
+                margin-bottom: 45px;
             }
 
             .form-group {
@@ -28,6 +28,8 @@
                 .col-form-label {
                     font-size: 16px;
                     color: #5F6377;
+                    line-height: 1.75;
+                    padding: 0 0 5px;
                 }
 
                 &.pass-form-grp {
@@ -45,11 +47,11 @@
                 margin-top: 50px;
 
                 &.register-btn--wrapper {
-                    margin-top: 80px;
+                    margin-top: 75px;
                 }
                 
                 .btn {
-                    min-width: 138px;
+                    min-width: unset;
                     padding: 5px 30px;
                     font-size: 18px;
                 }
@@ -87,7 +89,7 @@
             }
 
             .form-group {
-                margin-bottom: 85px;
+                margin-bottom: 80px;
             }
 
             .btn {

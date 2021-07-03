@@ -90,10 +90,15 @@
 
                             .profile-item {
                                 margin-bottom: 25px;
+                                
+                                &.modal-id-item {
+                                    margin-bottom: 15px;
+                                }
 
                                 label.caseinfo-title {
                                     font-size: 16px;
                                     color: #5F6377;
+                                    margin-top: 0px;
                                 }
 
                                 .profile-photo {
@@ -123,6 +128,12 @@
                                     button {
                                         margin: 0 auto 50px;
                                         font-size: 18px;
+                                        padding: 5px 20px;
+
+                                        p {
+                                            line-height: initial;
+                                            margin-right: 10px;
+                                        }
                                     }
                                 }
 
@@ -155,6 +166,10 @@
                                     border: 1px solid #C9D6DF;
                                     border-radius: 5px;
                                     line-height: 1.75;
+                                }
+
+                                .form-group {
+                                    margin-bottom: 0px;
                                 }
                             }
                         }

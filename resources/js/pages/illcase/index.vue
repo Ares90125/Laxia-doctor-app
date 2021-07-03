@@ -136,7 +136,7 @@
           </div>
         </div>
 
-        <div class="row" v-for="item in form.cases.menuProperty">
+        <div class="row name-price-row" v-for="item in form.cases.menuProperty">
           <div class="col-8">
             <div class="form-group">
               <label for="menuName_1" class="caseinfo-title">メニュー名</label>

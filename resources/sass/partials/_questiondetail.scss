@@ -63,13 +63,13 @@
                 .selected-treat-subcategory {
                     display: inline-block;
                     padding: 3px 10px;
-                    margin: 0 5px 10px;
+                    margin: 0 5px 0px;
                     background-color: #E2F0FF;
 
                     .selected-option {
                         font-size: 14px;
                         padding: 0;
-                        margin: 0 5px;
+                        // margin: 0 5px;
                         color: #5CA3F6;
                     }
                 }
@@ -83,6 +83,10 @@
                     z-index: 999;
                     bottom: 7px;
                     left: 13.6px;
+                }
+
+                textarea.comment-area {
+                    background: #F5F5F5;
                 }
             }
 
@@ -226,6 +230,11 @@
                     border-radius: 40px;
                     border: 1px solid #5CA3F6;
                     color: #5CA3F6;
+
+                    &.cancel-btn {
+                        border: none;
+                        color: #000;
+                    }
                 }
 
                 .btn-primary {

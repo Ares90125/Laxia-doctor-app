@@ -5,12 +5,14 @@
         padding: 70px 30px 35px;
 
         .staff-header {
+            align-items: flex-end;
 
             button {
                 font-size: 18px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                padding: 10px 30px;
 
                 img {
                     width: 15px;
@@ -62,7 +64,7 @@
                         }
 
                         .case-info {
-                            padding: 5px 8px;
+                            padding: 4px 8px 5px;
 
                             .case-cat {
                                 line-height: 1.75;
@@ -92,6 +94,12 @@
                                 }
                             }
                         }
+                    }
+
+                    &:hover > div {
+                        background: rgba(0, 0, 0, 0.1);
+                        border: none;
+                        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
                     }
                 }
             }
@@ -139,6 +147,7 @@
                                 label.caseinfo-title {
                                     font-size: 16px;
                                     color: #5F6377;
+                                    margin-top: 0px;
                                 }
 
                                 .profile-photo {
@@ -218,6 +227,7 @@
 
                             p.caseinfo-title.t-c {
                                 text-align: center;
+                                margin-bottom: 10px;
                             }
 
                             .col-4, .col-6, .col-8, .col-12 {
@@ -230,6 +240,10 @@
                                 margin-left: -5px;
                                 margin-bottom: 35px;
 
+                                &.name-price-row {
+                                    margin-bottom: 22.5px;
+                                }
+
                                 &.btn-row {
                                     margin-bottom: 0;
                                     margin-top: 75px;
@@ -241,6 +255,15 @@
 
                                 &.year-row {
                                     margin-top: 35px;
+                                }
+
+                                .multiselect .multiselect__tags {
+                                    min-height: 52px;
+                                    border-color: #C9D6DF;
+                                }
+
+                                .multiselect .multiselect__select {
+                                    top: 15px;
                                 }
                             }
 
@@ -273,9 +296,12 @@
                                         button {
                                             margin: auto;
                                             font-size: 18px;
+                                            padding: 5px 15px;
 
                                             p {
                                                 margin-right: 5px;
+                                                display: flex;
+                                                align-items: center;
                                             }
                                         }
                                     }
@@ -291,6 +317,7 @@
             p.caseinfo-title {
                 text-align: left;
                 color: #8D909E;
+                margin-top: 0;
 
                 &.t-c {
                     text-align: center;

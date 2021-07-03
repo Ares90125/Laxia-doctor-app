@@ -15,7 +15,7 @@
       </div>
 
       <div class="avatar-img-con">
-        <img class="md-doctor-avatar-img" :src="user.photo || '/img/menu-img.png'" />
+        <img class="md-doctor-avatar-img" :src="user.photo || '/img/avatar-img.png'" />
       </div>
       <div class="profile-con">
         <div class="profile-con--left-con">
@@ -37,7 +37,7 @@
           </div>
           <div class="profile-item">
             <label>役職歴</label>
-            <div class="profile-item--value">{{ user.experience_year }}</div>
+            <div class="profile-item--value">{{ user.experience_year }}年</div>
           </div>
           <div class="profile-item">
             <label>得意分野</label>
@@ -79,7 +79,7 @@
           <div class="profile-item">
             <label class="caseinfo-title">写真</label>
             <div class="profile-photo">
-              <file-upload
+              <file-upload-single
                 ref="fileUploadComponent"
                 uploadUrl="/api/doctor/profile/photoupload"
                 name="photo"
@@ -91,7 +91,7 @@
             </div>
             <div class="upload-btn">
               <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUploadImage">
-                <p class="mx-2">
+                <p class="">
                   <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.7067 4.66616L13.8363 1.03839C13.4211 0.649232 12.8583 0.428711 12.2724 0.428711H2.85711C1.63464 0.433035 0.642822 1.36268 0.642822 2.50852V20.4961C0.642822 21.6419 1.63464 22.5716 2.85711 22.5716H16.1428C17.3653 22.5716 18.3571 21.6419 18.3571 20.4961V6.1363C18.3571 5.58716 18.1218 5.05532 17.7067 4.66616ZM15.9629 5.96767H12.4523V2.67716L15.9629 5.96767ZM2.85711 20.4961V2.50852H10.2381V7.00541C10.2381 7.5805 10.7317 8.04316 11.3452 8.04316H16.1428V20.4961H2.85711ZM4.3333 18.4206H14.6666V12.886L13.5826 11.8698C13.3657 11.6666 13.0151 11.6666 12.7983 11.8698L8.76187 15.6533L6.9397 13.9453C6.72288 13.7421 6.37229 13.7421 6.15547 13.9453L4.3333 15.6533V18.4206ZM6.54758 8.04316C5.32511 8.04316 4.3333 8.9728 4.3333 10.1186C4.3333 11.2645 5.32511 12.1941 6.54758 12.1941C7.77005 12.1941 8.76187 11.2645 8.76187 10.1186C8.76187 8.9728 7.77005 8.04316 6.54758 8.04316Z" fill="#5CA3F6"/>
                   </svg>
@@ -101,7 +101,7 @@
             </div>
           </div>
 
-          <div class="profile-item">
+          <div class="profile-item modal-id-item">
             <label for="userId" class="caseinfo-title">ID名</label>
             <input type="text" @keyup="handleCheckId" :class="{ 'is-invalid': idValidation === 1, 'is-valid': idValidation=== 2 }" v-model="form.user.name" class="form-control" id="userId"/>
             <div v-if="idValidation === 1" class="error invalid-feedback-custom">このID名はすでに利用されています</div>
@@ -241,7 +241,7 @@ export default {
 
     handleEditProfile() {
       this.modalInfo = {
-        title: 'プロフィールを作成する',
+        title: 'プロフィールを編集する',
         confirmBtnTitle: '検索'
       }
       this.form = {
@@ -311,7 +311,7 @@ export default {
     },
 
     handleUploadImage(){
-      this.$refs.fileUploadComponent.removeAllFiles();
+      // this.$refs.fileUploadComponent.removeAllFiles();
       document.getElementsByClassName("dropzone")[0].click();
     },
 
