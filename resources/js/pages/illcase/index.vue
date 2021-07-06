@@ -52,201 +52,204 @@
       :title="modalInfo.title"
       @cancel="handleModalClose"
     >
-      <div v-if="isEditing"  class="modal-container">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="title" class="caseinfo-title">タイトル</label>
-              <input type="text" v-model="form.cases.title" :class="{ 'is-invalid': errors && errors['title'], 'fulled-status' : form.cases.title ? 'fulled-input': ''}" class="form-control" id="title" placeholder="例：奥二重の方の二重切開" />
-              <div v-if="errors && errors['title']" class="error invalid-feedback">{{ errors['title'][0] }}</div>
+      <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle">
+        <div v-if="isEditing"  class="modal-container">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="title" class="caseinfo-title">タイトル</label>
+                <input type="text" v-model="form.cases.title" :class="{ 'is-invalid': errors && errors['title'], 'fulled-status' : form.cases.title ? 'fulled-input': ''}" class="form-control" id="title" placeholder="例：奥二重の方の二重切開" />
+                <div v-if="errors && errors['title']" class="error invalid-feedback">{{ errors['title'][0] }}</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="photo-con">
-          <div class="photo-con--sub-con before-con">
-            <p class="caseinfo-title t-c">Before画像</p>
-            <div class="file-upload-con">
-              <file-upload
-                ref="beforeImageUploadComponent"
-                uploadUrl="/api/doctor/cases/uploadPhoto"
-                :photo="beforePhoto"
-                @file-upload-success="handlebeforeImageSaved"
-                @file-removed="hanleFileRemove"
-                @file-added="handleFileAdded"
-              />
-            </div>
-            <div class="file-upload-btn-con">
-              <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUploadBeforeImage">
-                <p class="">
-                  <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
-                </svg>
-                </p>
-                写真をアップロード</button>
-            </div>
-            <div v-if="errors && errors['before_photo']" class="error invalid-feedback without-is-invlid">{{ errors['before_photo'][0] }}</div>
-          </div>
-          <div class="photo-con--sub-con after-con">
-            <p class="caseinfo-title t-c">After画像</p>
-            <div class="file-upload-con">
-              <file-upload
-                ref="afterImageUploadComponent"
-                uploadUrl="/api/doctor/cases/uploadPhoto"
-                :photo="afterPhoto"
-                @file-upload-success="handleafterImageSaved"
-                @file-removed="hanleFileRemove"
-                @file-added="handleFileAdded"
-              />
-            </div>
-            <div class="file-upload-btn-con">
-              <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUploadAfterImage">
-                <p class="">
-                  <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div class="photo-con">
+            <div class="photo-con--sub-con before-con">
+              <p class="caseinfo-title t-c">Before画像</p>
+              <div class="file-upload-con">
+                <file-upload
+                  ref="beforeImageUploadComponent"
+                  uploadUrl="/api/doctor/cases/uploadPhoto"
+                  :photo="beforePhoto"
+                  @file-upload-success="handlebeforeImageSaved"
+                  @file-removed="hanleFileRemove"
+                  @file-added="handleFileAdded"
+                />
+              </div>
+              <div class="file-upload-btn-con">
+                <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUploadBeforeImage">
+                  <p class="">
+                    <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
                   </svg>
-                </p>
-                写真をアップロード</button>
+                  </p>
+                  写真をアップロード</button>
+              </div>
+              <div v-if="errors && errors['before_photo']" class="error invalid-feedback without-is-invlid">{{ errors['before_photo'][0] }}</div>
             </div>
-            <div v-if="errors && errors['after_photo']" class="error invalid-feedback without-is-invlid">{{ errors['after_photo'][0] }}</div>
+            <div class="photo-con--sub-con after-con">
+              <p class="caseinfo-title t-c">After画像</p>
+              <div class="file-upload-con">
+                <file-upload
+                  ref="afterImageUploadComponent"
+                  uploadUrl="/api/doctor/cases/uploadPhoto"
+                  :photo="afterPhoto"
+                  @file-upload-success="handleafterImageSaved"
+                  @file-removed="hanleFileRemove"
+                  @file-added="handleFileAdded"
+                />
+              </div>
+              <div class="file-upload-btn-con">
+                <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUploadAfterImage">
+                  <p class="">
+                    <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
+                    </svg>
+                  </p>
+                  写真をアップロード</button>
+              </div>
+              <div v-if="errors && errors['after_photo']" class="error invalid-feedback without-is-invlid">{{ errors['after_photo'][0] }}</div>
+            </div>
           </div>
-        </div>
 
-        <div v-if="form.cases.before_photo.length" class="">
-          <p class="caseinfo-title">Before画像</p>
-          <div class="row">
-            <div class="photo-container" v-for="(item, index) in form.cases.before_photo">
-              <img :src="item" class="case-img-list"/>
-              <a @click="handleRemoveBeforeImageClick(index)" class="remove-img-clicker">
-                <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+          <div v-if="form.cases.before_photo.length" class="">
+            <p class="caseinfo-title">Before画像</p>
+            <div class="row">
+              <div class="photo-container" v-for="(item, index) in form.cases.before_photo">
+                <img :src="item" class="case-img-list"/>
+                <a @click="handleRemoveBeforeImageClick(index)" class="remove-img-clicker">
+                  <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="form.cases.after_photo.length" class="">
+            <p class="caseinfo-title">After画像</p>
+            <div class="row">
+              <div class="photo-container" v-for="(item, index) in form.cases.after_photo">
+                <img :src="item" class="case-img-list"/>
+                <a @click="handleRemoveAfterImageClick(index)" class="remove-img-clicker">
+                  <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row name-price-row" v-for="item in form.cases.menuProperty">
+            <div class="col-8">
+              <div class="form-group">
+                <label for="menuName_1" class="caseinfo-title">メニュー名</label>
+                <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName_1" placeholder="例：二重切開" />
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label for="cost_1" class="caseinfo-title">料金</label>
+                <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost_1" placeholder="例：250000円" >
+              </div>
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-center">
+            <div class="col-3">
+              <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
+                <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
+                </svg>
               </a>
+              <p class="d-flex justify-content-center">メニューを追加</p>
             </div>
           </div>
-        </div>
 
-        <div v-if="form.cases.after_photo.length" class="">
-          <p class="caseinfo-title">After画像</p>
           <div class="row">
-            <div class="photo-container" v-for="(item, index) in form.cases.after_photo">
-              <img :src="item" class="case-img-list"/>
-              <a @click="handleRemoveAfterImageClick(index)" class="remove-img-clicker">
-                <img src="/img/delete-icon.svg" class="remove-img-icon"/>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="row name-price-row" v-for="item in form.cases.menuProperty">
-          <div class="col-8">
-            <div class="form-group">
-              <label for="menuName_1" class="caseinfo-title">メニュー名</label>
-              <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName_1" placeholder="例：二重切開" />
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group">
-              <label for="cost_1" class="caseinfo-title">料金</label>
-              <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost_1" placeholder="例：250000円" >
-            </div>
-          </div>
-        </div>
-
-        <div class="row d-flex justify-content-center">
-          <div class="col-3">
-            <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
-              <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
-              </svg>
-            </a>
-            <p class="d-flex justify-content-center">メニューを追加</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <label for="category_1" class="caseinfo-title">カテゴリー</label>
-            <multiselect
-              class=""
-              :class="{'is-invalid' : errors && errors['category'] }"
-              id="category_1"
-              v-model="form.cases.category"
-              :options="category_options"
-              :multiple="true"
-              group-values="children"
-              group-label="group_name"
-              :group-select="true"
-              track-by="name"
-              label="name"
-              selectLabel=""
-              selectGroupLabel=""
-              placeholder=""
-              selectedLabel="選択済み"
-              deselectLabel="削除"
-              deselectGroupLabel="削除"
-            ></multiselect>
-            <div v-if="errors && errors['category']" class="error invalid-feedback">{{ errors['category'][0] }}</div>
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="gender_1" class="caseinfo-title">年齢</label>
-              <select id="gender_1" v-model="form.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': errors && errors['age'], 'fulled-status' : form.cases.age ? 'fulled-input': ''}" class="form-control">
-                <option></option>
-                <option v-for="i in 31" :key="i" :value="i + 9">{{ i + 9 }}{{ $t('才') }}</option>
-              </select>
-              <div v-if="errors && errors['age']" class="error invalid-feedback">{{ errors['age'][0] }}</div>
+            <div class="col-12">
+              <label for="category_1" class="caseinfo-title">カテゴリー</label>
+              <multiselect
+                class=""
+                :class="{'is-invalid' : errors && errors['category'] }"
+                id="category_1"
+                v-model="form.cases.category"
+                :options="category_options"
+                :multiple="true"
+                group-values="children"
+                group-label="group_name"
+                :group-select="true"
+                track-by="name"
+                label="name"
+                selectLabel=""
+                selectGroupLabel=""
+                placeholder=""
+                selectedLabel="選択済み"
+                deselectLabel="削除"
+                deselectGroupLabel="削除"
+              ></multiselect>
+              <div v-if="errors && errors['category']" class="error invalid-feedback">{{ errors['category'][0] }}</div>
             </div>
           </div>
 
-          <div class="col-6">
-            <div class="form-group">
-              <label for="operation_1" class="caseinfo-title">性別</label>
-              <select id="operation_1" v-model="form.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : errors && errors['gender'], 'fulled-status' : form.cases.gender ? 'fulled-input': '' }" class="form-control">
-                <option></option>
-                <option v-for="(name, id) in genders" :key="id" :value="id">{{ name }}</option>
-              </select>
-              <div v-if="errors && errors['gender']" class="error invalid-feedback">{{ errors['gender'][0] }}</div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="gender_1" class="caseinfo-title">年齢</label>
+                <select id="gender_1" v-model="form.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': errors && errors['age'], 'fulled-status' : form.cases.age ? 'fulled-input': ''}" class="form-control">
+                  <option></option>
+                  <option v-for="i in 7" :key="i" :value="i * 10">{{ i * 10 }}{{ $t('代') }}</option>
+                </select>
+                <div v-if="errors && errors['age']" class="error invalid-feedback">{{ errors['age'][0] }}</div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="operation_1" class="caseinfo-title">性別</label>
+                <select id="operation_1" v-model="form.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : errors && errors['gender'], 'fulled-status' : form.cases.gender ? 'fulled-input': '' }" class="form-control">
+                  <option></option>
+                  <option v-for="(name, id) in genders" :key="id" :value="id">{{ name }}</option>
+                </select>
+                <div v-if="errors && errors['gender']" class="error invalid-feedback">{{ errors['gender'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="doctor_comment_1" class="caseinfo-title">施術の解説</label>
+                <textarea class="form-control" v-model="form.cases.operation" :class="{'is-invalid' : errors && errors['operation'], 'fulled-status' : form.cases.operation ? 'fulled-input': '' }" id="doctor_comment_1" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
+                <div v-if="errors && errors['operation']" class="error invalid-feedback">{{ errors['operation'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="operation_risk_1" class="caseinfo-title">副作用・リスク</label>
+                <textarea class="form-control" v-model="form.cases.operationRisk"  :class="{'is-invalid' : errors && errors['operationRisk'], 'fulled-status' : form.cases.operationRisk ? 'fulled-input': '' }" id="operation_risk_1" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
+                <div v-if="errors && errors['operationRisk']" class="error invalid-feedback">{{ errors['operationRisk'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-0">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="major_doctor_comment_1" class="caseinfo-title">担当ドクターからのコメント(任意)</label>
+                <textarea class="form-control" v-model="form.cases.majordoctorComment" :class="{ 'fulled-status' : form.cases.majordoctorComment ? 'fulled-input': '' }" id="major_doctor_comment_1" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="doctor_comment_1" class="caseinfo-title">施術の解説</label>
-              <textarea class="form-control" v-model="form.cases.operation" :class="{'is-invalid' : errors && errors['operation'], 'fulled-status' : form.cases.operation ? 'fulled-input': '' }" id="doctor_comment_1" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
-              <div v-if="errors && errors['operation']" class="error invalid-feedback">{{ errors['operation'][0] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="operation_risk_1" class="caseinfo-title">副作用・リスク</label>
-              <textarea class="form-control" v-model="form.cases.operationRisk"  :class="{'is-invalid' : errors && errors['operationRisk'], 'fulled-status' : form.cases.operationRisk ? 'fulled-input': '' }" id="operation_risk_1" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
-              <div v-if="errors && errors['operationRisk']" class="error invalid-feedback">{{ errors['operationRisk'][0] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="major_doctor_comment_1" class="caseinfo-title">担当ドクターからのコメント(任意)</label>
-              <textarea class="form-control" v-model="form.cases.majordoctorComment" :class="{ 'fulled-status' : form.cases.majordoctorComment ? 'fulled-input': '' }" id="major_doctor_comment_1" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
-            </div>
-          </div>
-        </div>
-
+      </vue-custom-scrollbar>
+      <template v-slot:footer>
         <div class="row btn-row">
           <div class="col-12 d-flex justify-content-center">
             <button type="button" class="btn btn-primary" @click="handleSaveCases">{{ modalInfo.confirmBtnTitle }}</button>
           </div>
         </div>
-      </div>
+      </template>
     </form-modal>
 
     <form-modal
@@ -256,286 +259,287 @@
       :title="modalInfo.title"
       @cancel="handleillcaseInfoClose"
     >
-      <div v-if="isIllcaseInfo" class="modal-container">
-        <div class="row">
-          <div class="col-12">
-            <p class="caseinfo-title">タイトル</p>
-            <p class="caseinfo-content">{{updateForm.cases.title}}</p>
+      <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle">
+        <div v-if="isIllcaseInfo" class="modal-container">
+          <div class="row">
+            <div class="col-12">
+              <p class="caseinfo-title">タイトル</p>
+              <p class="caseinfo-content">{{updateForm.cases.title}}</p>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-12">
+              <p class="caseinfo-title">Before画像</p>
+              <div class="images-group">
+                <img class="photo-img" v-for="photoItem in updateForm.cases.before" :src="photoItem.photo" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-12">
+              <p class="caseinfo-title">After画像</p>
+              <div class="images-group">
+                <img class="photo-img" v-for="photoItem in updateForm.cases.after" :src="photoItem.photo" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row price-row">
+            <div class="col-8">
+              <p class="caseinfo-title">メニュー名</p>
+            </div>
+            <div class="col-4">
+              <p class="caseinfo-title">料金</p>
+            </div>
+          </div>
+
+          <div class="row price-row" v-for="(item, id) in updateForm.cases.menuProperty">
+            <div class="col-8">
+              <p class="caseinfo-content">{{item.name}}</p>
+            </div>
+            <div class="col-4">
+              <p class="caseinfo-content">{{item.cost}}</p>
+            </div>
+          </div>
+
+          <div class="row year-row">
+            <div class="col-6">
+              <p class="caseinfo-title">年齢</p>
+              <p class="caseinfo-content">{{updateForm.cases.age}}代</p>
+            </div>
+            <div class="col-6">
+              <p class="caseinfo-title">性別</p>
+              <p class="caseinfo-content" v-if="updateForm.cases.gender ==='male'">男性</p>
+              <p class="caseinfo-content" v-else >女性</p>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-12">
+              <p class="caseinfo-title">施術の解説</p>
+              <p class="caseinfo-content">{{updateForm.cases.operation}}</p>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-12">
+              <p class="caseinfo-title">副作用・リスク</p>
+              <p class="caseinfo-content">{{updateForm.cases.operationRisk}}</p>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-12">
+              <p class="caseinfo-title">担当ドクターからのコメント</p>
+              <p class="caseinfo-content">{{updateForm.cases.majordoctorComment}}</p>
+            </div>
           </div>
         </div>
 
-        <div class="row ">
-          <div class="col-12">
+  <!--====================================================================================================================update info-->
+        <div v-if="isUpdateIllcaseInfo"  class="modal-container">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="title" class="caseinfo-title">タイトル</label>
+                <input type="text" v-model="updateForm.cases.title" :class="{ 'is-invalid': updateErrors && updateErrors['title'], 'fulled-status' : updateForm.cases.title ? 'fulled-input': ''}" class="form-control" id="title" >
+                <div v-if="updateErrors && updateErrors['title']" class="error invalid-feedback">{{ updateErrors['title'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-con">
+            <div class="photo-con--sub-con before-con">
+              <p class="caseinfo-title t-c">Before画像</p>
+              <div class="file-upload-con">
+                <file-upload
+                  ref="UpdateBeforeImageUploadComponent"
+                  uploadUrl="/api/doctor/cases/uploadPhoto"
+                  :photo="beforePhoto"
+                  @file-upload-success="handleUpdateBeforeImageSaved"
+
+                />
+              </div>
+              <div class="file-upload-btn-con">
+                <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUpdateUploadBeforeImage">
+                  <p class="">
+                    <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
+                    </svg>
+                  </p>
+                  写真をアップロード</button>
+              </div>
+              <div v-if="updateErrors && updateErrors['before_photo']" class="error invalid-feedback without-is-invlid">{{ updateErrors['before_photo'][0] }}</div>
+            </div>
+            <div class="photo-con--sub-con after-con">
+              <p class="caseinfo-title t-c">After画像</p>
+              <div class="file-upload-con">
+                <file-upload
+                  ref="UpdateAfterImageUploadComponent"
+                  uploadUrl="/api/doctor/cases/uploadPhoto"
+                  :photo="afterPhoto"
+                  @file-upload-success="handleUpdateAfterImageSaved"
+
+                />
+              </div>
+              <div class="file-upload-btn-con">
+                <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUpdateUploadAfterImage">
+                  <p class="">
+                    <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
+                    </svg>
+                  </p>
+                  写真をアップロード</button>
+              </div>
+              <div v-if="updateErrors && updateErrors['after_photo']" class="error invalid-feedback without-is-invlid">{{ updateErrors['after_photo'][0] }}</div>
+            </div>
+          </div>
+
+          <div v-if="updateForm.cases.before.length" class="">
             <p class="caseinfo-title">Before画像</p>
-            <div class="images-group">
-              <img class="photo-img" v-for="photoItem in updateForm.cases.before" :src="photoItem.photo" />
+            <div class="row">
+              <div class="photo-container" v-for="(item, index) in updateForm.cases.before">
+                <img :src="item.photo" class="case-img-list"/>
+                <a @click="handleUpdateRemoveBeforeImageClick(item.id)" class="remove-img-clicker">
+                  <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="row ">
-          <div class="col-12">
+          <div v-if="updateForm.cases.after.length" class="">
             <p class="caseinfo-title">After画像</p>
-            <div class="images-group">
-              <img class="photo-img" v-for="photoItem in updateForm.cases.after" :src="photoItem.photo" />
+            <div class="row">
+              <div class="photo-container" v-for="(item, index) in updateForm.cases.after">
+                <img :src="item.photo" class="case-img-list"/>
+                <a @click="handleUpdateRemoveAfterImageClick(item.id)" class="remove-img-clicker">
+                  <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" v-for="item in updateForm.cases.menuProperty">
+            <div class="col-8">
+              <div class="form-group">
+                <label for="menuName" class="caseinfo-title">メニュー名</label>
+                <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName" placeholder="例：二重切開" />
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label for="cost" class="caseinfo-title">料金</label>
+                <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost" placeholder="例：250000円" >
+              </div>
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-center">
+            <div class="col-3">
+              <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
+                <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
+                </svg>
+              </a>
+              <p class="d-flex justify-content-center">メニューを追加</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <label for="category" class="caseinfo-title">カテゴリー</label>
+              <multiselect
+                class=""
+                :class="{'is-invalid' : updateErrors && updateErrors['category'] }"
+                id="category"
+                v-model="selected_categories"
+                :options="category_options"
+                :multiple="true"
+                group-values="children"
+                group-label="group_name"
+                :group-select="true"
+                track-by="name"
+                label="name"
+                selectLabel=""
+                selectGroupLabel=""
+                placeholder=""
+                selectedLabel="選択済み"
+                deselectLabel="削除"
+                deselectGroupLabel="削除"
+              ></multiselect>
+              <div v-if="updateErrors && updateErrors['category']" class="error invalid-feedback">{{ updateErrors['category'][0] }}</div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="gender" class="caseinfo-title">年齢</label>
+                <select id="gender" v-model="updateForm.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': updateErrors && updateErrors['age'], 'fulled-status' : updateForm.cases.age ? 'fulled-input': ''}" class="form-control">
+                  <option></option>
+                  <option v-for="i in 7" :key="i" :value="i * 10">{{ i * 10 }}{{ $t('代') }}</option>
+                </select>
+                <div v-if="updateErrors && updateErrors['age']" class="error invalid-feedback">{{ updateErrors['age'][0] }}</div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="operation" class="caseinfo-title">性別</label>
+                <select id="operation" v-model="updateForm.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : updateErrors && updateErrors['gender'], 'fulled-status' : updateForm.cases.gender ? 'fulled-input': '' }" class="form-control">
+                  <option></option>
+                  <option v-for="(name, id) in genders" :key="id" :value="id">{{ name }}</option>
+                </select>
+                <div v-if="updateErrors && updateErrors['gender']" class="error invalid-feedback">{{ updateErrors['gender'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="doctor_comment" class="caseinfo-title">施術の解説</label>
+                <textarea class="form-control" v-model="updateForm.cases.operation" :class="{'is-invalid' : updateErrors && updateErrors['operation'], 'fulled-status' : updateForm.cases.operation ? 'fulled-input': '' }" id="doctor_comment" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
+                <div v-if="updateErrors && updateErrors['operation']" class="error invalid-feedback">{{ errors['operation'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="operation_risk" class="caseinfo-title">副作用・リスク</label>
+                <textarea class="form-control" v-model="updateForm.cases.operationRisk"  :class="{'is-invalid' : updateErrors && updateErrors['operationRisk'], 'fulled-status' : updateForm.cases.operationRisk ? 'fulled-input': '' }" id="operation_risk" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
+                <div v-if="updateErrors && updateErrors['operationRisk']" class="error invalid-feedback">{{ updateErrors['operationRisk'][0] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-0">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="major_doctor_comment" class="caseinfo-title">担当ドクターからのコメント(任意)</label>
+                <textarea class="form-control" :class="{ 'fulled-status' : updateForm.cases.majordoctorComment ? 'fulled-input': '' }" v-model="updateForm.cases.majordoctorComment" id="major_doctor_comment" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="row price-row">
-          <div class="col-8">
-            <p class="caseinfo-title">メニュー名</p>
-          </div>
-          <div class="col-4">
-            <p class="caseinfo-title">料金</p>
-          </div>
-        </div>
-
-        <div class="row price-row" v-for="(item, id) in updateForm.cases.menuProperty">
-          <div class="col-8">
-            <p class="caseinfo-content">{{item.name}}</p>
-          </div>
-          <div class="col-4">
-            <p class="caseinfo-content">{{item.cost}}</p>
-          </div>
-        </div>
-
-        <div class="row year-row">
-          <div class="col-6">
-            <p class="caseinfo-title">年齢</p>
-            <p class="caseinfo-content">{{updateForm.cases.age}}代</p>
-          </div>
-          <div class="col-6">
-            <p class="caseinfo-title">性別</p>
-            <p class="caseinfo-content" v-if="updateForm.cases.gender ==='male'">男性</p>
-            <p class="caseinfo-content" v-else >女性</p>
-          </div>
-        </div>
-
-        <div class="row ">
-          <div class="col-12">
-            <p class="caseinfo-title">施術の解説</p>
-            <p class="caseinfo-content">{{updateForm.cases.operation}}</p>
-          </div>
-        </div>
-
-        <div class="row ">
-          <div class="col-12">
-            <p class="caseinfo-title">副作用・リスク</p>
-            <p class="caseinfo-content">{{updateForm.cases.operationRisk}}</p>
-          </div>
-        </div>
-
-        <div class="row ">
-          <div class="col-12">
-            <p class="caseinfo-title">担当ドクターからのコメント</p>
-            <p class="caseinfo-content">{{updateForm.cases.majordoctorComment}}</p>
-          </div>
-        </div>
-
-        <div class="row btn-row">
+      </vue-custom-scrollbar>
+<!--====================================================================================================================update info-->
+      <template v-slot:footer>
+        <div class="row btn-row" v-if="isIllcaseInfo">
           <div class="col-12 d-flex justify-content-center">
             <button type="button" class="btn btn-primary" @click="handleConfirmCases">{{ modalInfo.confirmBtnTitle }}</button>
           </div>
         </div>
-      </div>
-
-<!--====================================================================================================================update info-->
-      <div v-if="isUpdateIllcaseInfo"  class="modal-container">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="title" class="caseinfo-title">タイトル</label>
-              <input type="text" v-model="updateForm.cases.title" :class="{ 'is-invalid': updateErrors && updateErrors['title'], 'fulled-status' : updateForm.cases.title ? 'fulled-input': ''}" class="form-control" id="title" >
-              <div v-if="updateErrors && updateErrors['title']" class="error invalid-feedback">{{ updateErrors['title'][0] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="photo-con">
-          <div class="photo-con--sub-con before-con">
-            <p class="caseinfo-title t-c">Before画像</p>
-            <div class="file-upload-con">
-              <file-upload
-                ref="UpdateBeforeImageUploadComponent"
-                uploadUrl="/api/doctor/cases/uploadPhoto"
-                :photo="beforePhoto"
-                @file-upload-success="handleUpdateBeforeImageSaved"
-
-              />
-            </div>
-            <div class="file-upload-btn-con">
-              <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUpdateUploadBeforeImage">
-                <p class="">
-                  <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
-                  </svg>
-                </p>
-                写真をアップロード</button>
-            </div>
-            <div v-if="updateErrors && updateErrors['before_photo']" class="error invalid-feedback without-is-invlid">{{ updateErrors['before_photo'][0] }}</div>
-          </div>
-          <div class="photo-con--sub-con after-con">
-            <p class="caseinfo-title t-c">After画像</p>
-            <div class="file-upload-con">
-              <file-upload
-                ref="UpdateAfterImageUploadComponent"
-                uploadUrl="/api/doctor/cases/uploadPhoto"
-                :photo="afterPhoto"
-                @file-upload-success="handleUpdateAfterImageSaved"
-
-              />
-            </div>
-            <div class="file-upload-btn-con">
-              <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUpdateUploadAfterImage">
-                <p class="">
-                  <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
-                  </svg>
-                </p>
-                写真をアップロード</button>
-            </div>
-            <div v-if="updateErrors && updateErrors['after_photo']" class="error invalid-feedback without-is-invlid">{{ updateErrors['after_photo'][0] }}</div>
-          </div>
-        </div>
-
-        <div v-if="updateForm.cases.before.length" class="">
-          <p class="caseinfo-title">Before画像</p>
-          <div class="row">
-            <div class="photo-container" v-for="(item, index) in updateForm.cases.before">
-              <img :src="item.photo" class="case-img-list"/>
-              <a @click="handleUpdateRemoveBeforeImageClick(item.id)" class="remove-img-clicker">
-                <img src="/img/delete-icon.svg" class="remove-img-icon"/>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="updateForm.cases.after.length" class="">
-          <p class="caseinfo-title">After画像</p>
-          <div class="row">
-            <div class="photo-container" v-for="(item, index) in updateForm.cases.after">
-              <img :src="item.photo" class="case-img-list"/>
-              <a @click="handleUpdateRemoveAfterImageClick(item.id)" class="remove-img-clicker">
-                <img src="/img/delete-icon.svg" class="remove-img-icon"/>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" v-for="item in updateForm.cases.menuProperty">
-          <div class="col-8">
-            <div class="form-group">
-              <label for="menuName" class="caseinfo-title">メニュー名</label>
-              <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName" placeholder="例：二重切開" />
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group">
-              <label for="cost" class="caseinfo-title">料金</label>
-              <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost" placeholder="例：250000円" >
-            </div>
-          </div>
-        </div>
-
-        <div class="row d-flex justify-content-center">
-          <div class="col-3">
-            <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
-              <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
-              </svg>
-            </a>
-            <p class="d-flex justify-content-center">メニューを追加</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <label for="category" class="caseinfo-title">カテゴリー</label>
-            <multiselect
-              class=""
-              :class="{'is-invalid' : updateErrors && updateErrors['category'] }"
-              id="category"
-              v-model="selected_categories"
-              :options="category_options"
-              :multiple="true"
-              group-values="children"
-              group-label="group_name"
-              :group-select="true"
-              track-by="name"
-              label="name"
-              selectLabel=""
-              selectGroupLabel=""
-              placeholder=""
-              selectedLabel="選択済み"
-              deselectLabel="削除"
-              deselectGroupLabel="削除"
-            ></multiselect>
-            <div v-if="updateErrors && updateErrors['category']" class="error invalid-feedback">{{ updateErrors['category'][0] }}</div>
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="gender" class="caseinfo-title">年齢</label>
-              <select id="gender" v-model="updateForm.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': updateErrors && updateErrors['age'], 'fulled-status' : updateForm.cases.age ? 'fulled-input': ''}" class="form-control">
-                <option></option>
-                <option v-for="i in 31" :key="i" :value="i + 9">{{ i + 9 }}{{ $t('才') }}</option>
-              </select>
-              <div v-if="updateErrors && updateErrors['age']" class="error invalid-feedback">{{ updateErrors['age'][0] }}</div>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group">
-              <label for="operation" class="caseinfo-title">性別</label>
-              <select id="operation" v-model="updateForm.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : updateErrors && updateErrors['gender'], 'fulled-status' : updateForm.cases.gender ? 'fulled-input': '' }" class="form-control">
-                <option></option>
-                <option v-for="(name, id) in genders" :key="id" :value="id">{{ name }}</option>
-              </select>
-              <div v-if="updateErrors && updateErrors['gender']" class="error invalid-feedback">{{ updateErrors['gender'][0] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="doctor_comment" class="caseinfo-title">施術の解説</label>
-              <textarea class="form-control" v-model="updateForm.cases.operation" :class="{'is-invalid' : updateErrors && updateErrors['operation'], 'fulled-status' : updateForm.cases.operation ? 'fulled-input': '' }" id="doctor_comment" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
-              <div v-if="updateErrors && updateErrors['operation']" class="error invalid-feedback">{{ errors['operation'][0] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="operation_risk" class="caseinfo-title">副作用・リスク</label>
-              <textarea class="form-control" v-model="updateForm.cases.operationRisk"  :class="{'is-invalid' : updateErrors && updateErrors['operationRisk'], 'fulled-status' : updateForm.cases.operationRisk ? 'fulled-input': '' }" id="operation_risk" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
-              <div v-if="updateErrors && updateErrors['operationRisk']" class="error invalid-feedback">{{ updateErrors['operationRisk'][0] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="major_doctor_comment" class="caseinfo-title">担当ドクターからのコメント(任意)</label>
-              <textarea class="form-control" :class="{ 'fulled-status' : updateForm.cases.majordoctorComment ? 'fulled-input': '' }" v-model="updateForm.cases.majordoctorComment" id="major_doctor_comment" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="row btn-row">
+        <div class="row btn-row" v-if="isUpdateIllcaseInfo">
           <div class="col-12 d-flex justify-content-center">
             <button type="button" class="btn btn-primary" @click="handleUpdateCases(updateForm.cases.id)">{{ modalInfo.confirmBtnTitle }}</button>
           </div>
         </div>
-      </div>
-
-<!--====================================================================================================================update info-->
+      </template>
     </form-modal>
   </div>
 </template>
@@ -543,9 +547,15 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
 export default {
   middleware: 'auth',
+
+  components: {
+    vueCustomScrollbar
+  },
 
   data() {
     return {
@@ -613,7 +623,13 @@ export default {
        }
      },
 
-      staff: ''
+      staff: '',
+
+      settings: {
+        suppressScrollY: false,
+        suppressScrollX: true,
+        wheelPropagation: false
+      },
     }
   },
 
@@ -659,7 +675,7 @@ export default {
           this.$store.dispatch('state/removeIsLoading')
         })
     },
-
+    
     handlePaginate(pageNum) {
       this.query = {
         ...this.query,
@@ -907,7 +923,11 @@ export default {
         return el.id !== id;
       })
       this.tempImageForm.after_photo.delete.push(id);
-    }
+    },
+
+    scrollHanle(evt) {
+      // console.log(evt)
+    },
   }
 }
 </script>

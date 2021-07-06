@@ -63,7 +63,6 @@
                 width: unset;
                 height: unset;
                 left: calc(50% - 425px);
-                top: 150px;
 
                 .form-modal-content {
                     width: 850px;
@@ -82,7 +81,7 @@
                     }
 
                     .form-modal-body {
-                        padding: 20px 125px 70px;
+                        padding: 20px 105px 10px;
                         max-height: unset;
 
                         .main-modal {
@@ -165,7 +164,6 @@
                                 }
 
                                 &:last-child {
-                                    margin-top: 70px;
                                     margin-bottom: 0px;
                                 }
 

@@ -8,6 +8,28 @@
             background: unset;
             padding: 0;
 
+            .question-tab-con {
+                border-bottom: 1px solid #E9E9E9;
+                margin-bottom: 25px;
+
+                a {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #8D909E;
+                    padding: 5px 10px;
+                    margin-right: 40px;
+
+                    &:hover {
+                        background: #DDD;
+                    }
+
+                    &.active {
+                        border-bottom: 5px solid #5CA3F6;
+                        color: #131340;
+                    }
+                }
+            }
+
             .staff-header {
 
                 .staff-sort {

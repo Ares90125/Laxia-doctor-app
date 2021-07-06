@@ -62,7 +62,6 @@ export default {
 	transition-duration: .2s;
 	z-index: 1000;
 	position: fixed;
-	top: 100px;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
@@ -136,7 +135,6 @@ export default {
 		}
 		.form-modal-footer {
 			text-align: center;
-			padding: 12px 0;
 			border-top: 1px solid #dee2e6;
 
 			.form-modal-actions {

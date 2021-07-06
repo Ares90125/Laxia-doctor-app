@@ -6,6 +6,29 @@
 
         .main-content {
             padding: 50px;
+            position: relative;
+
+            .link-list-btn {
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: #FFF;
+                top: -45px;
+                left: -50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &:hover {
+                    background: #DFEEFF;
+                    opacity: 1;
+
+                    path {
+                        fill: #5CA3F6;
+                    }
+                }
+            }
 
             .page-title {
                 font-size: 32px;

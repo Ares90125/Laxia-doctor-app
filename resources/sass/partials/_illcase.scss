@@ -113,7 +113,6 @@
                 width: unset;
                 height: unset;
                 left: calc(50% - 425px);
-                top: 150px;
 
                 .form-group {
                     margin-bottom: 0;
@@ -136,7 +135,7 @@
                     }
 
                     .form-modal-body {
-                        padding: 35px 125px 95px;
+                        padding: 35px 105px 10px;
                         max-height: unset;
 
                         .main-modal {
@@ -240,6 +239,10 @@
                                 margin-right: -5px;
                                 margin-left: -5px;
                                 margin-bottom: 35px;
+
+                                &.mb-0 {
+                                    margin-bottom: 0;
+                                }
 
                                 &.name-price-row {
                                     margin-bottom: 22.5px;

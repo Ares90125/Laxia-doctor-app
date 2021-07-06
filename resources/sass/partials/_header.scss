@@ -159,3 +159,29 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .btn:focus, .btn.focus {
     box-shadow: unset;
 }
+.form-modal-wrapper {
+    top: 50px;
+    
+    .form-modal-content {
+
+        .form-modal-body {
+
+            .scroll-modal-body {
+                height: calc(100vh - 280px);
+                width: unset;
+                position: relative;
+                min-height: 400px;
+                padding: 0 10px;
+            }
+        }
+        
+        .form-modal-footer {
+            border-top: none;
+            padding: 20px 0 30px;
+
+            button {
+                padding: 5px 30px;
+            }
+        }
+    }
+}

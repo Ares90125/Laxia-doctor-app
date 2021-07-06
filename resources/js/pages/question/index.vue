@@ -1,6 +1,11 @@
 <template>
   <div class="main-in question-main-in">
     <div class="main-content">
+      <div class="question-tab-con">
+        <a href="#" :class="{'active': tab_status == 0}" @click="handleStatusChange(0)">{{ $t('最新の質問') }}</a>
+        <a href="#" :class="{'active': tab_status == 1}" @click="handleStatusChange(1)">{{ $t('人気の質問') }}</a>
+        <a href="#" :class="{'active': tab_status == 2}" @click="handleStatusChange(2)">{{ $t('自分の回答した質問') }}</a>
+      </div>
       <div class="staff-header">
         <p>
           <select class="staff-sort form-control" :class="{ 'fulled-status' : category_top_id ? 'fulled-input': '' }" v-model="category_top_id" @change="handleSearchSelect(category_top_id)">
@@ -135,7 +140,8 @@ export default {
         suppressScrollY: false,
         suppressScrollX: true,
         wheelPropagation: false
-      }
+      },
+      tab_status: 0,
     }
   },
 
@@ -192,6 +198,20 @@ export default {
           this.$store.dispatch('state/removeIsLoading')
         })
     },
+
+    handleStatusChange(status) {
+      console.log(status);
+      this.tab_status = status;
+    },
+
+    // handleStatusChange(status) {
+    //   this.query = {
+    //     ...this.query,
+    //     page: 1,
+    //     status: status
+    //   }
+    //   this.getData()
+    // },
 
     handleShowMenu(id){
       this.$router.push({ name: 'user_questiondetail', params: {id: id}})
@@ -314,15 +334,6 @@ export default {
       this.query = {
         ...this.query,
         page: pageNum,
-      }
-      this.getData()
-    },
-
-    handleStatusChange(status) {
-      this.query = {
-        ...this.query,
-        page: 1,
-        status: status
       }
       this.getData()
     },

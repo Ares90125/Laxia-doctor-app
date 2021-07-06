@@ -1,6 +1,11 @@
 <template>
   <div class="main-in question-detail-main-in">
     <div v-if="questionDetail" class="main-content">
+      <a class="link-list-btn" href="#">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 7.00027L3.83 7.00027L8.71 2.12027C9.1 1.73027 9.1 1.09027 8.71 0.700274C8.32 0.310274 7.69 0.310274 7.3 0.700274L0.709999 7.29027C0.319999 7.68027 0.319999 8.31027 0.709999 8.70027L7.29 15.3003C7.68 15.6903 8.31 15.6903 8.7 15.3003C9.09 14.9103 9.09 14.2803 8.7 13.8903L3.83 9.00027L15 9.00027C15.55 9.00027 16 8.55027 16 8.00027C16 7.45027 15.55 7.00027 15 7.00027Z" fill="#5F6377"/>
+        </svg>
+      </a>
       <div class="row">
         <div class="col-12">
           <p class="page-title">{{questionDetail.title}}</p>
