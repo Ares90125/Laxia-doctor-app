@@ -52,7 +52,7 @@
       <div class="row"> 
         <div class="col-12">
           <div class="more-add-image-container">
-            <textarea rows="5" id="user_profile" class="form-control comment-area" v-model="doctorAnswer" placeholder="コメントやアドバイスをする"></textarea>
+            <textarea rows="5" id="user_profile" class="form-control comment-area" :class="{ 'fulled-status' : doctorAnswer ? 'fulled-input': '' }" v-model="doctorAnswer" placeholder="コメントやアドバイスをする"></textarea>
             <a @click="handleMoreAddImageClick()" class="more-add-image-clicker">
               <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.56015 0H2.04016C1.00616 0 0.169556 0.9 0.169556 2L0.160156 18C0.160156 19.1 0.996756 20 2.03076 20H13.3202C14.3542 20 15.2002 19.1 15.2002 18V6L9.56015 0ZM13.3202 18H2.04016V2H8.62015V7H13.3202V18ZM3.92016 13.01L5.24555 14.42L6.74016 12.84V17H8.62015V12.84L10.1148 14.43L11.4402 13.01L7.68956 9L3.92016 13.01Z" fill="#5F6377"/>
@@ -117,7 +117,7 @@
           <div class="row"> 
             <div class="col-12">
               <div class="more-add-image-container">
-                <textarea rows="5" class="form-control comment-area" v-model="item.answer"></textarea>
+                <textarea rows="5" class="form-control comment-area" :class="{ 'fulled-status' : item.answer ? 'fulled-input': '' }" v-model="item.answer"></textarea>
                 <a @click="handleMoreEditImageClick(item)" class="more-add-image-clicker">
                   <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9.56015 0H2.04016C1.00616 0 0.169556 0.9 0.169556 2L0.160156 18C0.160156 19.1 0.996756 20 2.03076 20H13.3202C14.3542 20 15.2002 19.1 15.2002 18V6L9.56015 0ZM13.3202 18H2.04016V2H8.62015V7H13.3202V18ZM3.92016 13.01L5.24555 14.42L6.74016 12.84V17H8.62015V12.84L10.1148 14.43L11.4402 13.01L7.68956 9L3.92016 13.01Z" fill="#5F6377"/>

@@ -8,7 +8,7 @@
           <div class="form-group">
             <label class="col-form-label text-md-right">{{ $t('メールアドレスもしくはID名') }}</label>
             <div>
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email" v-bind:placeholder="$t('例：XXX@example.com or ID')" />
+              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="email" name="email" v-bind:placeholder="$t('例：XXX@example.com or ID')" />
               <has-error :form="form" field="email" />
             </div>
           </div>
@@ -17,7 +17,7 @@
           <div class="form-group pass-form-grp">
             <label class="col-form-label text-md-right">{{ $t('パスワード') }}</label>
             <div>
-              <input v-model="form.password" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password') }" class="custom-pw-form-control form-control" type="password" name="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
+              <input v-model="form.password" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password'), 'fulled-status' : form.password ? 'fulled-input': '' }" class="custom-pw-form-control form-control" type="password" name="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
               <has-error :form="form" field="password" />
             </div>
           </div>

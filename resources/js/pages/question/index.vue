@@ -3,7 +3,7 @@
     <div class="main-content">
       <div class="staff-header">
         <p>
-          <select class="staff-sort" v-model="category_top_id" @change="handleSearchSelect(category_top_id)">
+          <select class="staff-sort form-control" :class="{ 'fulled-status' : category_top_id ? 'fulled-input': '' }" v-model="category_top_id" @change="handleSearchSelect(category_top_id)">
             <option ></option>
             <option v-for="item in treatCategories" :key="item.id" :value="item.id">{{ item.name }}</option>
           </select>

@@ -3,7 +3,7 @@
         <div class="row"> 
             <div class="col-12">
             <div class="more-add-image-container">
-                <textarea rows="5" id="user_profile" class="form-control" v-model="doctorAnswer"></textarea>
+                <textarea rows="5" id="user_profile" class="form-control" :class="{ 'fulled-status' : doctorAnswer ? 'fulled-input': '' }" v-model="doctorAnswer"></textarea>
                 <a @click="handleMoreAddImageClick()" class="more-add-image-clicker">
                 <img src="/img/file-upload.png" class="more-add-image"/>
                 </a>

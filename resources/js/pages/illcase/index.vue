@@ -2,7 +2,7 @@
   <div class="main-in illcase-main-in">
     <div class="staff-header">
       <p>
-        <select class="staff-sort">
+        <select v-model="staff" :class="{ 'fulled-status' : staff ? 'fulled-input': '' }" class="staff-sort form-control">
           <option value="-1">{{ $t('部位でソート') }}</option>
           <option v-for="(name, id) in specialities" :key="id" :value="id">{{ name }}</option>
         </select>
@@ -57,7 +57,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="title" class="caseinfo-title">タイトル</label>
-              <input type="text" v-model="form.cases.title" :class="{ 'is-invalid': errors && errors['title']}" class="form-control" id="title" placeholder="例：奥二重の方の二重切開" />
+              <input type="text" v-model="form.cases.title" :class="{ 'is-invalid': errors && errors['title'], 'fulled-status' : form.cases.title ? 'fulled-input': ''}" class="form-control" id="title" placeholder="例：奥二重の方の二重切開" />
               <div v-if="errors && errors['title']" class="error invalid-feedback">{{ errors['title'][0] }}</div>
             </div>
           </div>
@@ -140,13 +140,13 @@
           <div class="col-8">
             <div class="form-group">
               <label for="menuName_1" class="caseinfo-title">メニュー名</label>
-              <input type="text" v-model="item.name" class="form-control" id="menuName_1" placeholder="例：二重切開" />
+              <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName_1" placeholder="例：二重切開" />
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label for="cost_1" class="caseinfo-title">料金</label>
-              <input type="text" v-model="item.cost"  class="form-control" id="cost_1" placeholder="例：250000円" >
+              <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost_1" placeholder="例：250000円" >
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@
           <div class="col-6">
             <div class="form-group">
               <label for="gender_1" class="caseinfo-title">年齢</label>
-              <select id="gender_1" v-model="form.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': errors && errors['age']}" class="form-control">
+              <select id="gender_1" v-model="form.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': errors && errors['age'], 'fulled-status' : form.cases.age ? 'fulled-input': ''}" class="form-control">
                 <option></option>
                 <option v-for="i in 31" :key="i" :value="i + 9">{{ i + 9 }}{{ $t('才') }}</option>
               </select>
@@ -203,7 +203,7 @@
           <div class="col-6">
             <div class="form-group">
               <label for="operation_1" class="caseinfo-title">性別</label>
-              <select id="operation_1" v-model="form.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : errors && errors['gender'] }" class="form-control">
+              <select id="operation_1" v-model="form.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : errors && errors['gender'], 'fulled-status' : form.cases.gender ? 'fulled-input': '' }" class="form-control">
                 <option></option>
                 <option v-for="(name, id) in genders" :key="id" :value="id">{{ name }}</option>
               </select>
@@ -216,7 +216,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="doctor_comment_1" class="caseinfo-title">施術の解説</label>
-              <textarea class="form-control" v-model="form.cases.operation" :class="{'is-invalid' : errors && errors['operation'] }" id="doctor_comment_1" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
+              <textarea class="form-control" v-model="form.cases.operation" :class="{'is-invalid' : errors && errors['operation'], 'fulled-status' : form.cases.operation ? 'fulled-input': '' }" id="doctor_comment_1" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
               <div v-if="errors && errors['operation']" class="error invalid-feedback">{{ errors['operation'][0] }}</div>
             </div>
           </div>
@@ -226,7 +226,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="operation_risk_1" class="caseinfo-title">副作用・リスク</label>
-              <textarea class="form-control" v-model="form.cases.operationRisk"  :class="{'is-invalid' : errors && errors['operationRisk'] }" id="operation_risk_1" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
+              <textarea class="form-control" v-model="form.cases.operationRisk"  :class="{'is-invalid' : errors && errors['operationRisk'], 'fulled-status' : form.cases.operationRisk ? 'fulled-input': '' }" id="operation_risk_1" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
               <div v-if="errors && errors['operationRisk']" class="error invalid-feedback">{{ errors['operationRisk'][0] }}</div>
             </div>
           </div>
@@ -236,7 +236,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="major_doctor_comment_1" class="caseinfo-title">担当ドクターからのコメント(任意)</label>
-              <textarea class="form-control" v-model="form.cases.majordoctorComment" id="major_doctor_comment_1" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
+              <textarea class="form-control" v-model="form.cases.majordoctorComment" :class="{ 'fulled-status' : form.cases.majordoctorComment ? 'fulled-input': '' }" id="major_doctor_comment_1" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
             </div>
           </div>
         </div>
@@ -346,7 +346,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="title" class="caseinfo-title">タイトル</label>
-              <input type="text" v-model="updateForm.cases.title" :class="{ 'is-invalid': updateErrors && updateErrors['title']}" class="form-control" id="title" >
+              <input type="text" v-model="updateForm.cases.title" :class="{ 'is-invalid': updateErrors && updateErrors['title'], 'fulled-status' : updateForm.cases.title ? 'fulled-input': ''}" class="form-control" id="title" >
               <div v-if="updateErrors && updateErrors['title']" class="error invalid-feedback">{{ updateErrors['title'][0] }}</div>
             </div>
           </div>
@@ -427,13 +427,13 @@
           <div class="col-8">
             <div class="form-group">
               <label for="menuName" class="caseinfo-title">メニュー名</label>
-              <input type="text" v-model="item.name" class="form-control" id="menuName" placeholder="例：二重切開" />
+              <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName" placeholder="例：二重切開" />
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label for="cost" class="caseinfo-title">料金</label>
-              <input type="text" v-model="item.cost"  class="form-control" id="cost" placeholder="例：250000円" >
+              <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost" placeholder="例：250000円" >
             </div>
           </div>
         </div>
@@ -479,7 +479,7 @@
           <div class="col-6">
             <div class="form-group">
               <label for="gender" class="caseinfo-title">年齢</label>
-              <select id="gender" v-model="updateForm.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': updateErrors && updateErrors['age']}" class="form-control">
+              <select id="gender" v-model="updateForm.cases.age" :class="{ 'is-invalid rm-icon-is-invalid': updateErrors && updateErrors['age'], 'fulled-status' : updateForm.cases.age ? 'fulled-input': ''}" class="form-control">
                 <option></option>
                 <option v-for="i in 31" :key="i" :value="i + 9">{{ i + 9 }}{{ $t('才') }}</option>
               </select>
@@ -490,7 +490,7 @@
           <div class="col-6">
             <div class="form-group">
               <label for="operation" class="caseinfo-title">性別</label>
-              <select id="operation" v-model="updateForm.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : updateErrors && updateErrors['gender'] }" class="form-control">
+              <select id="operation" v-model="updateForm.cases.gender"  :class="{'is-invalid rm-icon-is-invalid' : updateErrors && updateErrors['gender'], 'fulled-status' : updateForm.cases.gender ? 'fulled-input': '' }" class="form-control">
                 <option></option>
                 <option v-for="(name, id) in genders" :key="id" :value="id">{{ name }}</option>
               </select>
@@ -503,7 +503,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="doctor_comment" class="caseinfo-title">施術の解説</label>
-              <textarea class="form-control" v-model="updateForm.cases.operation" :class="{'is-invalid' : updateErrors && updateErrors['operation'] }" id="doctor_comment" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
+              <textarea class="form-control" v-model="updateForm.cases.operation" :class="{'is-invalid' : updateErrors && updateErrors['operation'], 'fulled-status' : updateForm.cases.operation ? 'fulled-input': '' }" id="doctor_comment" rows="3" placeholder="例：この施術は目頭を切る施術になります。"></textarea>
               <div v-if="updateErrors && updateErrors['operation']" class="error invalid-feedback">{{ errors['operation'][0] }}</div>
             </div>
           </div>
@@ -513,7 +513,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="operation_risk" class="caseinfo-title">副作用・リスク</label>
-              <textarea class="form-control" v-model="updateForm.cases.operationRisk"  :class="{'is-invalid' : updateErrors && updateErrors['operationRisk'] }" id="operation_risk" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
+              <textarea class="form-control" v-model="updateForm.cases.operationRisk"  :class="{'is-invalid' : updateErrors && updateErrors['operationRisk'], 'fulled-status' : updateForm.cases.operationRisk ? 'fulled-input': '' }" id="operation_risk" rows="3" placeholder="例：施術後一週間ほど腫れる場合があります。"></textarea>
               <div v-if="updateErrors && updateErrors['operationRisk']" class="error invalid-feedback">{{ updateErrors['operationRisk'][0] }}</div>
             </div>
           </div>
@@ -523,7 +523,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="major_doctor_comment" class="caseinfo-title">担当ドクターからのコメント(任意)</label>
-              <textarea class="form-control" v-model="updateForm.cases.majordoctorComment" id="major_doctor_comment" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
+              <textarea class="form-control" :class="{ 'fulled-status' : updateForm.cases.majordoctorComment ? 'fulled-input': '' }" v-model="updateForm.cases.majordoctorComment" id="major_doctor_comment" rows="3" placeholder="例：この施術は〇〇な方に向いているかと思います。"></textarea>
             </div>
           </div>
         </div>
@@ -611,8 +611,9 @@ export default {
          add:[],
          delete: []
        }
-     }
+     },
 
+      staff: ''
     }
   },
 

@@ -52,7 +52,7 @@
       <div v-if="isEmailModal" class="main-modal">
         <div class="new-email-con">
           <label>{{ $t('新しいメールアドレス') }}</label>
-          <input class="form-control" type="text" v-model="form.email" @keyup="checkEmailFormStatus" />
+          <input class="form-control" type="text" :class="{ 'fulled-status' : form.email ? 'fulled-input': '' }" v-model="form.email" @keyup="checkEmailFormStatus" />
         </div>
         <div class="btn-grp-con">
             <button class="btn btn-secondary btn-sm"  @click="handleCancelEmail">キャンセル</button>
@@ -73,8 +73,8 @@
                 <label class="sm-lab">{{ $t('パスワードを忘れた場合') }}</label>
               </div>
               <div class="input-group">
-                <input  v-if="'text' === curPwType" type="text" class="form-control" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
-                <input v-else type="password" class="form-control" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
+                <input  v-if="'text' === curPwType" type="text" class="form-control" :class="{ 'fulled-status' : passwordForm.current_password ? 'fulled-input': '' }" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
+                <input v-else type="password" class="form-control" :class="{ 'fulled-status' : passwordForm.current_password ? 'fulled-input': '' }" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
                 <a @click="showCurPassword" class="icon-eye"></a>
               </div>
               <div v-if="errors && errors.current_password" class="error invalid-feedback-custom">{{ errors.current_password[0] }}</div>
@@ -82,15 +82,15 @@
           <div class="password-item new-pass">
             <label>{{ $t('新しいメールアドレス') }}</label>
             <div class="input-group">
-              <input  v-if="'text' === newPwType" type="text" class="form-control" v-model="passwordForm.new_password" @keyup="checkPassFormStatus"/>
-              <input v-else type="password" class="form-control" v-model="passwordForm.new_password" @keyup="checkPassFormStatus" />
+              <input  v-if="'text' === newPwType" type="text" class="form-control" :class="{ 'fulled-status' : passwordForm.new_password ? 'fulled-input': '' }" v-model="passwordForm.new_password" @keyup="checkPassFormStatus"/>
+              <input v-else type="password" class="form-control" :class="{ 'fulled-status' : passwordForm.new_password ? 'fulled-input': '' }" v-model="passwordForm.new_password" @keyup="checkPassFormStatus" />
               <a @click="showNewPassword" class="icon-eye"></a>
             </div>
             <div v-if="errors && errors.new_password" class="error invalid-feedback-custom">{{ errors.new_password[0] }}</div>
           </div>
           <div class="password-item confirm-pass">
             <label>{{ $t('新しいパスワード(再入力)') }}</label>
-            <input class="form-control" type="password" v-model="passwordForm.new_password_confirmation" @keyup="checkPassFormStatus" />
+            <input class="form-control" type="password" :class="{ 'fulled-status' : passwordForm.new_password_confirmation ? 'fulled-input': '' }" v-model="passwordForm.new_password_confirmation" @keyup="checkPassFormStatus" />
           </div>
           <div class="btn-grp-con">
             <button class="btn btn-secondary btn-sm"  @click="handleCancelPassword">キャンセル</button>

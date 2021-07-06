@@ -7,7 +7,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="user_id" class="caseinfo-title">ユーザーID</label>
-              <input type="text" id="user_id"  class="form-control"/>
+              <input v-model="form.id" type="text" id="user_id" :class="{ 'fulled-status' : form.id ? 'fulled-input': '' }" class="form-control"/>
             </div>
           </div>
         </div>
@@ -15,7 +15,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="user_name" class="caseinfo-title">お名前</label>
-              <input type="text" id="user_name"  class="form-control"/>
+              <input v-model="form.name" type="text" id="user_name" :class="{ 'fulled-status' : form.name ? 'fulled-input': '' }"  class="form-control"/>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="user_email" class="caseinfo-title">メールアドレス</label>
-              <input type="text" id="user_email" class="form-control"/>
+              <input v-model="form.email" type="text" id="user_email" :class="{ 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control"/>
             </div>
           </div>
         </div>
@@ -31,7 +31,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="desc" class="caseinfo-title">ご意見・お問い合わせの内容</label>
-              <textarea rows="3" id="desc" class="form-control"></textarea>
+              <textarea v-model="form.desc" rows="3" id="desc" :class="{ 'fulled-status' : form.desc ? 'fulled-input': '' }" class="form-control"></textarea>
             </div>
           </div>
         </div>
@@ -69,6 +69,14 @@ export default {
 
   middleware: 'guest',
 
+  data: () => ({
+    form: new Form({
+      id: '',
+      name: '',
+      email: '',
+      desc: ''
+    })
+  }),
 }
 </script>
 

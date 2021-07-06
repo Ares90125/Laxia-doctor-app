@@ -103,7 +103,7 @@
 
           <div class="profile-item modal-id-item">
             <label for="userId" class="caseinfo-title">ID名</label>
-            <input type="text" @keyup="handleCheckId" :class="{ 'is-invalid': idValidation === 1, 'is-valid': idValidation=== 2 }" v-model="form.user.name" class="form-control" id="userId"/>
+            <input type="text" @keyup="handleCheckId" :class="{ 'is-invalid': idValidation === 1, 'is-valid': idValidation=== 2, 'fulled-status' : form.user.name ? 'fulled-input': '' }" v-model="form.user.name" class="form-control" id="userId"/>
             <div v-if="idValidation === 1" class="error invalid-feedback-custom">このID名はすでに利用されています</div>
             <p class="id-desc">
               ※ユーザー名には、アルファベット(a～z)、数字(0～9)、ダッシュ(-)、アンダースコア(_)、アポストロフィ(')、
@@ -114,11 +114,11 @@
           <div class="row profile-item">
             <div class="col-6">
               <label for="hira_name" class="caseinfo-title">名前(漢字)</label>
-              <input type="text" id="hira_name" v-model="form.user.hira_name" class="form-control"/>
+              <input type="text" id="hira_name" :class="{ 'fulled-status' : form.user.hira_name ? 'fulled-input': '' }" v-model="form.user.hira_name" class="form-control"/>
             </div>
             <div class="col-6">
               <label for="kata_name" class="caseinfo-title">名前(カタカナ)</label>
-              <input type="text" id="kata_name" v-model="form.user.kata_name" class="form-control"/>
+              <input type="text" id="kata_name" :class="{ 'fulled-status' : form.user.kata_name ? 'fulled-input': '' }" v-model="form.user.kata_name" class="form-control"/>
             </div>
           </div>
 
@@ -126,7 +126,7 @@
             <div class="col-6">
               <div class="form-group">
                 <label for="job_id" class="caseinfo-title">役職</label>
-                <select  id="job_id" v-model="form.user.job_id" class="form-control" >
+                <select  id="job_id" v-model="form.user.job_id" :class="{ 'fulled-status' : form.user.job_id ? 'fulled-input': '' }" class="form-control" >
                   <option></option>
                   <option v-for="(name, id) in jobs" :key="id" :value="id">{{ name }}</option>
                 </select>
@@ -135,7 +135,7 @@
             <div class="col-6">
               <div class="form-group">
                 <label for="experience_year" class="caseinfo-title">職歴</label>
-                <select id="experience_year" v-model="form.user.experience_year"  class="form-control" >
+                <select id="experience_year" v-model="form.user.experience_year" :class="{ 'fulled-status' : form.user.experience_year ? 'fulled-input': '' }" class="form-control" >
                   <option></option>
                   <option v-for="n in 40" :key="n" :value="n">{{ n }}{{ $t('年') }}</option>
                 </select>
@@ -147,7 +147,7 @@
             <div class="col-4">
               <div class="form-group">
                 <label for="spec0" class="caseinfo-title">得意分野①</label>
-                <select id="spec0" v-model="form.user.spec0"  class="form-control">
+                <select id="spec0" v-model="form.user.spec0" :class="{ 'fulled-status' : form.user.spec0 ? 'fulled-input': '' }" class="form-control">
                   <option></option>
                   <option v-for="(name, id) in specialities" :key="id" :value="id">{{ name }}</option>
                 </select>
@@ -156,7 +156,7 @@
             <div class="col-4">
               <div class="form-group">
                 <label for="spec1" class="caseinfo-title">得意分野②</label>
-                <select id="spec1" v-model="form.user.spec1"  class="form-control">
+                <select id="spec1" v-model="form.user.spec1" :class="{ 'fulled-status' : form.user.spec1 ? 'fulled-input': '' }" class="form-control">
                   <option></option>
                   <option v-for="(name, id) in specialities" :key="id" :value="id">{{ name }}</option>
                 </select>
@@ -165,7 +165,7 @@
             <div class="col-4">
               <div class="form-group">
                 <label for="spec2" class="caseinfo-title">得意分野③</label>
-                <select id="spec2" v-model="form.user.spec2"  class="form-control">
+                <select id="spec2" v-model="form.user.spec2" :class="{ 'fulled-status' : form.user.spec2 ? 'fulled-input': '' }" class="form-control">
                   <option></option>
                   <option v-for="(name, id) in specialities" :key="id" :value="id">{{ name }}</option>
                 </select>
@@ -175,12 +175,12 @@
 
           <div class="profile-item">
             <label for="user_profile" class="caseinfo-title">経歴</label>
-            <textarea rows="3" id="user_profile" v-model="form.user.profile" class="form-control"></textarea>
+            <textarea rows="3" id="user_profile" :class="{ 'fulled-status' : form.user.profile ? 'fulled-input': '' }" v-model="form.user.profile" class="form-control"></textarea>
           </div>
 
           <div class="profile-item">
             <label for="user_career" class="caseinfo-title">資格・実績</label>
-            <textarea rows="3" id="user_career" v-model="form.user.career" class="form-control"></textarea>
+            <textarea rows="3" id="user_career" :class="{ 'fulled-status' : form.user.career ? 'fulled-input': '' }" v-model="form.user.career" class="form-control"></textarea>
           </div>
 
           <div class="profile-item">
