@@ -25,6 +25,9 @@
                 font-size: 16px;
                 padding: 5px 10px;
                 height: 38px;
+                background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.75 1.625L7.88333 8.02313L14.0167 1.625' stroke='%238D909E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+                background-position-x: calc(100% - 7px);
+                background-position-y: 14px;
             }
         }
 
@@ -135,8 +138,12 @@
                     }
 
                     .form-modal-body {
-                        padding: 35px 105px 10px;
+                        padding: 35px 0px 10px;
                         max-height: unset;
+
+                        .scroll-modal-body {
+                            padding: 0 125px;
+                        }
 
                         .main-modal {
                             padding: 0;

@@ -8,11 +8,29 @@
             .nav-link {
                 font-size: 16px;
                 font-weight: 700;
+                padding: 0 30px 0 0;
 
                 img {
                     width: 40px;
                     height: 40px;
                     margin-right: 15px;
+                }
+
+                &.dropdown-toggle {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        width: 10px;
+                        height: 5px;
+                        background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23757296' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+                        top: 13px;
+                        right: 0;
+                        border: none;
+                        background-size: cover;
+                        background-position: center;
+                    }
                 }
             }
 
@@ -120,6 +138,7 @@ select.form-control {
     border-color: #C9D6DF;
     border-radius: 5px;
     height: 52px;
+    padding-right: 30px;
     
     &.fulled-status {
         border-color: #8C9FAB;
@@ -184,4 +203,33 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
             }
         }
     }
+}
+.custom-pw-form-control {
+    background-image: unset;
+}
+.pass-input-con {
+    position: relative;
+
+    .pass-input-con-mark {
+        position: absolute;
+        right: 15px;
+        top: 13px;
+    }
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg width='13' height='11' viewBox='0 0 13 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.36602 10.5C6.98112 11.1667 6.01887 11.1667 5.63397 10.5L0.870834 2.25C0.485934 1.58333 0.96706 0.75 1.73686 0.75L11.2631 0.750001C12.0329 0.750001 12.5141 1.58333 12.1292 2.25L7.36602 10.5Z' fill='%238C9FAB'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 15px);
+    background-position-y: 20px;
+}
+.multiselect__select::before {
+    right: 7px;
+    top: 18px;
+    color: #8C9FAB;
+    margin-top: 0;
+    border-color: #8C9FAB transparent transparent;
+    border-width: 10px 6px 0;
 }

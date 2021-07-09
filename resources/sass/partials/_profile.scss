@@ -81,8 +81,12 @@
                     }
 
                     .form-modal-body {
-                        padding: 20px 105px 10px;
+                        padding: 20px 0px 10px;
                         max-height: unset;
+
+                        .scroll-modal-body {
+                            padding: 0 125px;
+                        }
 
                         .main-modal {
                             padding: 0;

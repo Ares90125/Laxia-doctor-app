@@ -11,7 +11,7 @@
         >
           <img v-if="user.photo" :src="'/'+user.photo" class="rounded-circle profile-photo">
           <img v-if="!user.photo" :src="'/img/avatar-img.png'" class="rounded-circle profile-photo">
-          {{ user.name }}
+          {{ user.hira_name }}
         </a>
         <div class="header-menu dropdown-menu">
           <router-link :to="{ name: 'resetpassword' }" active-class="active">
