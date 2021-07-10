@@ -36,7 +36,27 @@
             border-radius: 10px;
 
             .case-list {
+                margin-top: 65px;
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(6, 260px);
+                align-content: space-around;
                 justify-content: space-between;
+                @media screen and (max-width: 1980px) {
+                    grid-template-columns: repeat(5, 260px);
+                }
+                @media screen and (max-width: 1680px) {
+                    grid-template-columns: repeat(4, 260px);
+                }
+                @media screen and (max-width: 1440px) {
+                    grid-template-columns: repeat(3, 260px);
+                }
+                @media screen and (max-width: 930px) {
+                    grid-template-columns: repeat(2, 260px);
+                }
+                @media screen and (max-width: 680px) {
+                    grid-template-columns: repeat(1, 260px);
+                }
 
                 .case-one {
                     width: 260px;
