@@ -12,7 +12,7 @@
         <!-- Email -->
         <div class="form-group">
           <label for="emailform" class="col-form-label caseinfo-title">{{ $t('メールアドレス') }}</label>
-          <input v-model="form.email" :class="{ 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="email" name="email" id="emailform" placeholder="例：XXX@example.com">
+          <input v-model="form.email" :class="{ 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" id="emailform" placeholder="例：XXX@example.com">
         </div>
 
         <div class="row justify-content-center">

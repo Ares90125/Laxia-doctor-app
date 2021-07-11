@@ -9,7 +9,7 @@
           <div class="form-group">
             <label class="col-form-label text-md-right">{{ $t('メールアドレス') }}</label>
             <div>
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="email" name="email" v-bind:placeholder="$t('例：XXX@example.com')" />
+              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" v-bind:placeholder="$t('例：XXX@example.com')" />
               <has-error :form="form" field="email" />
             </div>
           </div>
@@ -79,17 +79,17 @@ export default {
       //   this.mustVerifyEmail = true
       // } else {
         console.log(data.status)
-        // Log in the user.
-        const { data: { token } } = await this.form.post('/api/doctor/login')
+        // // Log in the user.
+        // const { data: { token } } = await this.form.post('/api/doctor/login')
 
-        // Save the token.
-        this.$store.dispatch('auth/saveToken', { token })
+        // // Save the token.
+        // this.$store.dispatch('auth/saveToken', { token })
 
-        // Update the user.
-        await this.$store.dispatch('auth/updateUser', { user: data })
+        // // Update the user.
+        // await this.$store.dispatch('auth/updateUser', { user: data })
 
-        // Redirect home.
-        this.$router.push({ name: 'user_profile' })
+        // // Redirect home.
+        // this.$router.push({ name: 'user_profile' })
       // }
     },
     handleTogglePassword(){

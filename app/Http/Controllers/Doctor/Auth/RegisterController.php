@@ -49,6 +49,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
         $this->service = $service;
         $this->profileService = $profileService;
+
     }
 
     /**
@@ -75,25 +76,27 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-         $data = $request->all();
-         $user = User::where('email', $data['email'])
-             ->where('is_active', 0)
-             ->first();
+        //  $data = $request->all();
+        //  $user = User::where('email', $data['email'])
+        //      ->where('is_active', 0)
+        //      ->first();
 
-         if (isset($user)) {
-             $user->delete();
-         }
+        //  if (isset($user)) {
+        //      $user->delete();
+        //  }
 
-         $user = $this->create($request->all());
+        //  $user = $this->create($request->all());
          return response()->json([
              'status' => 1,
              'message' => '',
-             'data' => $user
+            //  'data' => $user
+             'data' => null
          ]);
     }
 
     public function complete()
     {
+        exit("OK3");
         return view('user.register.complete_email');
     }
 }
