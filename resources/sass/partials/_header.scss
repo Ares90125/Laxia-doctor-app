@@ -238,3 +238,72 @@ select {
 input[type="password"].form-control.is-invalid {
     background-image: unset;
 }
+
+.select2-con {
+    padding: 2px;
+    width: calc(100% - 4px);
+
+    .select2-container--default {
+
+        .select2-selection--single {
+            border: 1px solid #C9D6DF;
+            border-radius: 5px;
+            height: 52px;
+
+            .select2-selection__arrow {
+                top: 12px;
+                right: 15px;
+
+                b {
+                    border-width: 10px 6px 0 6px;
+                    border-color: #8C9FAB transparent transparent transparent;
+                }
+            }
+
+            .select2-selection__rendered {
+                height: 100%;
+                font-size: 18px;
+                padding: 10px 15px;
+            }
+        }
+
+        &.select2-container--open {
+
+            .select2-selection--single {
+                border: 1px solid #5CA3F6;
+                box-shadow: 0px 0px 8px rgba(92, 163, 246, 0.4);
+                
+                .select2-selection__arrow {
+                    
+                    b {
+                        border-width: 0 6px 10px 6px;
+                        border-color: transparent transparent #8C9FAB transparent;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.select2-container--default {
+
+    .select2-search--dropdown {
+    
+        input.select2-search__field {
+            border-radius: 0;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: 2px solid #5CA3F6;
+            background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0833 17.4167C14.1334 17.4167 17.4167 14.1334 17.4167 10.0833C17.4167 6.03325 14.1334 2.75 10.0833 2.75C6.03325 2.75 2.75 6.03325 2.75 10.0833C2.75 14.1334 6.03325 17.4167 10.0833 17.4167Z' stroke='%235CA3F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M19.25 19.2502L15.2625 15.2627' stroke='%235CA3F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+            background-repeat: no-repeat;
+            background-position: left;
+            padding-left: 25px;
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+}

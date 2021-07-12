@@ -125,9 +125,26 @@
 
             <div class="row profile-item">
               <label for="clinic_id" class="caseinfo-title">所属クリニック</label>
-              <select id="clinic_id" :class="{ 'fulled-status' : form.user.job_id ? 'fulled-input': '' }" class="form-control" >
+              <!-- <select id="clinic_id" :class="{ 'fulled-status' : form.user.job_id ? 'fulled-input': '' }" class="form-control" >
                 <option>湘南美容クリニック 新宿院</option>
-              </select>
+              </select> -->
+              <Select2 
+                v-model="myValue" 
+                :options="myOptions" 
+                :settings="{
+                  'minimumInputLength': 1,
+                  'placeholder': '所属クリニックを検索',
+                  'language': {
+                    'noResults': function () {
+                      return '一致する結果は見つかりませんでした。再度検索してください。';
+                    },
+                    'inputTooShort': function () {
+                      return '';
+                    }
+                  }
+                }" 
+                @change="myChangeEvent($event)" @select="mySelectEvent($event)"
+                class="clinic-selecter select2-con" />
             </div>
 
             <div class="row profile-item">
@@ -206,14 +223,18 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+
 import vueCustomScrollbar from 'vue-custom-scrollbar'
 import "vue-custom-scrollbar/dist/vueScrollbar.css"
+
+import Select2 from 'v-select2-component';
 
 export default {
   middleware: 'auth',
 
   components: {
-    vueCustomScrollbar
+    vueCustomScrollbar,
+    Select2
   },
 
   mounted () {
@@ -241,7 +262,13 @@ export default {
         suppressScrollY: false,
         suppressScrollX: true,
         wheelPropagation: false
-      }
+      },
+      myValue: '',
+      myOptions: [
+        '湘南美容クリニック 新宿院1',
+        '湘南美容クリニック 新宿院2',
+        '湘南美容クリニック 新宿院3'
+      ]
     }
   },
 
@@ -353,10 +380,15 @@ export default {
           }
         })
     },
-
     scrollHanle(evt) {
       // console.log(evt)
     },
+    myChangeEvent(val){
+        console.log(val);
+    },
+    mySelectEvent({id, text}){
+        console.log({id, text})
+    }
   }
 }
 </script>
