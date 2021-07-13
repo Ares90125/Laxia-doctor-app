@@ -133,7 +133,8 @@
                 :options="myOptions" 
                 :settings="{
                   'minimumInputLength': 1,
-                  'placeholder': '所属クリニックを検索',
+                  'placeholder': '',
+                  'searchInputPlaceholder': 'My custom placeholder...',
                   'language': {
                     'noResults': function () {
                       return '一致する結果は見つかりませんでした。再度検索してください。';
@@ -141,9 +142,15 @@
                     'inputTooShort': function () {
                       return '';
                     }
+                  },
+                  'templateResult' : formatOutput,
+                  'escapeMarkup': function(m) {
+                      return m;
                   }
                 }" 
-                @change="myChangeEvent($event)" @select="mySelectEvent($event)"
+                @change="myChangeEvent($event)"
+                @select="mySelectEvent($event)"
+                @open="mySelectOpenEvent($event)"
                 class="clinic-selecter select2-con" />
             </div>
 
@@ -238,7 +245,7 @@ export default {
   },
 
   mounted () {
-    this.getData()
+    this.getData();
   },
 
   computed:{
@@ -388,6 +395,29 @@ export default {
     },
     mySelectEvent({id, text}){
         console.log({id, text})
+    },
+    mySelectOpenEvent(data) {
+      document.querySelector('input.select2-search__field').setAttribute('placeholder', '所属クリニックを検索');
+    },
+    formatOutput(optionElement) {
+      let input_obj = document.querySelector('input.select2-search__field');
+      let result = optionElement.text;
+
+      if(!input_obj) return result;
+
+      let typed = input_obj.value;
+      let typed_len = typed.length;
+
+      let pos = result.search(typed);
+
+      if(pos < 0) return result;
+
+      let pos_1 = pos + typed_len;
+      let len_1 = result.length - pos + typed_len;
+
+      let t_result = result.substr(0, pos) + '<b>' + typed + '</b>' + result.substr(pos_1, len_1);
+
+      return t_result; 
     }
   }
 }
