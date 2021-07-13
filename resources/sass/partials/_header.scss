@@ -277,7 +277,7 @@ input[type="password"].form-control.is-invalid {
                     
                     b {
                         border-width: 0 6px 10px 6px;
-                        border-color: transparent transparent #8C9FAB transparent;
+                        border-color: transparent transparent #5CA3F6 transparent;
                     }
                 }
             }
@@ -313,5 +313,8 @@ input[type="password"].form-control.is-invalid {
                 }
             }
         }
+    }
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: #F0F0F0 !important;
     }
 }
