@@ -25,7 +25,7 @@
         <div class="row mt-4">
           <div class="col-12">
             <p>
-              <b>xxx@example.com</b>にメールを送信しましたので、<br/>
+              <b>{{form.email}}</b>にメールを送信しましたので、<br/>
               新しいパスワードを設定してください。<br/>
               メールが届かない場合は、入力したアドレスに間違いがあるか、登録したメールアドレスが違う可能性があります。
             </p>
@@ -64,12 +64,11 @@ export default {
     },
     
     async send () {
-      const { data } = await this.form.post('/api/user/password/email');
-      console.log('data=>', data);
-      // this.status = data.status
-      // this.form.reset()
+      // const { data } = await this.form.post('/api/user/password/email');
+      // console.log('data=>', data);
 
-      if(data.send_flag == 'successed') this.isSendingEmail = false;
+      // if(data.send_flag == 'successed') this.isSendingEmail = false;
+      this.isSendingEmail = false;
     }
   }
 
