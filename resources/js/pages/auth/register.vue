@@ -73,24 +73,24 @@ export default {
       const { data } = await this.form.post('/api/doctor/register')
 
       // Must verify email fist.
-      // if (data.status) {
-      //   console.log(data.status)
-      //
-      //   this.mustVerifyEmail = true
-      // } else {
+      if (data.status) {
         console.log(data.status)
-        // // Log in the user.
-        // const { data: { token } } = await this.form.post('/api/doctor/login')
+      
+        this.mustVerifyEmail = true
+      } else {
+        console.log(data.status)
+        // Log in the user.
+        const { data: { token } } = await this.form.post('/api/doctor/login')
 
-        // // Save the token.
-        // this.$store.dispatch('auth/saveToken', { token })
+        // Save the token.
+        this.$store.dispatch('auth/saveToken', { token })
 
-        // // Update the user.
-        // await this.$store.dispatch('auth/updateUser', { user: data })
+        // Update the user.
+        await this.$store.dispatch('auth/updateUser', { user: data })
 
-        // // Redirect home.
-        // this.$router.push({ name: 'user_profile' })
-      // }
+        // Redirect home.
+        this.$router.push({ name: 'user_profile' })
+      }
     },
     handleTogglePassword(){
       const password = document.querySelector('#password');

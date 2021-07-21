@@ -18,6 +18,7 @@ use App\Enums\User\Type as UserType;
 use App\Models\User;
 use App\Jobs\UserVerifyEmailJob;
 // use App\Mail\User\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class RegisterController extends Controller
 {
@@ -53,6 +54,43 @@ class RegisterController extends Controller
     }
 
     /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function registered(Request $request, User $user)
+    {
+        if ($user instanceof MustVerifyEmail) {
+            return response()->json(['status' => trans('verification.sent')]);
+        }
+
+        return response()->json($user);
+    }
+
+    
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+//            'name' => 'required|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6',
+        ],
+        [
+            'email.required' => '正しいメールアドレスを入力してください',
+            'password.required' => '6文字以上で入力してください',
+            'password.min' => '6文字以上で入力してください'
+        ]);
+    }
+
+    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
@@ -60,43 +98,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-//            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => UserType::DOCTOR,
-            'is_active' => 1
-            // 'confirmation_code' => sha1(time()),
-        ]);
-    }
+        \DB::beginTransaction();
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function register(RegisterRequest $request)
-    {
-        //  $data = $request->all();
-        //  $user = User::where('email', $data['email'])
-        //      ->where('is_active', 0)
-        //      ->first();
+        try {
+            $user = User::create([
+//                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'role' =>  UserType::DOCTOR,
+                'is_active' => 1
+            ]);
 
-        //  if (isset($user)) {
-        //      $user->delete();
-        //  }
+            \DB::commit();
+        } catch (\Throwable $e) {
+            \DB::rollBack();
+            \Log::error($e->getMessage());
 
-        //  $user = $this->create($request->all());
-         return response()->json([
-             'status' => 1,
-             'message' => '',
-            //  'data' => $user
-             'data' => null
-         ]);
-    }
-
-    public function complete()
-    {
-        exit("OK3");
-        return view('user.register.complete_email');
+            return back()
+                ->with(['system.message.danger' => __('lang.delete.failed', ['name' => __('lang.agent')])]);
+        }
+        return $user;
     }
 }
