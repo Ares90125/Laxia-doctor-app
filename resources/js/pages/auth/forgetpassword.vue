@@ -62,6 +62,7 @@ export default {
     reSendEmail(){
       this.isSendingEmail = true;
     },
+    
     async send () {
       const { data } = await this.form.post('/api/user/password/email');
       console.log('data=>', data);

@@ -150,6 +150,7 @@ return [
     'attributes' => [
         'email' => 'メールアカウント',
         'password' => 'パスワード',
+        'repassword' => 'パスワード確認',
         'doctor.name' => 'ドクター',
         'name' => 'クリニック名',
         'patients.unique_id' => 'ユーザーID',

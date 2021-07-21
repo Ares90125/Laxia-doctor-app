@@ -2,14 +2,14 @@
   <div class="bg-gray auth-wrapper">
     <div class="auth--wrapper">
       <div class="auth-form">
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
+        <form @submit.prevent="reset" @keydown="form.onKeydown($event)">
           <h2 class="auth-title reset-password-title">新しいパスワードを設定してください</h2>
 
           <!-- Password -->
           <div class="form-group pass-form-grp">
             <label class="col-form-label text-md-right">{{ $t('新しいパスワード') }}</label>
             <div class="pass-input-con">
-              <input v-model="form.password" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password'), 'fulled-status' : form.password ? 'fulled-input': '' }" class="custom-pw-form-control form-control" type="password" name="password" id="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
+              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password'), 'fulled-status' : form.password ? 'fulled-input': '' }" class="custom-pw-form-control form-control" type="password" name="password" id="password" v-bind:placeholder="$t('6文字以上で入力してください')" />
               <span class="pass-input-con-mark" @click="handleTogglePassword">
                 <svg v-if="passwordFlag" width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.5953 8.0002C15.5953 9.90801 13.9828 11.4502 11.9906 11.4502C9.99844 11.4502 8.39062 9.90332 8.39062 8.0002C8.39062 6.09238 10.0031 4.5502 11.9953 4.5502C13.9875 4.5502 15.5953 6.09238 15.5953 8.0002ZM12 0.80957C9.9375 0.818945 7.80469 1.32051 5.77969 2.28145C4.27969 3.02207 2.81719 4.07207 1.54688 5.36582C0.923437 6.02676 0.126563 6.97832 0 8.0002C0.0140625 8.88145 0.960938 9.97363 1.54688 10.6346C2.7375 11.8768 4.1625 12.8939 5.77969 13.7189C7.66406 14.633 9.75 15.1627 12 15.1908C14.0625 15.1814 16.2 14.6752 18.2156 13.7189C19.7156 12.9783 21.1828 11.9283 22.4484 10.6346C23.0719 9.97363 23.8687 9.01738 23.9953 8.0002C23.9812 7.11895 23.0344 6.02676 22.4484 5.36582C21.2578 4.12363 19.8328 3.10645 18.2156 2.28145C16.3313 1.36738 14.2406 0.842383 12 0.80957ZM12 2.59551C15.1219 2.59551 17.6531 5.01426 17.6531 8.0002C17.6531 10.9861 15.1219 13.4049 12 13.4049C8.87813 13.4049 6.34687 10.9861 6.34687 8.0002C6.34687 5.01426 8.87813 2.59551 12 2.59551Z" fill="#131340"/>
@@ -30,7 +30,7 @@
           <div class="form-group pass-form-grp">
             <label class="col-form-label text-md-right">{{ $t('再入力してください') }}</label>
             <div class="pass-input-con">
-              <input v-model="form.password_confirm" :class="{ 'custom-pw-is-invalid-invalid': form.errors.has('password'), 'fulled-status' : form.password_confirm ? 'fulled-input': '' }" class="custom-pw-form-control form-control" type="password" name="password_confirm" id="password_confirm" v-bind:placeholder="$t('6文字以上で入力してください')" />
+              <input v-model="form.repassword" :class="{ 'is-invalid': form.errors.has('repassword'), 'fulled-status' : form.repassword ? 'fulled-input': '' }" class="custom-pw-form-control form-control" type="password" name="repassword" id="repassword" v-bind:placeholder="$t('6文字以上で入力してください')" />
               <span class="pass-input-con-mark" @click="handleTogglePasswordConfirm">
                 <svg v-if="passwordConfirmFlag" width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.5953 8.0002C15.5953 9.90801 13.9828 11.4502 11.9906 11.4502C9.99844 11.4502 8.39062 9.90332 8.39062 8.0002C8.39062 6.09238 10.0031 4.5502 11.9953 4.5502C13.9875 4.5502 15.5953 6.09238 15.5953 8.0002ZM12 0.80957C9.9375 0.818945 7.80469 1.32051 5.77969 2.28145C4.27969 3.02207 2.81719 4.07207 1.54688 5.36582C0.923437 6.02676 0.126563 6.97832 0 8.0002C0.0140625 8.88145 0.960938 9.97363 1.54688 10.6346C2.7375 11.8768 4.1625 12.8939 5.77969 13.7189C7.66406 14.633 9.75 15.1627 12 15.1908C14.0625 15.1814 16.2 14.6752 18.2156 13.7189C19.7156 12.9783 21.1828 11.9283 22.4484 10.6346C23.0719 9.97363 23.8687 9.01738 23.9953 8.0002C23.9812 7.11895 23.0344 6.02676 22.4484 5.36582C21.2578 4.12363 19.8328 3.10645 18.2156 2.28145C16.3313 1.36738 14.2406 0.842383 12 0.80957ZM12 2.59551C15.1219 2.59551 17.6531 5.01426 17.6531 8.0002C17.6531 10.9861 15.1219 13.4049 12 13.4049C8.87813 13.4049 6.34687 10.9861 6.34687 8.0002C6.34687 5.01426 8.87813 2.59551 12 2.59551Z" fill="#131340"/>
@@ -43,9 +43,12 @@
                   </g>
                 </svg>
               </span>
-              <has-error :form="form" field="password_confirm" />
+              <has-error :form="form" field="repassword" />
             </div>
           </div>
+
+          <input v-model="form.email" type="hidden" name="email">
+          <input v-model="form.token" type="hidden" name="token">
 
           <div class="auth-btn--wrapper">
             <v-button :loading="form.busy">{{ $t('パスワードを変更') }}</v-button>
@@ -79,37 +82,34 @@ export default {
   data: () => ({
     form: new Form({
       password: '',
-      password_confirm: ''
+      repassword : '',
+      email : '',
+      token : '',
     }),
     remember: false,
     passwordFlag: true,
     passwordConfirmFlag: true
   }),
 
+  mounted(){
+    this.form.token=this.$route.params.token;
+    this.form.email=this.$route.query.email;
+  },
+
   methods: {
-    // async login () {
-    login () {
-    //   // Submit the form.
-    //   const { data } = await this.form.post('/api/doctor/login')
+    async reset () {
+      try{
+        const { data } = await this.form.post('/api/user/password/reset')
+        console.log(data);
 
-    //   // Save the token.
-    //   this.$store.dispatch('auth/saveToken', {
-    //     token: data.token,
-    //     remember: this.remember
-    //   })
-
-    //   // Fetch the user.
-    //   await this.$store.dispatch('auth/fetchUser')
-
-    //   // Redirect home.
-    //   this.$router.push({ name: 'user_profile' })
-        console.log('test');
-        this.modalInfo = {
-            title: 'プロフィールを作成する',
-            confirmBtnTitle: '検索'
+        if(data.reset_flag == 'successed') this.$refs.modal.show();
+      } catch(e) {
+        if(e.response.status === 400) {
+          alert(e.response.data.email);
+        } else if(e.response.status !== 422) {
+          alert('操作が失敗しました。');
         }
-        
-        this.$refs.modal.show();
+      }
     },
     handleTogglePassword(){
       const password = document.querySelector('#password');
@@ -119,7 +119,7 @@ export default {
       this.passwordFlag = !this.passwordFlag;
     },
     handleTogglePasswordConfirm(){
-      const password = document.querySelector('#password_confirm');
+      const password = document.querySelector('#repassword');
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
 
       password.setAttribute('type', type);
