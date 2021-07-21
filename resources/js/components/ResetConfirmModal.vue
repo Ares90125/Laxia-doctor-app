@@ -9,7 +9,9 @@
 				下のボタンからログイン画面に移動してログインしてください。
 			</div>
 			<div class="reset-confirm-modal-footer">
-				<a herf="#" class="btn btn-primary">ログイン画面からログインする</a>
+				<router-link :to="{ name: 'login' }" class="btn btn-primary">
+					ログイン画面からログインする
+				</router-link>
 			</div>
 		</div>
 	</div>
