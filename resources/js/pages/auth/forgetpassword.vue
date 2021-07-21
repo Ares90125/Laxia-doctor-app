@@ -1,23 +1,23 @@
 <template>
   <div class="bg-gray auth-wrapper">
     <div class="auth--wrapper">
-      <div v-if="isSendingEmail" class="forgetpw-form ">
-        <h2 class="auth-title">パスワードをリセット</h2>
+      <div v-if="isSendingEmail" class="forgetpw-form">
+        <form @submit.prevent="send" @keydown="form.onKeydown($event)">
+          <h2 class="auth-title">パスワードをリセット</h2>
 
-        <div class="row">
-          <div class="col-12">
-            <p class="forget-desc">登録したメールアドレスを入力してください。</p>
+          <p class="forget-desc">登録したメールアドレスを入力してください。</p>
+          <!-- Email -->
+          <div class="form-group">
+            <label for="emailform" class="col-form-label caseinfo-title">{{ $t('メールアドレス') }}</label>
+            <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" id="emailform" placeholder="例：XXX@example.com">
+            <has-error :form="form" field="email" />
           </div>
-        </div>
-        <!-- Email -->
-        <div class="form-group">
-          <label for="emailform" class="col-form-label caseinfo-title">{{ $t('メールアドレス') }}</label>
-          <input v-model="form.email" :class="{ 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" id="emailform" placeholder="例：XXX@example.com">
-        </div>
 
-        <div class="row justify-content-center">
-          <button class="btn btn-primary btn-sm"  @click="handleSendEmail">メールアドレスを変更</button>
-        </div>
+          <div class="row justify-content-center">
+            <!-- <button class="btn btn-primary btn-sm"  @click="handleSendEmail">メールアドレスを変更</button> -->
+            <v-button :loading="form.busy">{{ $t('パスワードリセットのメールを送信') }}</v-button>
+          </div>
+        </form>
       </div>
 
       <div v-if="!isSendingEmail" class="forgetpw-form confirm-form">
@@ -32,9 +32,9 @@
           </div>
         </div>
         <div class="auth-btn--wrapper d-flex justify-content-center">
-          <button class="btn btn-sm non-bootstrap-btn"  @click="handleSendEmail">もう一度試してみる</button>
-          <router-link :to="{ name: 'resetpassword' }" class="btn btn-primary btn-sm">
-            もう一度試してみる
+          <button class="btn btn-sm non-bootstrap-btn"  @click="reSendEmail">もう一度試してみる</button>
+          <router-link :to="{ name: 'login' }" class="btn btn-primary btn-sm">
+            ログイン画面に戻る
           </router-link>
         </div>
       </div>
@@ -44,26 +44,31 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapGetters } from 'vuex'
+import Form from 'vform'
 
 export default {
   layout: 'basic',
 
   data() {
     return {
-      form: {
-        email:'',
-      },
-
+      form: new Form({
+        email: ''
+      }),
       isSendingEmail: true,
-
     }
   },
 
   methods: {
-    handleSendEmail(){
+    reSendEmail(){
+      this.isSendingEmail = true;
+    },
+    async send () {
+      const { data } = await this.form.post('/api/user/password/email');
+      console.log('data=>', data);
+      // this.status = data.status
+      // this.form.reset()
 
+      if(data.send_flag == 'successed') this.isSendingEmail = false;
     }
   }
 

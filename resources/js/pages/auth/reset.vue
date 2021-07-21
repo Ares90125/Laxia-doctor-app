@@ -3,7 +3,7 @@
     <div class="auth--wrapper">
       <div class="auth-form">
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-          <h2 class="auth-title">新しいパスワードを設定してください</h2>
+          <h2 class="auth-title reset-password-title">新しいパスワードを設定してください</h2>
 
           <!-- Password -->
           <div class="form-group pass-form-grp">

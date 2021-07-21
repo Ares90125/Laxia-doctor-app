@@ -29,7 +29,7 @@ class ForgotPasswordController extends Controller
      */
     protected function sendResetLinkResponse(Request $request, $response)
     {
-        return ['status' => trans($response)];
+        return ['status' => trans($response), 'send_flag' => 'successed'];
     }
 
     /**

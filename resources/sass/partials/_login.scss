@@ -13,13 +13,18 @@
         display: flex;
 
         .auth-form {
-            max-width: unset;
+            max-width: 400px;
             padding: 0;
 
             .auth-title {
                 font-size: 24px;
                 font-weight: bold;
                 margin-bottom: 45px;
+
+                &.reset-password-title {
+                    margin-left: -25px;
+                    margin-right: -25px;
+                }
             }
 
             .form-group {
@@ -64,7 +69,7 @@
 
         .forgetpw-form {
             margin: auto;
-            max-width: 415px;
+            max-width: 400px;
 
             .auth-title {
                 font-size: 24px;
@@ -79,6 +84,7 @@
 
             .forget-desc {
                 font-size: 18px;
+                white-space: nowrap;
             }
 
             .caseinfo-title {
@@ -107,6 +113,8 @@
 
                 .auth-btn--wrapper {
                     margin-top: 65px;
+                    margin-left: -15px;
+                    margin-right: -15px;
 
                     .non-bootstrap-btn {
                         margin-right: 20px;

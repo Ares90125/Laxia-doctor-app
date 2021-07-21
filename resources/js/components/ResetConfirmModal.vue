@@ -74,8 +74,10 @@ export default {
 		position: relative;
 		background-color: #fff;
 		top: calc(50vh - 202px);
-		width: 800px;
-		height: 404px;
+		max-width: 800px;
+		max-height: 404px;
+		width: 100%;
+		height: 100%;
 		z-index: 10;
 		background-color: #fff;
 		border-radius: 20px;
