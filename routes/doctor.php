@@ -50,4 +50,6 @@ Route::group(['middleware' => ['auth.doctor']], function() {
   Route::get('cases/doctor/{id}', 'DoctorCaseController@getDoctorCases');
   Route::get('cases/{id}', 'DoctorCaseController@getDetail');
   Route::put('cases/{id}', 'DoctorCaseController@update');
+
+  Route::get('clinics', 'ClinicController@get');
 });

@@ -23,6 +23,7 @@ class Doctor extends Model
    */
   protected $fillable = [
     'doctor_id',
+    'clinic_id',
     'kata_name',
     'hira_name',
     'gender',
@@ -86,6 +87,10 @@ class Doctor extends Model
   public function images()
   {
     return $this->morphMany(Attachment::class, 'attachable');
+  }
+
+  public function clinics() {
+    return $this->belongsTo(Clinic::class, 'clinic_id');
   }
 
   public function job()

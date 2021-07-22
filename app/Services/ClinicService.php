@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Http\Controllers\Clinic\ClinicController;
 use Illuminate\Support\Arr;
 use App\Models\Clinic;
 use App\Models\Attachment;
@@ -96,5 +97,9 @@ class ClinicService
       ])
       ->where('user_id', $id)
       ->firstOrFail();
+  }
+
+  public function getAllList() {
+    return Clinic::get();
   }
 }

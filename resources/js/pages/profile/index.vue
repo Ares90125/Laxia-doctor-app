@@ -47,7 +47,7 @@
           </div>
           <div class="profile-item">
             <label>所属クリニック</label>
-            <div class="profile-item--value">湘南美容クリニック 新宿院</div>
+            <div class="profile-item--value">{{ user.clinics ? user.clinics.name : '' }}</div>
           </div>
         </div>
         <div class="profile-con--right-con">
@@ -61,7 +61,7 @@
           </div>
           <div class="profile-item">
             <label>紐づいているクリニック</label>
-            <div class="profile-item--value">湘南美容クリニック 新宿院</div>
+            <div class="profile-item--value">{{ user.clinics ? user.clinics.name : '' }}</div>
           </div>
         </div>
       </div>
@@ -129,12 +129,12 @@
                 <option>湘南美容クリニック 新宿院</option>
               </select> -->
               <Select2 
-                v-model="myValue" 
-                :options="myOptions" 
+                v-model="form.user.clinic_id" 
+                :options="clinics" 
                 :settings="{
                   'minimumInputLength': 1,
                   'placeholder': '',
-                  'searchInputPlaceholder': 'My custom placeholder...',
+                  'searchInputPlaceholder': '',
                   'language': {
                     'noResults': function () {
                       return '一致する結果は見つかりませんでした。再度検索してください。';
@@ -270,28 +270,24 @@ export default {
         suppressScrollX: true,
         wheelPropagation: false
       },
-      myValue: '',
-      myOptions: [
-        '湘南美容クリニック 新宿院1',
-        '湘南美容クリニック 新宿院2',
-        '湘南美容クリニック 新宿院3'
-      ]
+      clinics: []
     }
   },
 
   methods: {
-
     //get user data from api
     getData() {
       this.$store.dispatch('state/setIsLoading')
-      axios.get(`/api/doctor/profile`)
-        .then(res => {
-          this.$store.dispatch('state/removeIsLoading');
-          this.user = res.data.data;
-        })
-        .catch(error => {
-          this.$store.dispatch('state/removeIsLoading')
-        })
+
+      return Promise.all([
+        axios.get(`/api/doctor/profile`),
+        axios.get(`/api/doctor/clinics`)
+      ]).then(([res1, res2]) => {
+        this.user = res1.data.data;
+        this.clinics = res2.data;
+      }).finally(() => {
+        this.$store.dispatch('state/removeIsLoading')
+      });
     },
 
     handleEditProfile() {
