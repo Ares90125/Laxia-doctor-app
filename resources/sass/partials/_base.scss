@@ -1872,7 +1872,7 @@ select.is-invalid {
 .dropzone-wrapper .dropzone-in > div div {
 	margin-bottom: 12px;
 }
-.sinlge-file-uploader {
+.sinlge-file-uploader, .multi-files-uploader {
 	&.vue-dropzone {
 		border: none;
 		padding: 0;

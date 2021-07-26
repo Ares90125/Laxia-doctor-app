@@ -17,15 +17,35 @@ use Throwable;
  */
 class DoctorCaseService
 {
-  public function paginate($params, $commentable)
-  {
-    $per_page = $params['per_page'] ?? 50;
+  // public function paginate($params, $commentable)
+  // {
+  //   $per_page = $params['per_page'] ?? 50;
 
-    return $commentable->comments()
-      ->with('allChildren')
-      ->whereNull('parent_id')
-      ->orderBy('created_at', 'DESC')
-      ->paginate($per_page);
+  //   return $commentable->comments()
+  //     ->with('allChildren')
+  //     ->whereNull('parent_id')
+  //     ->orderBy('created_at', 'DESC')
+  //     ->paginate($per_page);
+  // }
+
+  public function paginate($search) {
+      $per_page = isset($search['per_page']) ? $search['per_page'] : 20;
+      $query = DoctorCases::query()
+        ->with([]);
+
+      if (isset($search['doctor_id'])) {
+        $query->where('doctor_id', $search['doctor_id']);
+      }
+
+      if (isset($search['category_id']) && $search['category_id'] != '-1') {
+        $query->join('doctor_case_category_relation as dccr', 'doctor_cases.id', '=', 'dccr.case_id')
+              ->where('dccr.category_id', $search['category_id']);
+      }
+      
+      $query->orderby('created_at', 'desc');
+      $query->select('doctor_cases.*');
+
+      return $query->paginate($per_page);
   }
 
   public function store($attributes, $doctor_id)
@@ -176,7 +196,7 @@ class DoctorCaseService
 
       if (isset($category['delete'])) {
         for ($i = 0; $i < count($category['delete']); $i++) {
-          DoctorCaseCategoryRelation::where('id', $category['delete'][$i])
+          DoctorCaseCategoryRelation::where('category_id', $category['delete'][$i])
             ->where('case_id', $id)
             ->delete();
         }

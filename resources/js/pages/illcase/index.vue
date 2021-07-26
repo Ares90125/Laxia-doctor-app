@@ -2,9 +2,9 @@
   <div class="main-in illcase-main-in">
     <div class="staff-header">
       <p>
-        <select v-model="staff" :class="{ 'fulled-status' : staff ? 'fulled-input': '' }" class="staff-sort form-control">
-          <option value="-1">{{ $t('部位でソート') }}</option>
-          <option v-for="(name, id) in specialities" :key="id" :value="id">{{ name }}</option>
+        <select v-model="staff" :class="{ 'fulled-status' : staff ? 'fulled-input': '' }" class="staff-sort form-control" @change="handleCategoryChange">
+          <option value="-1">{{ $t('施術で絞り込む') }}</option>
+          <option v-for="item in search_categories" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
       </p>
       <p>
@@ -17,8 +17,8 @@
         <div v-for="(item, index) in caseList" :key="index" class="case-one">
           <div class="case-one-in" @click="handleShowCase(item.id)">
             <div class="case-img">
-              <p class="before"><img :src="item.before[0].photo || '/img/menu-img.png'"></p>
-              <p class="after"><img :src="item.after[0].photo || '/img/menu-img.png'"></p>
+              <p class="before"><img :src=" item.before.length > 0 ? item.before[0].photo : '/img/menu-img.png' "></p>
+              <p class="after"><img :src=" item.after.length > 0 ? item.after[0].photo : '/img/menu-img.png'"></p>
             </div>
             <div class="case-info">
               <p class="case-cat empty-cat" v-if="item.category.length === 0"></p>
@@ -32,7 +32,7 @@
                   <path d="M9.62913 9.02881H3.37012V9.74796H9.62913V9.02881Z" fill="#8D909E"/>
                   <path d="M9.62929 11.5469H6.5V12.2665H9.62929V11.5469Z" fill="#8D909E"/>
                 </svg>
-                <span>{{ item.majordoctorCommentShort }}</span>
+                <span>{{ item.majordoctorComment }}</span>
               </p>
             </div>
           </div>
@@ -52,7 +52,8 @@
       :title="modalInfo.title"
       @cancel="handleModalClose"
     >
-      <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle">
+      <!-- <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle"> -->
+      <div class="scroll-modal-body">
         <div v-if="isEditing"  class="modal-container">
           <div class="row">
             <div class="col-12">
@@ -69,16 +70,19 @@
               <p class="caseinfo-title t-c">Before画像</p>
               <div class="file-upload-con">
                 <file-upload
-                  ref="beforeImageUploadComponent"
-                  uploadUrl="/api/doctor/cases/uploadPhoto"
-                  :photo="beforePhoto"
-                  @file-upload-success="handlebeforeImageSaved"
-                  @file-removed="hanleFileRemove"
-                  @file-added="handleFileAdded"
+                  ref="beforeFileUploadComponent"
+                  uploadUrl="/api/doctor/cases/before/photoupload"
+                  :maxFiles="10"
+                  :autoStatus="true"
+                  name="menu-images"
+                  @file-upload-success="handleBeforeMultiFileSaved"
+                  @file-removed="hanleBeforeMultiFileRemove"
+                  @file-added="handleBeforeMultiFileAdded"
+                  @queue-complete="handleBeforeMultiFilesQueueComplete"
                 />
               </div>
               <div class="file-upload-btn-con">
-                <button class="btn btn-sm non-bootstrap-btn d-flex"  @click="handleUploadBeforeImage">
+                <button class="btn btn-sm non-bootstrap-btn d-flex" @click="handleUploadBeforeImage">
                   <p class="">
                     <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
@@ -92,12 +96,15 @@
               <p class="caseinfo-title t-c">After画像</p>
               <div class="file-upload-con">
                 <file-upload
-                  ref="afterImageUploadComponent"
-                  uploadUrl="/api/doctor/cases/uploadPhoto"
-                  :photo="afterPhoto"
-                  @file-upload-success="handleafterImageSaved"
-                  @file-removed="hanleFileRemove"
-                  @file-added="handleFileAdded"
+                  ref="afterFileUploadComponent"
+                  uploadUrl="/api/doctor/cases/after/photoupload"
+                  :maxFiles="10"
+                  :autoStatus="true"
+                  name="menu-images"
+                  @file-upload-success="handleAfterMultiFileSaved"
+                  @file-removed="hanleAfterMultiFileRemove"
+                  @file-added="handleAfterMultiFileAdded"
+                  @queue-complete="handleAfterMultiFilesQueueComplete"
                 />
               </div>
               <div class="file-upload-btn-con">
@@ -167,7 +174,7 @@
             <div class="col-12">
               <label for="category_1" class="caseinfo-title">カテゴリー</label>
               <multiselect
-                class=""
+                class="m-multiselect"
                 :class="{'is-invalid' : errors && errors['category'] }"
                 id="category_1"
                 v-model="form.cases.category"
@@ -184,8 +191,22 @@
                 selectedLabel="選択済み"
                 deselectLabel="削除"
                 deselectGroupLabel="削除"
+                @select="handleCateChange"
               ></multiselect>
               <div v-if="errors && errors['category']" class="error invalid-feedback">{{ errors['category'][0] }}</div>
+              <div class="view-cate-panel mt-2">
+                <template v-for="(item, idx) in selected_categories" :value="id">
+                  <p :key="idx">
+                    {{item.group}} / {{item.name}}
+                    <span class="remove-cat" @click="removeCategory(idx)">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 1L1 9" stroke="#5CA3F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1 1L9 9" stroke="#5CA3F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </p>
+                </template>
+              </div>
             </div>
           </div>
 
@@ -242,7 +263,8 @@
             </div>
           </div>
         </div>
-      </vue-custom-scrollbar>
+      </div>
+      <!-- </vue-custom-scrollbar> -->
       <template v-slot:footer>
         <div class="row btn-row">
           <div class="col-12 d-flex justify-content-center">
@@ -259,7 +281,8 @@
       :title="modalInfo.title"
       @cancel="handleillcaseInfoClose"
     >
-      <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle">
+      <!-- <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle"> -->
+      <div class="scroll-modal-body">
         <div v-if="isIllcaseInfo" class="modal-container">
           <div class="row">
             <div class="col-12">
@@ -300,7 +323,18 @@
               <p class="caseinfo-content">{{item.name}}</p>
             </div>
             <div class="col-4">
-              <p class="caseinfo-content">{{item.cost}}</p>
+              <p class="caseinfo-content">{{formatPrice(item.cost)}}</p>
+            </div>
+          </div>
+
+          <div class="row year-row">
+            <div class="col-12">
+              <p class="caseinfo-title">カテゴリー</p>
+              <div class="view-cate-panel">
+                <template v-for="(item, idx) in selected_categories" :value="id">
+                  <p :key="idx">{{item.name}}</p>
+                </template>
+              </div>
             </div>
           </div>
 
@@ -319,21 +353,21 @@
           <div class="row ">
             <div class="col-12">
               <p class="caseinfo-title">施術の解説</p>
-              <p class="caseinfo-content">{{updateForm.cases.operation}}</p>
+              <p class="caseinfo-content m-pre-wrap">{{updateForm.cases.operation}}</p>
             </div>
           </div>
 
           <div class="row ">
             <div class="col-12">
               <p class="caseinfo-title">副作用・リスク</p>
-              <p class="caseinfo-content">{{updateForm.cases.operationRisk}}</p>
+              <p class="caseinfo-content m-pre-wrap">{{updateForm.cases.operationRisk}}</p>
             </div>
           </div>
 
           <div class="row ">
             <div class="col-12">
               <p class="caseinfo-title">担当ドクターからのコメント</p>
-              <p class="caseinfo-content">{{updateForm.cases.majordoctorComment}}</p>
+              <p class="caseinfo-content m-pre-wrap">{{updateForm.cases.majordoctorComment}}</p>
             </div>
           </div>
         </div>
@@ -355,11 +389,12 @@
               <p class="caseinfo-title t-c">Before画像</p>
               <div class="file-upload-con">
                 <file-upload
-                  ref="UpdateBeforeImageUploadComponent"
+                  ref="UpdatebeforeFileUploadComponent"
                   uploadUrl="/api/doctor/cases/uploadPhoto"
                   :photo="beforePhoto"
                   @file-upload-success="handleUpdateBeforeImageSaved"
-
+                  :maxFiles="10"
+                  :autoStatus="true"
                 />
               </div>
               <div class="file-upload-btn-con">
@@ -377,11 +412,12 @@
               <p class="caseinfo-title t-c">After画像</p>
               <div class="file-upload-con">
                 <file-upload
-                  ref="UpdateAfterImageUploadComponent"
+                  ref="UpdateafterFileUploadComponent"
                   uploadUrl="/api/doctor/cases/uploadPhoto"
                   :photo="afterPhoto"
                   @file-upload-success="handleUpdateAfterImageSaved"
-
+                  :maxFiles="10"
+                  :autoStatus="true"
                 />
               </div>
               <div class="file-upload-btn-con">
@@ -451,10 +487,10 @@
             <div class="col-12">
               <label for="category" class="caseinfo-title">カテゴリー</label>
               <multiselect
-                class=""
+                class="m-multiselect"
                 :class="{'is-invalid' : updateErrors && updateErrors['category'] }"
                 id="category"
-                v-model="selected_categories"
+                v-model="updateForm.cases.category"
                 :options="category_options"
                 :multiple="true"
                 group-values="children"
@@ -468,8 +504,22 @@
                 selectedLabel="選択済み"
                 deselectLabel="削除"
                 deselectGroupLabel="削除"
+                @select="handleCateChange"
               ></multiselect>
               <div v-if="updateErrors && updateErrors['category']" class="error invalid-feedback">{{ updateErrors['category'][0] }}</div>
+              <div class="view-cate-panel mt-2">
+                <template v-for="(item, idx) in selected_categories" :value="id">
+                  <p :key="idx">
+                    {{item.group}} / {{item.name}}
+                    <span class="remove-cat" @click="removeUpdateCategory(idx)">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 1L1 9" stroke="#5CA3F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1 1L9 9" stroke="#5CA3F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </p>
+                </template>
+              </div>
             </div>
           </div>
 
@@ -526,7 +576,8 @@
             </div>
           </div>
         </div>
-      </vue-custom-scrollbar>
+      </div>
+      <!-- </vue-custom-scrollbar> -->
 <!--====================================================================================================================update info-->
       <template v-slot:footer>
         <div class="row btn-row" v-if="isIllcaseInfo">
@@ -588,18 +639,16 @@ export default {
           cost:''
         }]
       },
-
       beforePhoto:'',
       afterPhoto:'',
       menuItem:{
         name:'',
         cost:''
       },
-
       menuProperty:[],
-
       tmp: {
-        fileChanged: false,
+        beforeFileChanged: false,
+        afterFileChanged: false,
       },
       query: {
         per_page: 12,
@@ -611,8 +660,7 @@ export default {
       },
       pageInfo: undefined,
       selected_categories: [],
-
-     tempImageForm: {
+      tempImageForm: {
        before_photo : {
          add:[],
          delete: []
@@ -621,10 +669,8 @@ export default {
          add:[],
          delete: []
        }
-     },
-
-      staff: '',
-
+      },
+      staff: -1,
       settings: {
         suppressScrollY: false,
         suppressScrollX: true,
@@ -656,6 +702,21 @@ export default {
         };
       });
     },
+
+    search_categories() {
+      let tc = [];
+      
+      this.categories.map(el => {
+        el.all_children.map(item => {
+          tc.push({
+            id: item.id,
+            name: item.name,
+          });
+        });
+      });
+
+      return tc;
+    },
   },
 
   mounted() {
@@ -665,13 +726,18 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch('state/setIsLoading')
-      let url = '/api/doctor/cases';
-      axios.get(url)
+      const qs = this.$utils.getQueryString(this.query)
+      axios.get(`/api/doctor/cases?${qs}`)
         .then(res => {
+          this.caseList = res.data.cases.data;
+
+          this.pageInfo = {
+            last_page: res.data.cases.last_page,
+          }
           this.$store.dispatch('state/removeIsLoading')
-          this.caseList = res.data.data;
         })
         .catch(error => {
+          console.log(error);
           this.$store.dispatch('state/removeIsLoading')
         })
     },
@@ -693,6 +759,9 @@ export default {
         confirmBtnTitle: '症例を追加する'
       }
       this.isEditing = true
+      this.form.cases.before_photo = [];
+      this.form.cases.after_photo = [];
+      this.selected_categories = [];
       this.$refs.illcaseModal.show();
     },
 
@@ -708,17 +777,22 @@ export default {
         cases: { ...selected }
       }
       this.selected_categories = []
-      this.categories.forEach(item => {
-        item.all_children.forEach(child => {
+      
+      let opt_groud_name = "";
+      this.category_options.forEach(item => {
+        opt_groud_name = item.group_name;
+
+        item.children.forEach(child => {
           if (selected.category.map(item => item.category_id).includes(child.id)) {
             this.selected_categories.push({
               id: child.id,
-              name: child.name
+              name: child.name,
+              group: opt_groud_name
             })
           }
         })
       })
-      // this.errors = undefined
+
       this.$refs.illcaseInfo.show();
     },
 
@@ -731,7 +805,7 @@ export default {
         .then(res => {
           this.$store.dispatch('state/removeIsLoading')
           this.errors = undefined
-          this.$refs.modal.hide()
+          this.$refs.illcaseModal.hide();
           this.$swal({
             toast: true,
             position: 'top-end',
@@ -740,7 +814,7 @@ export default {
             title: '登録しました。',
             icon: 'success',
           })
-          this.getData()
+          this.getData();
         })
         .catch(error => {
           this.errors = { ...error.response.data.errors }
@@ -790,13 +864,13 @@ export default {
       }
       this.selected_categories.forEach(selectedItem => {
         if(!(this.updateForm.cases.category.map(item => item.category_id).includes(selectedItem.id))){
-          tempCategory.add.push(selectedItem.id);
+          tempCategory.add.push({'id' : selectedItem.id});
         }
       })
 
       this.updateForm.cases.category.forEach(item => {
         if(!(this.selected_categories.map(selectedItem => selectedItem.id).includes(item.category_id))){
-          tempCategory.delete.push(item.category_id);
+          tempCategory.delete.push({'id' : item.category_id});
         }
       })
 
@@ -849,30 +923,59 @@ export default {
       this.isUpdateIllcaseInfo = false;
     },
 
-    hanleFileRemove() {
-      this.form.fileChanged = false;
+    hanleBeforeMultiFileRemove(id) {
+      let length = this.$refs.beforeFileUploadComponent.getQueuedFiles();
+
+      if (!length) {
+        this.form.beforeFileChanged = false;
+      }
     },
 
-    handleFileAdded(flg) {
-      this.form.fileChanged = flg;
+    hanleAfterMultiFileRemove(id) {
+      let length = this.$refs.afterFileUploadComponent.getQueuedFiles();
+
+      if (!length) {
+        this.form.afterFileChanged = false;
+      }
+    },
+
+    handleBeforeMultiFileAdded(flg) {
+      this.form.beforeFileChanged = flg;
+    },
+
+    handleAfterMultiFileAdded(flg) {
+      this.form.afterFileChanged = flg;
+    },
+
+    handleBeforeMultiFilesQueueComplete() {
+      this.form.beforeFileChanged = false
+    },
+    
+    handleAfterMultiFilesQueueComplete() {
+      this.form.afterFileChanged = false
     },
 
     handleUploadBeforeImage(){
-      this.$refs.beforeImageUploadComponent.processQueue();
+      this.$refs.beforeFileUploadComponent.processQueue();
+      this.$refs.beforeFileUploadComponent.$el.click()
     },
 
     handleUploadAfterImage(){
-      this.$refs.afterImageUploadComponent.processQueue();
+      this.$refs.afterFileUploadComponent.processQueue();
+      this.$refs.afterFileUploadComponent.$el.click()
     },
 
-    handlebeforeImageSaved(fileUrl){
-      this.form.cases.before_photo.push(fileUrl);
-      this.$refs.beforeImageUploadComponent.removeAllFiles();
+    handleBeforeMultiFileSaved(fileUrl) {
+      this.form.cases.before_photo.push(fileUrl)
+    },
+
+    handleAfterMultiFileSaved(fileUrl) {
+      this.form.cases.after_photo.push(fileUrl)
     },
 
     handleafterImageSaved(fileUrl){
       this.form.cases.after_photo.push(fileUrl);
-      this.$refs.afterImageUploadComponent.removeAllFiles();
+      this.$refs.afterFileUploadComponent.removeAllFiles();
     },
 
     handleRemoveBeforeImageClick(index){
@@ -890,7 +993,7 @@ export default {
         photo: fileUrl
       }
       this.updateForm.cases.before.push(objImage);
-      this.$refs.UpdateBeforeImageUploadComponent.removeAllFiles();
+      this.$refs.UpdatebeforeFileUploadComponent.removeAllFiles();
     },
 
     handleUpdateAfterImageSaved(fileUrl){
@@ -900,15 +1003,17 @@ export default {
         photo: fileUrl
       }
       this.updateForm.cases.after.push(objImage);
-      this.$refs.UpdateAfterImageUploadComponent.removeAllFiles();
+      this.$refs.UpdateafterFileUploadComponent.removeAllFiles();
     },
 
     handleUpdateUploadBeforeImage(){
-      this.$refs.UpdateBeforeImageUploadComponent.processQueue();
+      this.$refs.UpdatebeforeFileUploadComponent.processQueue();
+      this.$refs.UpdatebeforeFileUploadComponent.$el.click()
     },
 
     handleUpdateUploadAfterImage(){
-      this.$refs.UpdateAfterImageUploadComponent.processQueue();
+      this.$refs.UpdateafterFileUploadComponent.processQueue();
+      this.$refs.UpdateafterFileUploadComponent.$el.click()
     },
 
     handleUpdateRemoveBeforeImageClick(id){
@@ -925,8 +1030,43 @@ export default {
       this.tempImageForm.after_photo.delete.push(id);
     },
 
+    handleCategoryChange(e) {
+      e.preventDefault();
+      this.query.category_id = e.target.value
+      this.getData()
+    },
+    handleCateChange(option){
+      let opt_groud_name = "";
+      this.category_options.forEach(item => {
+        opt_groud_name = item.group_name;
+          item.children.forEach(child => {
+            if (option.id == child.id) {
+              if (!this.selected_categories.map(item => item.id).includes(child.id)) {
+                this.selected_categories.push({
+                  id: child.id,
+                  name: child.name,
+                  group:opt_groud_name
+                })
+              }
+            }
+          })
+        })
+    },
     scrollHanle(evt) {
       // console.log(evt)
+    },
+    removeCategory(idx) {
+      this.selected_categories.splice(idx, 1);
+      this.form.cases.category.splice(idx, 1);
+    },
+    removeUpdateCategory(idx) {
+      this.selected_categories.splice(idx, 1);
+      // this.updateForm.cases.category.splice(idx, 1);
+      // console.log(this.updateForm.cases.category);
+    },
+    formatPrice(value) {
+      let val = (value/1).toFixed(0);
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
   }
 }
@@ -947,7 +1087,8 @@ export default {
 }
 .photo-container{
   position: relative;
-  margin-right: 20px;
+  margin-right: 12px;
+  margin-bottom: 12px;
 }
 .remove-img-clicker{
   position: absolute;

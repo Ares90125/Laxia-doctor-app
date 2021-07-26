@@ -74,7 +74,8 @@
       class="profile-modal"
       :title="modalInfo.title"
     >
-      <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle">
+      <!-- <vue-custom-scrollbar class="scroll-modal-body" :settings="settings" @ps-scroll-y="scrollHanle"> -->
+      <div class="scroll-modal-body">
         <div v-if="isModal"  class="main-modal">
           <div class="profile-dialog-container">
             <div class="profile-item">
@@ -217,7 +218,8 @@
 
           </div>
         </div>
-      </vue-custom-scrollbar>
+      </div>
+      <!-- </vue-custom-scrollbar> -->
       <template v-slot:footer>
         <div class="profile-item">
           <button class=" btn btn-primary"  @click="handleUpdateStuff">プロフィールの編集を完了</button>

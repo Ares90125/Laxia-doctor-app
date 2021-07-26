@@ -50,6 +50,34 @@ class DoctorCaseController extends Controller
         ]);
     }
 
+    public function uploadBeforePhoto(Request $request) {
+        $uploadedFile = $request->file;
+
+        $disk = 'public';
+        $filename = null;
+        $name = !is_null($filename) ? $filename : Str::random(25);
+        $file = $uploadedFile->storeAs('/doctor/cases/before', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+
+       return response()->json([
+           'status' => 1,
+           'photo' => 'storage/'. $file,
+       ]);
+    }
+
+    public function uploadAfterPhoto(Request $request)
+    {    
+        $uploadedFile = $request->file;
+        $disk = 'public';
+        $filename = null;
+        $name = !is_null($filename) ? $filename : Str::random(25);
+        $file = $uploadedFile->storeAs('/doctor/cases/after', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+
+       return response()->json([
+           'status' => 1,
+           'photo' => 'storage/'.$file,
+       ]);
+    }
+
     /**
      * Add Answer
      */
@@ -103,16 +131,13 @@ class DoctorCaseController extends Controller
 
     public function get(Request $request)
     {
-        $doctor_id = auth()->guard('doctor')->user()->id;
-        $case = $this->service->get($doctor_id);
-
-        foreach($case as $item) {
-            $item->majordoctorCommentShort = (mb_strlen($item->majordoctorComment) < 15 ? $item->majordoctorComment : mb_substr($item->majordoctorComment, 0, 15) . '...');
-        }
+        $params = $request->all();
+        $params['doctor_id'] = auth()->guard('doctor')->user()->id;
+        
+        $cases = $this->service->paginate($params);
 
         return response()->json([
-            'status' => 1,
-            'data' => $case
+                'cases' => $cases
         ], 200);
     }
 

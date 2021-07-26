@@ -89,6 +89,8 @@
 
                         .case-info {
                             padding: 4px 8px 5px;
+                            position: relative;
+                            height: calc(100% - 130px);
 
                             .case-cat {
                                 line-height: 1.75;
@@ -108,14 +110,22 @@
                             }
 
                             .case-name {
-                                margin-top: 20px;
                                 font-size: 12px;
                                 color: #8D909E;
                                 display: flex;
                                 align-items: center;
+                                position: absolute;
+                                margin: 0;
+                                left: 8px;
+                                bottom: 2px;
 
                                 span {
                                     margin-left: 7px;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    // width: calc(100% - 20px);
+                                    max-width: 225px;
                                 }
                             }
                         }
@@ -251,11 +261,34 @@
 
                             .case-img-list {
                                 height: 100px;
+                                width: 135px;
+                                object-fit: cover;
                             }
 
                             p.caseinfo-title.t-c {
                                 text-align: center;
                                 margin-bottom: 10px;
+                            }
+
+                            .view-cate-panel {
+
+                                p {
+                                    font-size: 14px;
+                                    color: #5CA3F6;
+                                    background: #E2F0FF;
+                                    padding: 3px 10px;
+                                    display: inline-block;
+                                    width: auto;
+                                    margin: 5px 10px 5px 0;
+                                    border-radius: 3px;
+                                    letter-spacing: 0.1em;
+
+                                    .remove-cat {
+                                        cursor: pointer;
+                                        line-height: initial;
+                                        margin-left: 10px;
+                                    }
+                                }
                             }
 
                             .col-4, .col-6, .col-8, .col-12 {
@@ -321,6 +354,16 @@
                                         width: 245px;
                                         height: 245px;
                                         margin-bottom: 20px;
+
+                                        .multi-files-uploader {
+                                            .dz-message{
+                                                display: block;
+                                            }
+
+                                            .dz-preview.dz-image-preview{
+                                                display: none;
+                                            }
+                                        }
                                     }
 
                                     .file-upload-btn-con {

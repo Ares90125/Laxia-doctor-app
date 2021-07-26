@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth.doctor']], function() {
 
   // Case
   Route::post('cases/uploadPhoto', 'DoctorCaseController@uploadPhoto');
+  Route::post('/cases/before/photoupload', 'DoctorCaseController@uploadBeforePhoto');
+  Route::post('/cases/after/photoupload', 'DoctorCaseController@uploadAfterPhoto');
   Route::post('cases', 'DoctorCaseController@store');
   Route::delete('cases/{id}', 'DoctorCaseController@delete');
   Route::get('cases', 'DoctorCaseController@get');
