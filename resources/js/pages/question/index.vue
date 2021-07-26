@@ -74,20 +74,20 @@
       <div v-if="optionContent" class="create-menu-content">
         <div class="operation-option row">
           <div class="option-category">
-            <!-- <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle"> -->
-            <div class="scroll-modal-body scroll-area-doctor-menu">
+            <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
+            <!-- <div class="scroll-modal-body scroll-area-doctor-menu"> -->
               <div class="list-group">
                 <a href="#" v-for="item in treatCategories" @click="handleSpecChange(item.id)"   class="list-category list-group-item-action">
                   <p v-if="item.id === category_top_id" class="list-category-p active">{{item.name}}</p>
                   <p v-else class="list-category-p">{{item.name}}</p>
                 </a>
               </div>
-            </div>
-            <!-- </vue-custom-scrollbar> -->
+            <!-- </div> -->
+            </vue-custom-scrollbar>
           </div>
           <div class="option-content">
-            <!-- <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle"> -->
-            <div class="scroll-modal-body scroll-area-doctor-menu">
+            <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
+            <!-- <div class="scroll-modal-body scroll-area-doctor-menu"> -->
               <div class="row">
                 <div class="col-6" v-for="subCategories in treatSubCategories.all_children">
                   <div class="custom-control custom-radio">
@@ -96,8 +96,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- </vue-custom-scrollbar> -->
+            <!-- </div> -->
+            </vue-custom-scrollbar>
           </div>
         </div>
       </div>
