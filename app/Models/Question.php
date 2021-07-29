@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Master\Category;
+use App\Models\Master\TreatCategory;
 use App\Enums\User\Type as UserType;
+use DateTime;
 
 class Question extends Model
 {
@@ -34,6 +36,7 @@ class Question extends Model
     // 'favoriters_count',
     'is_favorite',
     'answers',
+    'before_time'
   ];
 
   public function viewers()
@@ -62,7 +65,8 @@ class Question extends Model
 
   public function getCommentsCountAttribute()
   {
-    return $this->comments()->count();
+    // return $this->comments()->count();
+    return $this->answer()->count();
   }
 
   // いいめ
@@ -100,7 +104,8 @@ class Question extends Model
   
   public function categories()
   {
-    return $this->belongsToMany(Category::class, 'question_categories', 'question_id', 'category_id');
+    // return $this->belongsToMany(Category::class, 'question_categories', 'question_id', 'category_id');
+    return $this->belongsToMany(TreatCategory::class, 'question_categories', 'question_id', 'category_id');
   }
 
   public function favoriters()
@@ -132,5 +137,15 @@ class Question extends Model
   public function getAnswersAttribute()
   {
     return $this->answer()->get();
+  }
+
+  public function getBeforeTimeAttribute() {
+    $current_time = new DateTime('now');
+    $created_time = new DateTime($this->created_at);
+
+    $dteDiff  = $created_time->diff($current_time); 
+    
+    // return $dteDiff->format("%H時間 %I分 %S秒前");
+    return $dteDiff->format("%h時間 %i分前");
   }
 }

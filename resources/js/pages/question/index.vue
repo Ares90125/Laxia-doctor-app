@@ -9,13 +9,13 @@
       <div class="staff-header">
         <p>
           <select class="staff-sort form-control" :class="{ 'fulled-status' : category_top_id ? 'fulled-input': '' }" v-model="category_top_id" @change="handleSearchSelect(category_top_id)">
-            <option ></option>
+            <option value="0"></option>
             <option v-for="item in treatCategories" :key="item.id" :value="item.id">{{ item.name }}</option>
           </select>
         </p>
       </div>
-      <div class="row" v-if="isSelectedTreatSubCategory">
-        <div class="selected-treat-subcategory" v-for="item in selectedTreatSubCategory" >
+      <div class="row selected-category" v-if="isSelectedTreatSubCategory">
+        <div class="selected-treat-subcategory" v-for="(item, index) in selectedTreatSubCategory" :key="index">
           <p class="selected-option" >{{item.subcate.name + ' / ' +  item.childCate.name}}</p>
           <a @click="handleCancelSelectedCondition(item.subcate.id, item.childCate.id)">
             <img src="/img/img-close-color.svg" class="close-img"/>
@@ -31,14 +31,13 @@
             <div class="comment-info">
               <div class="comment-ttl">
                 <p class="menu-ttl">{{ item.title }}</p>
-                <p class="menu-time">23時間前</p>
+                <p class="menu-time">{{ item.before_time }}</p>
               </div>
               <p class="comment-content">{{ item.content}}</p>
               <div class="row">
                 <div class="col-10">
-                  <div class="selected-treat-subcategory" v-for="itemCategory in item.categories" >
-                    <!-- <p class="selected-option" >{{itemCategory.name + ' / ' +  itemCategory.childCate.name}}</p> -->
-                    <p class="selected-option" >{{itemCategory.name}}</p>
+                  <div class="selected-treat-subcategory" v-for="(itemCategory, index) in item.categories" :key="index" >
+                    <p class="selected-option" >{{itemCategory.parent_name + ' / ' +  itemCategory.name}}</p>
                   </div>
                 </div>
                 <div class="col-2 d-flex justify-content-end icon-grp">
@@ -70,6 +69,7 @@
     <question-menu-modal
       ref="modal"
       id="menu-modal"
+      @cancel="handleClose"
     >
       <div v-if="optionContent" class="create-menu-content">
         <div class="operation-option row">
@@ -77,7 +77,7 @@
             <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
             <!-- <div class="scroll-modal-body scroll-area-doctor-menu"> -->
               <div class="list-group">
-                <a href="#" v-for="item in treatCategories" @click="handleSpecChange(item.id)"   class="list-category list-group-item-action">
+                <a href="#" v-for="(item, index) in treatCategories" @click="handleSpecChange(item.id)" :key="index" class="list-category list-group-item-action">
                   <p v-if="item.id === category_top_id" class="list-category-p active">{{item.name}}</p>
                   <p v-else class="list-category-p">{{item.name}}</p>
                 </a>
@@ -89,7 +89,7 @@
             <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
             <!-- <div class="scroll-modal-body scroll-area-doctor-menu"> -->
               <div class="row">
-                <div class="col-6" v-for="subCategories in treatSubCategories.all_children">
+                <div class="col-6" v-for="(subCategories, index) in treatSubCategories.all_children" :key="index">
                   <div class="custom-control custom-radio">
                     <input type="radio" :id="subCategories.id" name="customRadio" class="custom-control-input" @change="onChangeTreatCubCategory(treatSubCategories, subCategories)" v-model="optionContent" :value="treatSubCategories.id + '/' + subCategories.id">
                     <label class="custom-control-label" :for="subCategories.id">{{ subCategories.name }}</label>
@@ -138,7 +138,9 @@ export default {
       spec_detail_list:undefined,
       treatSubCategories:undefined,
       selectedTreatSubCategory:[],
+      tmpSelectedTreatSubCategory:[],
       formCategories: [],
+      tmpFormCategories: [],
       isSelectedTreatSubCategory:false,
       settings: {
         suppressScrollY: false,
@@ -188,7 +190,7 @@ export default {
       }
       axios.post(`/api/doctor/questions/search`, formData)
         .then(res => {
-          this.questionArr = res.data.data.questions.data;
+          this.questionArr = this.setParentCategory(res.data.data.questions.data);
           // this.query = {
           //   ...this.query,
           //   per_page: res.data.menus.per_page
@@ -201,6 +203,25 @@ export default {
         .catch(error => {
           this.$store.dispatch('state/removeIsLoading')
         })
+    },
+
+    setParentCategory(response) {
+      let treatCategories = this.treatCategories;
+      let parent_name = '';
+
+      $.each(response, function(key, value) {
+        $.each(value.categories, function(sub_key, sub_value) {
+          parent_name = '';
+          
+          treatCategories.map(item => {
+            if(item.id == sub_value.parent_id) parent_name = item.name;
+          })
+          
+          sub_value.parent_name = parent_name;
+        })
+      })
+
+      return response;
     },
 
     handleStatusChange(status) {
@@ -222,15 +243,20 @@ export default {
     },
 
     handleSearchSelect(id){
-      this.isSelectedTreatSubCategory = false
-      this.selectedTreatSubCategory = [];
+      // this.isSelectedTreatSubCategory = false;
+      // this.selectedTreatSubCategory = [];
+      
+      this.tmpFormCategories = [];
+      this.tmpSelectedTreatSubCategory = [];
+
       this.modalInfo = {
         title: 'メニューの詳細',
         confirmBtnTitle: '絞り込む'
       }
       this.optionContent = '100';
       this.$refs.modal.show();
-      this.selectTreatCategory(id)
+      this.selectTreatCategory(id);
+      console.log(this.formCategories);
     },
 
     selectTreatCategory(id){
@@ -239,6 +265,16 @@ export default {
     },
 
     handleSearchCondition(){
+      this.formCategories = 
+        this.tmpFormCategories.length > 0 ? 
+        this.tmpFormCategories: 
+          (this.formCategories.length > 0 ? this.formCategories : undefined);
+
+      this.selectedTreatSubCategory = 
+        this.tmpSelectedTreatSubCategory.length > 0 ? 
+        this.tmpSelectedTreatSubCategory: 
+          (this.selectedTreatSubCategory.length > 0 ? this.selectedTreatSubCategory : undefined);
+
       let formData = {
         per_page: 20,
         orderby: "updated_at",
@@ -248,25 +284,27 @@ export default {
       this.$store.dispatch('state/setIsLoading')
       axios.post(`/api/doctor/questions/search`, formData)
         .then(res => {
-          this.questionArr = res.data.data.questions.data;
-          this.formCategories = []
+          this.questionArr = this.setParentCategory(res.data.data.questions.data);
+          // this.formCategories = []
           this.$store.dispatch('state/removeIsLoading')
 
-          this.isSelectedTreatSubCategory = true
+          this.isSelectedTreatSubCategory = true;
         })
         .catch(error => {
           this.$store.dispatch('state/removeIsLoading')
         })
-      this.$refs.modal.hide()
-
+      
+      this.category_top_id = 0;
+      this.$refs.modal.hide();
     },
 
     handleCancel(){
-
+      this.category_top_id = 0;
+      this.$refs.modal.hide();
     },
 
-    handleModalClose(){
-
+    handleClose() {
+      this.category_top_id = 0;
     },
 
     handleSpecChange(category_selected_id){
@@ -280,17 +318,31 @@ export default {
         childCate:sub
       }
 
-      this.selectedTreatSubCategory = this.selectedTreatSubCategory.filter(function (el){
+      this.tmpSelectedTreatSubCategory = this.selectedTreatSubCategory;
+
+      // this.selectedTreatSubCategory = this.selectedTreatSubCategory.filter(function (el){
+      //   return el.subcate.id !== treatCategory.id;
+      // })
+      // this.selectedTreatSubCategory.push(selectedSub)
+
+      this.tmpSelectedTreatSubCategory = this.tmpSelectedTreatSubCategory.filter(function (el){
         return el.subcate.id !== treatCategory.id;
       })
-      this.selectedTreatSubCategory.push(selectedSub)
+      this.tmpSelectedTreatSubCategory.push(selectedSub)
 
+      // let tempArr = []
+      // $.each(this.selectedTreatSubCategory, function (key, value){
+
+      //   tempArr.push(value.childCate.id);
+      // })
       let tempArr = []
-      $.each(this.selectedTreatSubCategory, function (key, value){
+      $.each(this.tmpSelectedTreatSubCategory, function (key, value){
 
         tempArr.push(value.childCate.id);
       })
-      this.formCategories = tempArr
+      
+      // this.formCategories = tempArr
+      this.tmpFormCategories = tempArr;
     },
 
     handleCancelSelectedCondition(treatCategoryId, subId){
@@ -323,8 +375,8 @@ export default {
       this.$store.dispatch('state/setIsLoading')
       axios.post(`/api/doctor/questions/search`, formData)
         .then(res => {
-          this.questionArr = res.data.data.questions.data;
-          this.formCategories = []
+          this.questionArr = this.setParentCategory(res.data.data.questions.data);
+          // this.formCategories = []
           this.$store.dispatch('state/removeIsLoading')
 
           this.isSelectedTreatSubCategory = true
