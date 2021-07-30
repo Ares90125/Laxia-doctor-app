@@ -84,10 +84,11 @@ class QuestionController extends Controller
      */
     public function uploadAnswerPhoto(Request $request)
     {
-        $uploadedFile = $request->file('photo');
-        $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $uploadedFile = $request->file('photo');
+        // $request->validate([
+        //     'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+        $uploadedFile = $request->file;
 
         $disk = 'public';
         $filename = null;
@@ -96,7 +97,7 @@ class QuestionController extends Controller
 
         return response()->json([
             'status' => 1,
-            'photo' => $file,
+            'photo' => 'storage/'.$file,
         ]);
     }
 

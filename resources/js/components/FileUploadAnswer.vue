@@ -55,7 +55,11 @@
       maxFiles: {
         type: Number,
         default: 1,
-      }
+      },
+      autoStatus: {
+        type: Boolean,
+        default: false,
+      },
     },
     
     data() {
@@ -82,7 +86,7 @@
         url: this.uploadUrl,
         maxFilesize: 15,
         maxFiles: this.maxFiles,
-        autoProcessQueue: false,
+        autoProcessQueue: this.autoStatus,
         headers: {
           "Authorization": `Bearer ${this.token}`
         },

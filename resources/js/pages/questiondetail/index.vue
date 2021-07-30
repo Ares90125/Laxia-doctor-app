@@ -58,13 +58,26 @@
               </svg>
             </a>
           </div>
-
+          <div class="answer-photo-row">
+            <div class="photo-container" v-for="(item, index) in photos" :key="'photo-'+index">
+              <img :src="'/'+item" class="img-item"/>
+              <a @click="handleRemoveAnswerImageClick(index)" class="remove-img-clicker">
+                <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+              </a>
+            </div>
+          </div>
           <div class="row file-upload-answer-con" v-if="isuploadfileBlock">
               <div class="col-12">
                   <file-upload-answer
-                    ref="beforeImageUploadComponent"
-                    uploadUrl="/api/doctor/cases/uploadPhoto"
+                    ref="answerImageUploadComponent"
+                    uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
                     :maxFiles="10"
+                    :autoStatus="true"
+                    name="menu-images"
+                    @file-upload-success="handleAnswerMultiFileSaved"
+                    @file-removed="hanleAnswerMultiFileRemove"
+                    @file-added="handleAnswerMultiFileAdded"
+                    @queue-complete="handleAnswerMultiFilesQueueComplete"
                   />
               </div>
           </div>
@@ -188,6 +201,7 @@ export default {
       editForm: undefined,
       answers: [],
       doctorAnswer:'',
+      photos: [],
       modalInfo: {
         title: '',
         confirmBtnTitle: '',
@@ -219,7 +233,8 @@ export default {
 
     getData() {
       this.detailid = this.$route.params.id
-      // this.$store.dispatch('state/setIsLoading')
+      this.$store.dispatch('state/setIsLoading')
+
       let url = '/api/doctor/questions/' + this.detailid;
       axios.get(url)
         .then(res => {
@@ -293,33 +308,36 @@ export default {
     // },
 
     handleAddAnswer(){
-      // this.$store.dispatch('state/setIsLoading')
-      // let url = '/api/doctor/questions/' + this.detailid + '/answers'
-      // let formData = {
-      //   answer: this.doctorAnswer,
-      //   photo: []
-      // }
-      // axios.post(url, formData)
-      //   .then(res => {
-      //     this.doctorAnswer = '';
-      //     this.answers.push(
-      //       {...res.data.data}
-      //     )
-      //     // this.query = {
-      //     //   ...this.query,
-      //     //   per_page: res.data.menus.per_page
-      //     // }
-      //     // this.pageInfo = {
-      //     //   last_page: res.data.menus.last_page,
-      //     // }
+      this.$store.dispatch('state/setIsLoading')
+      let url = '/api/doctor/questions/' + this.detailid + '/answers'
+      let formData = {
+        answer: this.doctorAnswer,
+        photo: this.photos
+      }
+      axios.post(url, formData)
+        .then(res => {
+          this.doctorAnswer = '';
+          this.photos = [];
+          this.answers.push(
+            {...res.data.data}
+          )
+          this.questionDetail.comments_count = this.questionDetail.comments_count + 1;
+          
+          // this.query = {
+          //   ...this.query,
+          //   per_page: res.data.menus.per_page
+          // }
+          // this.pageInfo = {
+          //   last_page: res.data.menus.last_page,
+          // }
 
-      //     this.$refs.beforeImageUploadComponent.removeAllFiles();
-      //     this.isuploadfileBlock = false
-      //     this.$store.dispatch('state/removeIsLoading')
-      //   })
-      //   .catch(error => {
-      //     this.$store.dispatch('state/removeIsLoading')
-      //   })
+          this.$refs.answerImageUploadComponent.removeAllFiles();
+          this.isuploadfileBlock = false;
+          this.$store.dispatch('state/removeIsLoading');
+        })
+        .catch(error => {
+          this.$store.dispatch('state/removeIsLoading')
+        })
     },
     handleCancel(){
 
@@ -358,6 +376,28 @@ export default {
     },
     backListPage() {
       this.$router.push({ name: 'user_question'});
+    },
+    
+    handleAnswerMultiFileSaved(fileUrl) {
+      // this.form.cases.before_photo.push(fileUrl)
+      console.log(fileUrl);
+      this.photos.push(fileUrl);
+    },
+    hanleAnswerMultiFileRemove(id) {
+      // let length = this.$refs.beforeFileUploadComponent.getQueuedFiles();
+
+      // if (!length) {
+      //   this.form.beforeFileChanged = false;
+      // }
+    },
+    handleAnswerMultiFileAdded(flg) {
+      // this.form.beforeFileChanged = flg;
+    },
+    handleAnswerMultiFilesQueueComplete() {
+      // this.form.beforeFileChanged = false
+    },
+    handleRemoveAnswerImageClick(index) {
+      this.photos.splice(index,1);
     }
   }
 }
