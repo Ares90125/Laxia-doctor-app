@@ -112,7 +112,6 @@
                   <ellipse cx="18.4661" cy="2.5" rx="2.5" ry="2.53448" transform="rotate(-90 18.4661 2.5)" fill="#131340"/>
                 </svg>
               </a>
-
               <template slot="popover">
                 <div class="more-btn-grp">
                   <div class="question-edit-btn question-btn-item" @click="handleEditQuestion(item)" v-close-popover>編集</div>
@@ -167,8 +166,8 @@
         削除すると復元することはできません。
       </p>
       <template v-slot:footer>
-        <button type="button" class="btn custom-btn-outline cancel-btn">キャンセル</button>
-        <button type="button" class="btn btn-primary">削除する</button>
+        <button type="button" class="btn custom-btn-outline cancel-btn" @click="closeDelModal">キャンセル</button>
+        <button type="button" class="btn btn-primary" @click="deleteAnswer">削除する</button>
       </template>
     </question-delete-modal>
   </div>
@@ -206,6 +205,7 @@ export default {
         title: '',
         confirmBtnTitle: '',
       },
+      delAnswerId: 0
     }
   },
 
@@ -308,7 +308,7 @@ export default {
     // },
 
     handleAddAnswer(){
-      this.$store.dispatch('state/setIsLoading')
+      this.$store.dispatch('state/setIsLoading');
       let url = '/api/doctor/questions/' + this.detailid + '/answers'
       let formData = {
         answer: this.doctorAnswer,
@@ -365,7 +365,34 @@ export default {
       this.$forceUpdate();
     },
     handleDeleteQuestion(item) {
+      this.delAnswerId = item.id;
+
       this.$refs.modal.show();
+    },
+    closeDelModal() {
+      this.$refs.modal.hide();
+    },
+    deleteAnswer() {
+      this.$refs.modal.hide();
+
+      let url = '/api/doctor/questions/' + this.detailid + '/answers/' + this.delAnswerId;
+      let delId = this.delAnswerId;
+
+      this.$store.dispatch('state/setIsLoading');
+
+      axios.delete(url)
+        .then(res => {
+          this.$store.dispatch('state/removeIsLoading');
+
+          this.answers = this.answers.filter(function (el){
+            return el.id !== delId;
+          });
+
+          this.questionDetail.comments_count = this.questionDetail.comments_count - 1;
+        })
+        .catch(error => {
+          this.$store.dispatch('state/removeIsLoading')
+        });
     },
     handleMoreEditImageClick(item) {
       this.answers.forEach((answer) => {
@@ -379,8 +406,6 @@ export default {
     },
     
     handleAnswerMultiFileSaved(fileUrl) {
-      // this.form.cases.before_photo.push(fileUrl)
-      console.log(fileUrl);
       this.photos.push(fileUrl);
     },
     hanleAnswerMultiFileRemove(id) {
@@ -397,7 +422,7 @@ export default {
       // this.form.beforeFileChanged = false
     },
     handleRemoveAnswerImageClick(index) {
-      this.photos.splice(index,1);
+      this.photos.splice(index, 1);
     }
   }
 }
