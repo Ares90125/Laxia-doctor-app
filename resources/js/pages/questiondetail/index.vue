@@ -66,20 +66,18 @@
               </a>
             </div>
           </div>
-          <div class="row file-upload-answer-con" v-if="isuploadfileBlock">
-              <div class="col-12">
-                  <file-upload-answer
-                    ref="answerImageUploadComponent"
-                    uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
-                    :maxFiles="10"
-                    :autoStatus="true"
-                    name="menu-images"
-                    @file-upload-success="handleAnswerMultiFileSaved"
-                    @file-removed="hanleAnswerMultiFileRemove"
-                    @file-added="handleAnswerMultiFileAdded"
-                    @queue-complete="handleAnswerMultiFilesQueueComplete"
-                  />
-              </div>
+          <div class="file-upload-answer-con" v-if="isuploadfileBlock">
+            <file-upload-answer
+              ref="answerImageUploadComponent"
+              uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
+              :maxFiles="10"
+              :autoStatus="true"
+              name="menu-images"
+              @file-upload-success="handleAnswerMultiFileSaved"
+              @file-removed="hanleAnswerMultiFileRemove"
+              @file-added="handleAnswerMultiFileAdded"
+              @queue-complete="handleAnswerMultiFilesQueueComplete"
+            />
           </div>
         </div>
       </div>
@@ -135,15 +133,26 @@
                   </svg>
                 </a>
               </div>
-
-              <div class="row file-upload-answer-con" v-if="item.upload_flag">
-                  <div class="col-12">
-                      <file-upload-answer
-                        ref="beforeImageUploadComponent"
-                        uploadUrl="/api/doctor/cases/uploadPhoto"
-                        :maxFiles="10"
-                      />
-                  </div>
+              <div class="answer-photo-row">
+                <div class="photo-container" v-for="(img_item, index) in item.photos" :key="'update-'+index">
+                  <img :src="'/'+img_item.photo" class="img-item"/>
+                  <a @click="handleRemoveAnswerEditImageClick(item, index)" class="remove-img-clicker">
+                    <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+                  </a>
+                </div>
+              </div>
+              <div class="file-upload-answer-con" v-if="item.upload_flag">
+                <file-upload-answer
+                  ref="answerEditImageUploadComponent"
+                  uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
+                  :maxFiles="10"
+                  :autoStatus="true"
+                  name="menu-images"
+                  @file-upload-success="handleAnswerEditMultiFileSaved"
+                  @file-removed="hanleAnswerEditMultiFileRemove"
+                  @file-added="handleAnswerEditMultiFileAdded"
+                  @queue-complete="handleAnswerEditMultiFilesQueueComplete"
+                />
               </div>
             </div>
           </div>
@@ -205,7 +214,8 @@ export default {
         title: '',
         confirmBtnTitle: '',
       },
-      delAnswerId: 0
+      delAnswerId: 0,
+      updateId: 0,
     }
   },
 
@@ -269,44 +279,6 @@ export default {
 
       return response;
     },
-
-    // handleMordetailClick (event, item) {
-    //   this.$refs.vueSimpleContextMenu1.showMenu(event, item)
-    // },
-
-    // optionClicked1 (event) {
-    //   // window.alert(JSON.stringify(event))
-
-
-    //   let answerId = event.item.id;
-
-    //   if(event.option.name === 'Delete'){
-    //     let url = '/api/doctor/questions/' + this.detailid + '/answers/' + answerId;
-    //     axios.delete(url)
-    //       .then(res => {
-    //         this.$store.dispatch('state/removeIsLoading')
-    //         this.answers = this.answers.filter(function (el){
-    //           return el.id !== answerId;
-    //         })
-    //       })
-    //       .catch(error => {
-    //         this.$store.dispatch('state/removeIsLoading')
-    //       })
-    //   }
-    //   else{
-    //     this.editForm = {
-    //       answer: event.item.answer
-    //     }
-
-    //     this.modalInfo = {
-    //       title: 'Edit',
-    //       confirmBtnTitle: 'メニューを変更'
-    //     }
-
-    //     this.$refs.modal.show();
-    //   }
-    // },
-
     handleAddAnswer(){
       this.$store.dispatch('state/setIsLoading');
       let url = '/api/doctor/questions/' + this.detailid + '/answers'
@@ -343,8 +315,34 @@ export default {
 
     },
 
-    handleEditAnswer(item){
-      console.log(item);
+    handleEditAnswer(item){      
+      let img_add = undefined;
+      let add_arr = [];
+
+      img_add = item.photos.filter(function (el){
+        return isNaN(el.id);
+      });
+
+      $.each(img_add, function (key, value){
+        add_arr.push(value.photo);
+      });
+
+      const question_id = this.$route.params.id
+
+      this.$store.dispatch('state/setIsLoading');
+      let url = '/api/doctor/questions/'+question_id+'/answers/'+item.id;
+
+      item.added_photo = add_arr;
+
+      axios.put(url, item)
+        .then(res => {
+          this.getData();
+
+          this.$store.dispatch('state/removeIsLoading');
+        })
+        .catch(error => {
+          this.$store.dispatch('state/removeIsLoading')
+        })
     },
     handleModalClose(){
 
@@ -359,7 +357,11 @@ export default {
     },
     handleEditQuestion(item) {
       this.answers.forEach((answer) => {
-        if(answer.id == item.id) answer.edit_flag = true;
+        if(answer.id == item.id) {
+          answer.edit_flag = true;
+          answer.deleted_photo = [];
+          this.updateId = item.id;
+        }
       });
 
       this.$forceUpdate();
@@ -401,6 +403,10 @@ export default {
 
       this.$forceUpdate();
     },
+    handleRemoveAnswerEditImageClick(item, index) {
+      item.deleted_photo.push(item.photos[index].id);
+      item.photos.splice(index, 1);
+    },
     backListPage() {
       this.$router.push({ name: 'user_question'});
     },
@@ -423,7 +429,31 @@ export default {
     },
     handleRemoveAnswerImageClick(index) {
       this.photos.splice(index, 1);
-    }
+    },
+    handleAnswerEditMultiFileSaved(fileUrl) {
+      this.answers.forEach((answer) => {
+        if(this.updateId == answer.id) {
+          let objImage = {
+            photo: fileUrl
+          }
+
+          answer.photos.push(objImage);
+        }
+      });
+    },
+    hanleAnswerEditMultiFileRemove(id) {
+      // let length = this.$refs.beforeFileUploadComponent.getQueuedFiles();
+
+      // if (!length) {
+      //   this.form.beforeFileChanged = false;
+      // }
+    },
+    handleAnswerEditMultiFileAdded(flg) {
+      // this.form.beforeFileChanged = flg;
+    },
+    handleAnswerEditMultiFilesQueueComplete() {
+      // this.form.beforeFileChanged = false
+    },
   }
 }
 </script>
