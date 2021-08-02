@@ -91,6 +91,7 @@
           <div class="password-item confirm-pass">
             <label>{{ $t('新しいパスワード(再入力)') }}</label>
             <input class="form-control" type="password" :class="{ 'fulled-status' : passwordForm.new_password_confirmation ? 'fulled-input': '' }" v-model="passwordForm.new_password_confirmation" @keyup="checkPassFormStatus" />
+            <div v-if="errors && errors.new_password_confirmation" class="error invalid-feedback-custom">{{ errors.new_password_confirmation[0] }}</div>
           </div>
           <div class="btn-grp-con">
             <button class="btn btn-secondary btn-sm"  @click="handleCancelPassword">キャンセル</button>

@@ -151,6 +151,7 @@ return [
         'email' => 'メールアカウント',
         'password' => 'パスワード',
         'repassword' => 'パスワード確認',
+        'new_password_confirmation' => 'パスワード確認',
         'doctor.name' => 'ドクター',
         'name' => 'クリニック名',
         'patients.unique_id' => 'ユーザーID',

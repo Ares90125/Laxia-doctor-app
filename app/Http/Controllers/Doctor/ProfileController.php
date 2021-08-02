@@ -153,7 +153,8 @@ class ProfileController extends Controller
     {
         return Validator::make($data, [
             'current_password' => 'required|min:6',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password' => 'required|min:6',
+            'new_password_confirmation' => 'required|same:new_password',
         ]);
     }
 
@@ -166,7 +167,7 @@ class ProfileController extends Controller
                 'status' => 0,
                 'message' => 'エラーが発生しました。',
                 'errors' => $validator->getMessageBag()->toArray()
-            ], 500);
+            ], 422);
         }
 
         $user = auth()->guard('doctor')->user();
@@ -176,7 +177,7 @@ class ProfileController extends Controller
                 'status' => 0,
                 'message' => 'エラーが発生しました。',
                 'errors' => ['current_password' => ['現在のパスワードが間違っています。']]
-            ], 500);
+            ], 422);
         }
 
         $profile = $this->userService->update(['users' => ['password' => bcrypt($data['new_password'])]], ['id' => $user->id]);
