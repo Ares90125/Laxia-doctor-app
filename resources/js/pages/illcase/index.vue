@@ -474,7 +474,7 @@
 
           <div class="row d-flex justify-content-center">
             <div class="col-3">
-              <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
+              <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItemUpdateForm">
                 <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
                 </svg>
@@ -670,6 +670,7 @@ export default {
          delete: []
        }
       },
+      tempMenu: undefined,
       staff: -1,
       settings: {
         suppressScrollY: false,
@@ -776,7 +777,8 @@ export default {
       this.updateForm = {
         cases: { ...selected }
       }
-      this.selected_categories = []
+      this.selected_categories = [];
+      this.tempMenu = JSON.parse(JSON.stringify(selected.menuProperty));
       
       let opt_groud_name = "";
       this.category_options.forEach(item => {
@@ -798,6 +800,9 @@ export default {
 
     handleAddMenuItem(){
       this.form.cases.menuProperty.push({...this.menuItem})
+    },
+    handleAddMenuItemUpdateForm() {
+      this.updateForm.cases.menuProperty.push({...this.menuItem});
     },
     handleSaveCases(){
       let url = '/api/doctor/cases';
@@ -878,6 +883,43 @@ export default {
         ...this.updateForm.cases,
         ...this.tempImageForm,
         category: {...tempCategory}
+      }
+
+      let tempMenu = {
+        delete: [],
+        add: [],
+        update: []
+      };
+
+      let menuProperty_add = undefined;
+      let menuProperty_add_arr = [];
+      
+      menuProperty_add = this.updateForm.cases.menuProperty.filter(function (el){
+        return isNaN(el.id);
+      });
+      $.each(menuProperty_add, function (key, value){
+        menuProperty_add_arr.push(value);
+      });
+
+      tempMenu.add = menuProperty_add_arr;
+
+      let o_items = this.tempMenu;
+console.log(this.tempMenu)
+      $.each(this.updateForm.cases.menuProperty, function(c_key, c_item) {
+        $.each(o_items, function(o_key, o_item) {
+          if(c_item.id == o_item.id) {
+            console.log('citem=>',c_item.name);
+            console.log('oitem=>',o_item.name);
+            if(c_item.name != o_item.name || c_item.cost != o_item.cost) {
+              tempMenu.update.push(c_item);
+            }
+          }
+        });
+      });
+
+      this.updateForm.cases = {
+        ...this.updateForm.cases,
+        menuProperty: {...tempMenu}
       }
 
       let url = '/api/doctor/cases/' + id;

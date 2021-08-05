@@ -8,8 +8,8 @@
       </div>
       <div class="staff-header">
         <p>
-          <select class="staff-sort form-control" :class="{ 'fulled-status' : category_top_id ? 'fulled-input': '' }" v-model="category_top_id" @change="handleSearchSelect(category_top_id)">
-            <option value="0"></option>
+          <select class="staff-sort form-control" :class="{ 'fulled-status' : category_top_id ? 'fulled-input': '' }" v-model="category_top_id" @click="handleSearchSelect(category_top_id, $event)">
+            <option value="0">施術で絞り込む</option>
             <option v-for="item in treatCategories" :key="item.id" :value="item.id">{{ item.name }}</option>
           </select>
         </p>
@@ -134,7 +134,7 @@ export default {
         confirmBtnTitle: '',
       },
       pageInfo: undefined,
-      category_top_id:'',
+      category_top_id: 0,
       spec_detail_list:undefined,
       treatSubCategories:undefined,
       selectedTreatSubCategory:[],
@@ -242,9 +242,11 @@ export default {
       this.$router.push({ name: 'user_questiondetail', params: {id: id}})
     },
 
-    handleSearchSelect(id){
+    handleSearchSelect(id, $event){
       // this.isSelectedTreatSubCategory = false;
       // this.selectedTreatSubCategory = [];
+
+      $event.target.blur();
       
       this.tmpFormCategories = [];
       this.tmpSelectedTreatSubCategory = [];

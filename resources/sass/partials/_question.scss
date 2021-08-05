@@ -21,11 +21,25 @@
 
                     &:hover {
                         background: #DDD;
+                        border-radius: 5px;
                     }
 
                     &.active {
-                        border-bottom: 5px solid #5CA3F6;
                         color: #131340;
+                        position: relative;
+
+                        &::after {
+                            position: absolute;
+                            content: "";
+                            height: 5px;
+                            bottom: 0;
+                            margin: 0;
+                            left: 0;
+                            right: 0;
+                            width: 100%;
+                            background: #5CA3F6;
+                            border-radius: 10px;
+                        }
                     }
                 }
             }
@@ -41,7 +55,7 @@
                 .staff-sort {
                     font-size: 16px;
                     height: 38px;
-                    padding: 5px 10px;
+                    padding: 5px 30px 5px 10px;
                 }
             }
 
@@ -219,8 +233,16 @@
                             font-size: 18px;
 
                             .custom-control-label {
-                                &::before, &::after {
+                                &::before {
                                     top: 9px;
+                                }
+
+                                &::after {
+                                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+                                    width: 24px;
+                                    height: 24px;
+                                    left: -28px;
+                                    top: 5px;
                                 }
                             }
 
