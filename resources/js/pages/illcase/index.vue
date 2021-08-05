@@ -8,7 +8,7 @@
         </select>
       </p>
       <p>
-        <button class="btn btn-primary" @click="handleNewCase"><img src="/img/plus.svg"> {{ $t('新規スタッフを追加') }}</button>
+        <button class="btn btn-primary" @click="handleNewCase"><img src="/img/plus.svg"> {{ $t('新規症例を追加') }}</button>
       </p>
     </div>
 
@@ -755,7 +755,7 @@ export default {
         cases: {...this.cases}
       }
       this.modalInfo = {
-        title: '新規スタッフを追加',
+        title: '症例を追加する',
         confirmBtnTitle: '症例を追加する'
       }
       this.isEditing = true
