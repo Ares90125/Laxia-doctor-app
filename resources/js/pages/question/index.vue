@@ -15,7 +15,7 @@
         </p>
       </div>
       <div class="row selected-category" v-if="isSelectedTreatSubCategory">
-        <div class="selected-treat-subcategory" v-for="(item, index) in selectedTreatSubCategory" :key="index">
+        <div class="selected-treat-subcategory" v-for="item in selectedTreatSubCategory" :key="item.childCate.id">
           <p class="selected-option" >{{item.subcate.name + ' / ' +  item.childCate.name}}</p>
           <a @click="handleCancelSelectedCondition(item.subcate.id, item.childCate.id)">
             <img src="/img/img-close-color.svg" class="close-img"/>
@@ -77,7 +77,7 @@
             <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
             <!-- <div class="scroll-modal-body scroll-area-doctor-menu"> -->
               <div class="list-group">
-                <a href="#" v-for="(item, index) in treatCategories" @click="handleSpecChange(item.id)" :key="index" class="list-category list-group-item-action">
+                <a href="#" v-for="(item, index) in treatCategories" @click="handleSpecChange(item.id)" :key="'treat_cat_'+index" class="list-category list-group-item-action">
                   <p v-if="item.id === category_top_id" class="list-category-p active">{{item.name}}</p>
                   <p v-else class="list-category-p">{{item.name}}</p>
                 </a>
@@ -89,10 +89,10 @@
             <vue-custom-scrollbar class="scroll-area-doctor-menu"  :settings="settings" @ps-scroll-y="scrollHanle">
             <!-- <div class="scroll-modal-body scroll-area-doctor-menu"> -->
               <div class="row">
-                <div class="col-6" v-for="(subCategories, index) in treatSubCategories.all_children" :key="index">
+                <div class="col-6" v-for="subCategories in treatSubCategories.all_children" :key="'sub_cat_'+subCategories.id">
                   <div class="custom-control custom-radio">
-                    <input type="radio" :id="subCategories.id" name="customRadio" class="custom-control-input" @change="onChangeTreatCubCategory(treatSubCategories, subCategories)" v-model="optionContent" :value="treatSubCategories.id + '/' + subCategories.id">
-                    <label class="custom-control-label" :for="subCategories.id">{{ subCategories.name }}</label>
+                    <input type="checkbox" :id="'sub_cat_'+subCategories.id" class="custom-control-input" @change="onChangeTreatCubCategory(treatSubCategories, subCategories)" :value="treatSubCategories.id + '/' + subCategories.id">
+                    <label class="custom-control-label" :for="'sub_cat_'+subCategories.id">{{ subCategories.name }}</label>
                   </div>
                 </div>
               </div>
@@ -103,7 +103,7 @@
       </div>
       <template v-slot:footer>
         <button type="button" class="btn custom-btn-outline" @click="handleCancel">クリア</button>
-        <button type="button" class="btn btn-primary" @click="handleSearchCondition">{{ modalInfo.confirmBtnTitle }}</button>
+        <button type="button" class="btn btn-primary" @click="handleSearchCondition">絞り込む</button>
       </template>
     </question-menu-modal>
   </div>
@@ -129,10 +129,6 @@ export default {
       form: undefined,
       errors: undefined,
       optionContent: '',
-      modalInfo: {
-        title: '',
-        confirmBtnTitle: '',
-      },
       pageInfo: undefined,
       category_top_id: 0,
       spec_detail_list:undefined,
@@ -225,7 +221,6 @@ export default {
     },
 
     handleStatusChange(status) {
-      console.log(status);
       this.tab_status = status;
     },
 
@@ -243,22 +238,19 @@ export default {
     },
 
     handleSearchSelect(id, $event){
-      // this.isSelectedTreatSubCategory = false;
-      // this.selectedTreatSubCategory = [];
 
       $event.target.blur();
       
-      this.tmpFormCategories = [];
-      this.tmpSelectedTreatSubCategory = [];
+      let tmp = [];
+      $.each(this.formCategories, (key, item) => tmp.push(item));
+      this.tmpFormCategories = tmp;
 
-      this.modalInfo = {
-        title: 'メニューの詳細',
-        confirmBtnTitle: '絞り込む'
-      }
+      this.tmpSelectedTreatSubCategory = [];
       this.optionContent = '100';
+      
       this.$refs.modal.show();
+      
       this.selectTreatCategory(id);
-      console.log(this.formCategories);
     },
 
     selectTreatCategory(id){
@@ -320,36 +312,15 @@ export default {
         childCate:sub
       }
 
-      this.tmpSelectedTreatSubCategory = this.selectedTreatSubCategory;
-
-      // this.selectedTreatSubCategory = this.selectedTreatSubCategory.filter(function (el){
-      //   return el.subcate.id !== treatCategory.id;
-      // })
-      // this.selectedTreatSubCategory.push(selectedSub)
-
-      this.tmpSelectedTreatSubCategory = this.tmpSelectedTreatSubCategory.filter(function (el){
-        return el.subcate.id !== treatCategory.id;
-      })
-      this.tmpSelectedTreatSubCategory.push(selectedSub)
-
-      // let tempArr = []
-      // $.each(this.selectedTreatSubCategory, function (key, value){
-
-      //   tempArr.push(value.childCate.id);
-      // })
-      let tempArr = []
-      $.each(this.tmpSelectedTreatSubCategory, function (key, value){
-
-        tempArr.push(value.childCate.id);
-      })
-      
-      // this.formCategories = tempArr
-      this.tmpFormCategories = tempArr;
+      if(!this.tmpFormCategories.some(data => data === sub.id)) {
+        this.selectedTreatSubCategory.push(selectedSub);
+        this.tmpFormCategories.push(sub.id);
+      }
     },
 
     handleCancelSelectedCondition(treatCategoryId, subId){
       this.selectedTreatSubCategory = this.selectedTreatSubCategory.filter(function (el){
-        return el.subcate.id !== treatCategoryId;
+        return el.childCate.id !== subId;
       })
 
       let tempArr = []
