@@ -15,14 +15,15 @@ use Throwable;
  */
 class QuestionService
 {
-  public function paginate($search)
+  public function paginate($search, $doctor_id = 0)
   {
     $per_page = isset($search['per_page']) ? $search['per_page'] : 20;
     $query = Question::query()
       ->with([
         'owner',
         'medias',
-        'categories'
+        'categories',
+        'answer'
       ]);
 
     if (isset($search['category_id']))
@@ -43,6 +44,20 @@ class QuestionService
       }
     } else {
       $query->orderby('updated_at', 'desc');
+    }
+
+    if (isset($search['status'])) {
+      switch($search['status']) { // 0: 最新の質問, 1: 人気の質問, 2: 自分の回答した質問
+        case '0' : 
+            break;
+        case '1' : 
+          break;
+        case '2' : 
+          $query->whereHas('answer', function($subquery) use ($doctor_id) {
+            $subquery->where('answers.doctor_id', $doctor_id);
+          });
+          break;
+      }
     }
 
     return $query->paginate($per_page);

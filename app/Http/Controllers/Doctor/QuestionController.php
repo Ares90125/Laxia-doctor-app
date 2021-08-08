@@ -48,8 +48,10 @@ class QuestionController extends Controller
      */
     public function search(Request $request)
     {
+        $doctor_id = auth()->guard('doctor')->user()->id;
+
         $params = $request->all();
-        $questions = $this->service->paginate($params);
+        $questions = $this->service->paginate($params, $doctor_id);
         
         return response()->json([
             'status' => 1,

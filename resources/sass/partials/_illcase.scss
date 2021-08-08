@@ -330,6 +330,10 @@
                                 .multiselect .multiselect__select {
                                     top: 15px;
                                 }
+                                
+                                .multiselect.multiselect--active .multiselect__select {
+                                    transform: none;
+                                }
                             }
 
                             .row.btn-row {

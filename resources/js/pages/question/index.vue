@@ -222,6 +222,22 @@ export default {
 
     handleStatusChange(status) {
       this.tab_status = status;
+
+      this.$store.dispatch('state/setIsLoading')
+      let formData = {
+        per_page: 20,
+        orderby: "updated_at",
+        status: status // 0: 最新の質問, 1: 人気の質問, 2: 自分の回答した質問
+      }
+      axios.post(`/api/doctor/questions/search`, formData)
+        .then(res => {
+          this.questionArr = this.setParentCategory(res.data.data.questions.data);
+          
+          this.$store.dispatch('state/removeIsLoading')
+        })
+        .catch(error => {
+          this.$store.dispatch('state/removeIsLoading')
+        })
     },
 
     // handleStatusChange(status) {
