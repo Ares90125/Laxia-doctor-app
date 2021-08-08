@@ -96,7 +96,7 @@
             <img class="avatar-img" :src="'/'+item.doctor.photo || '/img/menu-img.png'">
             <div class="avatar-detail">
               <div class="user-name">{{item.doctor.kata_name}}</div>
-              <div class="user-birthday">{{ item.created_at | formatDate }}</div>
+              <div class="user-birthday">{{ item.update_time }}</div>
             </div>
           </div>
           <div class="col-2 d-flex justify-content-end">

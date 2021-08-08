@@ -131,7 +131,7 @@ class Question extends Model
 
   public function answer()
   {
-    return $this->hasMany(Answers::class, 'question_id', 'id');
+    return $this->hasMany(Answers::class, 'question_id', 'id')->orderBy('answers.updated_at', 'desc');
   }
 
   public function getAnswersAttribute()
@@ -143,9 +143,28 @@ class Question extends Model
     $current_time = new DateTime('now');
     $created_time = new DateTime($this->created_at);
 
-    $dteDiff  = $created_time->diff($current_time); 
+    // $dteDiff  = $created_time->diff($current_time); 
     
-    // return $dteDiff->format("%H時間 %I分 %S秒前");
-    return $dteDiff->format("%h時間 %i分前");
+    // // return $dteDiff->format("%H時間 %I分 %S秒前");
+    // return $dteDiff->format("%h時間 %i分前");
+
+    $secDiff = $current_time->getTimestamp() - $created_time->getTimestamp();
+    $dteDiff  = $created_time->diff($current_time);
+
+    $val = '';
+
+    if($secDiff < 60)
+      $val = "1分以内";
+    elseif($secDiff < 60 * 59)
+      $val = $dteDiff->format("%i分前");
+    elseif($secDiff < 24 * 60 * 60)
+      $val = $dteDiff->format("%h時間前");
+    elseif($current_time->format('Y') == $created_time->format('Y')) {
+      $val = $created_time->format('m月d日');
+    } else {
+      $val = $created_time->format('Y年m月d日');
+    }
+
+    return $val;
   }
 }

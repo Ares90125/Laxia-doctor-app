@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Doctor;
 use App\Models\AnswerImages;
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class Answers extends Model
 {
@@ -27,13 +28,14 @@ class Answers extends Model
   ];
 
   protected $hidden = [
-    'updated_at',
+    // 'updated_at',
     // 'created_at',
   ];
 
   protected $appends = [
     'doctor',
     'photos',
+    'update_time'
   ];
 
   public function doctor()
@@ -54,5 +56,34 @@ class Answers extends Model
   public function getPhotosAttribute()
   {
     return $this->answerImages()->get();
+  }
+
+  public function getUpdateTimeAttribute() {
+    $current_time = new DateTime('now');
+    $updated_time = new DateTime($this->updated_at);
+
+    // $dteDiff  = $updated_time->diff($current_time); 
+    
+    // // return $dteDiff->format("%H時間 %I分 %S秒前");
+    // return $dteDiff->format("%h時間 %i分前");
+
+    $secDiff = $current_time->getTimestamp() - $updated_time->getTimestamp();
+    $dteDiff  = $updated_time->diff($current_time);
+
+    $val = '';
+
+    if($secDiff < 60)
+      $val = "1分以内";
+    elseif($secDiff < 60 * 59)
+      $val = $dteDiff->format("%i分前");
+    elseif($secDiff < 24 * 60 * 60)
+      $val = $dteDiff->format("%h時間前");
+    elseif($current_time->format('Y') == $updated_time->format('Y')) {
+      $val = $updated_time->format('m月d日');
+    } else {
+      $val = $updated_time->format('Y年m月d日');
+    }
+
+    return $val;
   }
 }
