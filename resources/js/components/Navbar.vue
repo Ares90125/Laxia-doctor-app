@@ -9,7 +9,7 @@
         <a class="nav-link dropdown-toggle text-dark"
           href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
         >
-          <img v-if="user.photo" :src="'/'+user.photo" class="rounded-circle profile-photo">
+          <img v-if="user.photo" :src="user.photo" class="rounded-circle profile-photo">
           <img v-if="!user.photo" :src="'/img/avatar-img.png'" class="rounded-circle profile-photo">
           {{ user.hira_name }}
         </a>

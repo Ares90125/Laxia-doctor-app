@@ -10,7 +10,7 @@
 
     <div class="menu-avatar-container">
        <div class="menu-avatar-img-container">
-         <img v-if="user.photo" :src="'/'+user.photo" class="rounded-circle avatar-photo">
+         <img v-if="user.photo" :src="user.photo" class="rounded-circle avatar-photo">
          <img v-if="!user.photo" :src="'/img/avatar-img.png'" class="rounded-circle avatar-photo">
        </div>
       <div class="menu-avatar-name">

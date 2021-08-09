@@ -84,23 +84,32 @@ class QuestionController extends Controller
     /**
      * Upload Answer Photo
      */
+    // public function uploadAnswerPhoto(Request $request)
+    // {
+    //     // $uploadedFile = $request->file('photo');
+    //     // $request->validate([
+    //     //     'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //     // ]);
+    //     $uploadedFile = $request->file;
+
+    //     $disk = 'public';
+    //     $filename = null;
+    //     $name = !is_null($filename) ? $filename : Str::random(25);
+    //     $file = $uploadedFile->storeAs('/doctor/answers', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+
+    //     return response()->json([
+    //         'status' => 1,
+    //         'photo' => 'storage/'.$file,
+    //     ]);
+    // }
+
     public function uploadAnswerPhoto(Request $request)
     {
-        // $uploadedFile = $request->file('photo');
-        // $request->validate([
-        //     'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
-        $uploadedFile = $request->file;
-
-        $disk = 'public';
-        $filename = null;
-        $name = !is_null($filename) ? $filename : Str::random(25);
-        $file = $uploadedFile->storeAs('/doctor/answers', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
-
+        $path = $this->mediaUploadWithThumb('/doctor/answers', $request->file, 200);
         return response()->json([
             'status' => 1,
-            'photo' => 'storage/'.$file,
-        ]);
+            'photo' => $path[1]
+        ], 200);
     }
 
     /**

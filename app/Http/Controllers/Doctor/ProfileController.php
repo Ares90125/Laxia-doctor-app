@@ -100,22 +100,31 @@ class ProfileController extends Controller
         }
     }
 
+//     public function uploadPhoto(Request $request)
+//     {
+//         $uploadedFile = $request->file;
+// //        $request->validate([
+// //            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+// //        ]);
+
+//         $disk = 'public';
+//         $filename = null;
+//         $name = !is_null($filename) ? $filename : Str::random(25);
+//         $file = $uploadedFile->storeAs('/doctor/profile', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+
+//         return response()->json([
+//             'status' => 1,
+//             'photo' => 'storage/'.$file,
+//         ]);
+//     }
+
     public function uploadPhoto(Request $request)
     {
-        $uploadedFile = $request->file;
-//        $request->validate([
-//            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-//        ]);
-
-        $disk = 'public';
-        $filename = null;
-        $name = !is_null($filename) ? $filename : Str::random(25);
-        $file = $uploadedFile->storeAs('/doctor/profile', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
-
+        $path = $this->mediaUploadWithThumb('/doctor/profile', $request->file, 300);
         return response()->json([
             'status' => 1,
-            'photo' => 'storage/'.$file,
-        ]);
+            'photo' => $path[1]
+        ], 200);
     }
 
     protected function emailValidator(array $data)

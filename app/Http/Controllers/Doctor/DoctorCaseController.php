@@ -50,32 +50,50 @@ class DoctorCaseController extends Controller
         ]);
     }
 
-    public function uploadBeforePhoto(Request $request) {
-        $uploadedFile = $request->file;
+    // public function uploadBeforePhoto(Request $request) {
+    //     $uploadedFile = $request->file;
 
-        $disk = 'public';
-        $filename = null;
-        $name = !is_null($filename) ? $filename : Str::random(25);
-        $file = $uploadedFile->storeAs('/doctor/cases/before', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+    //     $disk = 'public';
+    //     $filename = null;
+    //     $name = !is_null($filename) ? $filename : Str::random(25);
+    //     $file = $uploadedFile->storeAs('/doctor/cases/before', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
 
-       return response()->json([
-           'status' => 1,
-           'photo' => 'storage/'. $file,
-       ]);
+    //    return response()->json([
+    //        'status' => 1,
+    //        'photo' => 'storage/'. $file,
+    //    ]);
+    // }
+
+    public function uploadBeforePhoto(Request $request)
+    {
+        $path = $this->mediaUploadWithThumb('/doctor/cases/before', $request->file, 250);
+        return response()->json([
+            'status' => 1,
+            'photo' => $path[1]
+        ], 200);
     }
 
-    public function uploadAfterPhoto(Request $request)
-    {    
-        $uploadedFile = $request->file;
-        $disk = 'public';
-        $filename = null;
-        $name = !is_null($filename) ? $filename : Str::random(25);
-        $file = $uploadedFile->storeAs('/doctor/cases/after', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+    // public function uploadAfterPhoto(Request $request)
+    // {    
+    //     $uploadedFile = $request->file;
+    //     $disk = 'public';
+    //     $filename = null;
+    //     $name = !is_null($filename) ? $filename : Str::random(25);
+    //     $file = $uploadedFile->storeAs('/doctor/cases/after', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
 
-       return response()->json([
-           'status' => 1,
-           'photo' => 'storage/'.$file,
-       ]);
+    //    return response()->json([
+    //        'status' => 1,
+    //        'photo' => 'storage/'.$file,
+    //    ]);
+    // }
+
+    public function uploadAfterPhoto(Request $request)
+    {
+        $path = $this->mediaUploadWithThumb('/doctor/cases/after', $request->file, 250);
+        return response()->json([
+            'status' => 1,
+            'photo' => $path[1]
+        ], 200);
     }
 
     /**

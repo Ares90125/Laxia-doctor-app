@@ -60,7 +60,7 @@
           </div>
           <div class="answer-photo-row">
             <div class="photo-container" v-for="(item, index) in photos" :key="'photo-'+index">
-              <img :src="'/'+item" class="img-item"/>
+              <img :src="item" class="img-item"/>
               <a @click="handleRemoveAnswerImageClick(index)" class="remove-img-clicker">
                 <img src="/img/delete-icon.svg" class="remove-img-icon"/>
               </a>
@@ -93,7 +93,7 @@
       <div class="answer-item" v-for="(item, index) in answers" :key="index">
         <div class="row">
           <div class="avatar-container col-10">
-            <img class="avatar-img" :src="'/'+item.doctor.photo || '/img/menu-img.png'">
+            <img class="avatar-img" :src="item.doctor.photo || '/img/menu-img.png'">
             <div class="avatar-detail">
               <div class="user-name">{{item.doctor.kata_name}}</div>
               <div class="user-birthday">{{ item.update_time }}</div>
@@ -135,7 +135,7 @@
               </div>
               <div class="answer-photo-row">
                 <div class="photo-container" v-for="(img_item, index) in item.photos" :key="'update-'+index">
-                  <img :src="'/'+img_item.photo" class="img-item"/>
+                  <img :src="img_item.photo" class="img-item"/>
                   <a @click="handleRemoveAnswerEditImageClick(item, index)" class="remove-img-clicker">
                     <img src="/img/delete-icon.svg" class="remove-img-icon"/>
                   </a>
