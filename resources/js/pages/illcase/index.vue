@@ -390,7 +390,7 @@
               <div class="file-upload-con">
                 <file-upload
                   ref="UpdatebeforeFileUploadComponent"
-                  uploadUrl="/api/doctor/cases/uploadPhoto"
+                  uploadUrl="/api/doctor/cases/before/photoupload"
                   :photo="beforePhoto"
                   @file-upload-success="handleUpdateBeforeImageSaved"
                   :maxFiles="10"
@@ -413,7 +413,7 @@
               <div class="file-upload-con">
                 <file-upload
                   ref="UpdateafterFileUploadComponent"
-                  uploadUrl="/api/doctor/cases/uploadPhoto"
+                  uploadUrl="/api/doctor/cases/after/photoupload"
                   :photo="afterPhoto"
                   @file-upload-success="handleUpdateAfterImageSaved"
                   :maxFiles="10"

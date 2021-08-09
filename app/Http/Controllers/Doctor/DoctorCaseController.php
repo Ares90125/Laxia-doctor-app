@@ -32,22 +32,31 @@ class DoctorCaseController extends Controller
     /**
      * Upload Photo
      */
+//     public function uploadPhoto(Request $request)
+//     {
+//         $uploadedFile = $request->file;
+// //        $request->validate([
+// //            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+// //        ]);
+
+//         $disk = 'public';
+//         $filename = null;
+//         $name = !is_null($filename) ? $filename : Str::random(25);
+//         $file = $uploadedFile->storeAs('/doctor/cases', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+
+//         return response()->json([
+//             'status' => 1,
+//             'photo' => 'storage/'.$file,
+//         ]);
+//     }
+
     public function uploadPhoto(Request $request)
     {
-        $uploadedFile = $request->file;
-//        $request->validate([
-//            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-//        ]);
-
-        $disk = 'public';
-        $filename = null;
-        $name = !is_null($filename) ? $filename : Str::random(25);
-        $file = $uploadedFile->storeAs('/doctor/cases', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
-
+        $path = $this->mediaUploadWithThumb('/doctor/cases', $request->file, 250);
         return response()->json([
             'status' => 1,
-            'photo' => 'storage/'.$file,
-        ]);
+            'photo' => $path[1]
+        ], 200);
     }
 
     // public function uploadBeforePhoto(Request $request) {
