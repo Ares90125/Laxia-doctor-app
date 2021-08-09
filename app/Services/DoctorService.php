@@ -7,6 +7,7 @@ use App\Models\Attachment;
 use DB;
 use Auth;
 use Throwable;
+use App\Models\ClinicDoctorsRelation;
 
 /**
  * Class DoctorService
@@ -68,11 +69,37 @@ class DoctorService
       ->firstOrFail();
   }
 
-  public function update($attributes, $where)
+  // public function update($attributes, $where)
+  // {
+  //   $doctor = Doctor::where($where)->firstOrFail();
+  //   $doctor->fill($attributes);
+  //   $doctor->save();
+  //   return $doctor;
+  // }
+  public function update($attributes, $where, $doctor_id = 0)
   {
     $doctor = Doctor::where($where)->firstOrFail();
     $doctor->fill($attributes);
     $doctor->save();
+
+    if(isset($attributes['added_clinics']) && !empty($attributes['added_clinics'])) {
+      foreach($attributes['added_clinics'] as $clinic_id) {
+        $clinicDoctorRelationInfo = ClinicDoctorsRelation::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])
+          ->first();
+
+        if (!$clinicDoctorRelationInfo) {
+          $clinicDoctorRelationInfo = ClinicDoctorsRelation::create(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id]);
+        }
+      }
+    }
+
+    if(isset($attributes['deleted_clinics']) && !empty($attributes['deleted_clinics'])) {
+      foreach($attributes['deleted_clinics'] as $clinic_id) {
+        $clinicDoctorRelationInfo = ClinicDoctorsRelation::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])
+          ->delete();
+      }
+    }
+
     return $doctor;
   }
 }

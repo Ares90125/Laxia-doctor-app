@@ -47,7 +47,7 @@
           </div>
           <div class="profile-item">
             <label>所属クリニック</label>
-            <div class="profile-item--value">{{ user.clinics ? user.clinics.name : '' }}</div>
+            <div class="profile-item--value" v-for="item in user.clinics" :key="item.id" >{{ item.name }}</div>
           </div>
         </div>
         <div class="profile-con--right-con">
@@ -61,7 +61,7 @@
           </div>
           <div class="profile-item">
             <label>紐づいているクリニック</label>
-            <div class="profile-item--value">{{ user.clinics ? user.clinics.name : '' }}</div>
+            <div class="profile-item--value" v-for="item in user.clinics" :key="item.id" >{{ item.name }}</div>
           </div>
         </div>
       </div>
@@ -126,11 +126,7 @@
 
             <div class="row profile-item">
               <label for="clinic_id" class="caseinfo-title">所属クリニック</label>
-              <!-- <select id="clinic_id" :class="{ 'fulled-status' : form.user.job_id ? 'fulled-input': '' }" class="form-control" >
-                <option>湘南美容クリニック 新宿院</option>
-              </select> -->
-              <Select2 
-                v-model="form.user.clinic_id" 
+              <Select2
                 :options="clinics" 
                 :settings="{
                   'minimumInputLength': 1,
@@ -149,10 +145,17 @@
                       return m;
                   }
                 }" 
-                @change="myChangeEvent($event)"
-                @select="mySelectEvent($event)"
-                @open="mySelectOpenEvent($event)"
+                @change="clinicChangeEvent($event)"
+                @select="clinicSelectEvent($event)"
+                @open="clinicSelectOpenEvent($event)"
                 class="clinic-selecter select2-con" />
+
+                <div class="selected-clinics-con" v-for="(item, index) in form.user.clinics" :key="item.id">
+                  <p class="selected-clinic-option">{{ item.name }}</p>
+                  <a @click="handleCancelSelectedClinic(item, index)">
+                    <img src="/img/img-close-color.svg" class="close-img"/>
+                  </a>
+                </div>
             </div>
 
             <div class="row profile-item">
@@ -272,7 +275,8 @@ export default {
         suppressScrollX: true,
         wheelPropagation: false
       },
-      clinics: []
+      clinics: [],
+      tmpClinics: [],
     }
   },
 
@@ -301,12 +305,23 @@ export default {
         user: { ...this.user},
         specialities: {...this.specialities}
       }
+
+      let tp = [];
+      this.tmpClinics = [];
+
+      $.each(this.form.user.clinics, function (key, value){
+        tp.push(value);        
+      });
+
+      this.tmpClinics = tp;
+
       this.isModal = true
       this.$refs.modal.show();
     },
 
     handleUpdateStuff() {
-      this.$store.dispatch('state/setIsLoading')
+      this.$store.dispatch('state/setIsLoading');
+
       if (this.form.fileChanged) {
         this.$refs.fileUploadComponent.processQueue();
       } else {
@@ -316,9 +331,33 @@ export default {
 
     handleSaveStuff() {
       let url = '/api/doctor/profile';
-      // if (this.form.user.id) {
-      //   url += `/${this.form.user.id}`
-      // }
+
+      let added_clinics = [];
+      let deleted_clinics = [];
+      let clinics = this.form.user.clinics;
+      let tmp_clinics = this.tmpClinics;
+
+      $.each(this.tmpClinics, function(key, value){
+        let exist = clinics.filter(function(el) {
+          return el.id == value.id;
+        });
+
+        if(exist.length <= 0)
+          deleted_clinics.push(value.user_id);
+      });
+
+      $.each(this.form.user.clinics, function(key, value) {
+        let exist = tmp_clinics.filter(function(el) {
+          return el.id == value.id;
+        });
+
+        if(exist.length <= 0)
+          added_clinics.push(value.user_id);
+      });
+
+      this.form.user.added_clinics = added_clinics;
+      this.form.user.deleted_clinics = deleted_clinics;
+
       axios.put(url, this.form.user)
         .then(res => {
           this.user = res.data.data;
@@ -388,13 +427,22 @@ export default {
     scrollHanle(evt) {
       // console.log(evt)
     },
-    myChangeEvent(val){
+    clinicChangeEvent(val){
         console.log(val);
     },
-    mySelectEvent({id, text}){
-        console.log({id, text})
+    clinicSelectEvent({id, text}){
+      let item = this.clinics.filter(function(el) {
+        return el.id == id;
+      });
+
+      let exist = this.form.user.clinics.filter(function(el) {
+        return el.id == id;
+      });
+
+      if(exist.length <= 0)
+        this.form.user.clinics.push(item[0]['info']);
     },
-    mySelectOpenEvent(data) {
+    clinicSelectOpenEvent(data) {
       document.querySelector('input.select2-search__field').setAttribute('placeholder', '所属クリニックを検索');
     },
     formatOutput(optionElement) {
@@ -416,6 +464,9 @@ export default {
       let t_result = result.substr(0, pos) + '<b>' + typed + '</b>' + result.substr(pos_1, len_1);
 
       return t_result; 
+    },
+    handleCancelSelectedClinic(item, index) {
+      this.form.user.clinics.splice(index, 1);
     }
   }
 }

@@ -27,7 +27,8 @@ class ClinicController extends Controller
         foreach($clinics as $clinic) {
             $options[] = array(
                 'id' => $clinic->id,
-                'text' => $clinic->name
+                'text' => $clinic->name,
+                'info' => $clinic
             );
         }
 

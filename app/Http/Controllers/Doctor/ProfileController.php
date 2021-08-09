@@ -40,12 +40,7 @@ class ProfileController extends Controller
 
     public function get()
     {
-        // $doctor = auth()->guard('doctor')->user()->doctor;
-        // return response()->json([
-        //     'doctor' => $doctor->load(['images', 'pref'])
-        // ]);
         $user_id = auth()->guard('doctor')->user()->id;
-        // $doctor = $request->user();
         $profile = $this->service->get($user_id);
 
         return response()->json([
@@ -70,7 +65,7 @@ class ProfileController extends Controller
 
         \DB::beginTransaction();
         try {
-            $doctor = $this->service->update($data, ['doctor_id' => $user_id]);
+            $doctor = $this->service->update($data, ['doctor_id' => $user_id], $user_id);
             $name = $this->userService->updateName($data['name'], $user_id);
             $profile = $this->service->get($user_id);
 
@@ -99,24 +94,6 @@ class ProfileController extends Controller
             ], 500);
         }
     }
-
-//     public function uploadPhoto(Request $request)
-//     {
-//         $uploadedFile = $request->file;
-// //        $request->validate([
-// //            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-// //        ]);
-
-//         $disk = 'public';
-//         $filename = null;
-//         $name = !is_null($filename) ? $filename : Str::random(25);
-//         $file = $uploadedFile->storeAs('/doctor/profile', $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
-
-//         return response()->json([
-//             'status' => 1,
-//             'photo' => 'storage/'.$file,
-//         ]);
-//     }
 
     public function uploadPhoto(Request $request)
     {

@@ -182,6 +182,24 @@
                                     margin-bottom: 0px;
                                 }
                             }
+
+                            .selected-clinics-con {
+                                display: flex;
+                                background-color: aliceblue;
+                                align-items: center;
+                                margin: 10px 5px 0;
+                                padding: 0 10px;
+
+                                .selected-clinic-option {
+                                    padding: 8px 5px;
+                                    margin: 0 5px 0 0;
+                                    color: #5CA3F6;
+                                }
+
+                                a {
+                                    cursor: pointer;
+                                }
+                            }
                         }
                     }
                 }
