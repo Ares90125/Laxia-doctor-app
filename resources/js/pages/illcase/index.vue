@@ -11,6 +11,14 @@
         <button class="btn btn-primary" @click="handleNewCase"><img src="/img/plus.svg"> {{ $t('新規症例を追加') }}</button>
       </p>
     </div>
+    <div class="selected-category" v-if="category_query.length">
+      <div class="selected-treat-subcategory" v-for="(item, index) in category_query" :key="item.id">
+        <p class="selected-option" >{{item.group + ' / ' +  item.name}}</p>
+        <a @click="handleCancelCat(index)">
+          <img src="/img/img-close-color.svg" class="close-img"/>
+        </a>
+      </div>
+    </div>
 
     <div class="main-content">
       <div class="case-list">
@@ -22,7 +30,7 @@
             </div>
             <div class="case-info">
               <p class="case-cat empty-cat" v-if="item.category.length === 0"></p>
-              <p class="case-cat" v-for="item in item.category">{{item.category}}</p>
+              <p class="case-cat" v-for="item in item.category" :key="item.id">{{item.category}}</p>
               <p class="case-ttl">{{ item.title }}</p>
               <p class="case-name">
                 <svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +131,7 @@
           <div v-if="form.cases.before_photo.length" class="">
             <p class="caseinfo-title">Before画像</p>
             <div class="row">
-              <div class="photo-container" v-for="(item, index) in form.cases.before_photo">
+              <div class="photo-container" v-for="(item, index) in form.cases.before_photo" :key="index">
                 <img :src="item" class="case-img-list"/>
                 <a @click="handleRemoveBeforeImageClick(index)" class="remove-img-clicker">
                   <img src="/img/delete-icon.svg" class="remove-img-icon"/>
@@ -135,7 +143,7 @@
           <div v-if="form.cases.after_photo.length" class="">
             <p class="caseinfo-title">After画像</p>
             <div class="row">
-              <div class="photo-container" v-for="(item, index) in form.cases.after_photo">
+              <div class="photo-container" v-for="(item, index) in form.cases.after_photo" :key="index">
                 <img :src="item" class="case-img-list"/>
                 <a @click="handleRemoveAfterImageClick(index)" class="remove-img-clicker">
                   <img src="/img/delete-icon.svg" class="remove-img-icon"/>
@@ -144,7 +152,7 @@
             </div>
           </div>
 
-          <div class="row name-price-row" v-for="item in form.cases.menuProperty">
+          <div class="row name-price-row" v-for="item in form.cases.menuProperty" :key="item.id">
             <div class="col-8">
               <div class="form-group">
                 <label for="menuName_1" class="caseinfo-title">メニュー名</label>
@@ -295,7 +303,7 @@
             <div class="col-12">
               <p class="caseinfo-title">Before画像</p>
               <div class="images-group">
-                <img class="photo-img" v-for="photoItem in updateForm.cases.before" :src="photoItem.photo" />
+                <img class="photo-img" v-for="photoItem in updateForm.cases.before" :src="photoItem.photo" :key="photoItem.id" />
               </div>
             </div>
           </div>
@@ -304,7 +312,7 @@
             <div class="col-12">
               <p class="caseinfo-title">After画像</p>
               <div class="images-group">
-                <img class="photo-img" v-for="photoItem in updateForm.cases.after" :src="photoItem.photo" />
+                <img class="photo-img" v-for="photoItem in updateForm.cases.after" :src="photoItem.photo" :key="photoItem.id" />
               </div>
             </div>
           </div>
@@ -318,7 +326,7 @@
             </div>
           </div>
 
-          <div class="row price-row" v-for="(item, id) in updateForm.cases.menuProperty">
+          <div class="row price-row" v-for="(item, id) in updateForm.cases.menuProperty" :key="id">
             <div class="col-8">
               <p class="caseinfo-content">{{item.name}}</p>
             </div>
@@ -436,7 +444,7 @@
           <div v-if="updateForm.cases.before.length" class="">
             <p class="caseinfo-title">Before画像</p>
             <div class="row">
-              <div class="photo-container" v-for="(item, index) in updateForm.cases.before">
+              <div class="photo-container" v-for="(item, index) in updateForm.cases.before" :key="index">
                 <img :src="item.photo" class="case-img-list"/>
                 <a @click="handleUpdateRemoveBeforeImageClick(item.id)" class="remove-img-clicker">
                   <img src="/img/delete-icon.svg" class="remove-img-icon"/>
@@ -448,7 +456,7 @@
           <div v-if="updateForm.cases.after.length" class="">
             <p class="caseinfo-title">After画像</p>
             <div class="row">
-              <div class="photo-container" v-for="(item, index) in updateForm.cases.after">
+              <div class="photo-container" v-for="(item, index) in updateForm.cases.after" :key="index">
                 <img :src="item.photo" class="case-img-list"/>
                 <a @click="handleUpdateRemoveAfterImageClick(item.id)" class="remove-img-clicker">
                   <img src="/img/delete-icon.svg" class="remove-img-icon"/>
@@ -457,7 +465,7 @@
             </div>
           </div>
 
-          <div class="row" v-for="item in updateForm.cases.menuProperty">
+          <div class="row" v-for="item in updateForm.cases.menuProperty" :key="item.id">
             <div class="col-8">
               <div class="form-group">
                 <label for="menuName" class="caseinfo-title">メニュー名</label>
@@ -677,6 +685,7 @@ export default {
         suppressScrollX: true,
         wheelPropagation: false
       },
+      category_query: [],
     }
   },
 
@@ -726,6 +735,13 @@ export default {
 
   methods: {
     getData() {
+      let cat_query = '';
+      this.category_query.forEach(item => {
+        cat_query = cat_query + '_' + item.id;
+      });
+
+      this.query.category_id = cat_query;
+
       this.$store.dispatch('state/setIsLoading')
       const qs = this.$utils.getQueryString(this.query)
       axios.get(`/api/doctor/cases?${qs}`)
@@ -904,12 +920,10 @@ export default {
       tempMenu.add = menuProperty_add_arr;
 
       let o_items = this.tempMenu;
-console.log(this.tempMenu)
+
       $.each(this.updateForm.cases.menuProperty, function(c_key, c_item) {
         $.each(o_items, function(o_key, o_item) {
           if(c_item.id == o_item.id) {
-            console.log('citem=>',c_item.name);
-            console.log('oitem=>',o_item.name);
             if(c_item.name != o_item.name || c_item.cost != o_item.cost) {
               tempMenu.update.push(c_item);
             }
@@ -1074,8 +1088,26 @@ console.log(this.tempMenu)
 
     handleCategoryChange(e) {
       e.preventDefault();
-      this.query.category_id = e.target.value
-      this.getData()
+
+      let exist = this.category_query.filter(function(el) {
+        return el.id == e.target.value;
+      });
+
+      if(exist.length <= 0)
+        this.category_options.forEach(p_item => {
+          p_item.children.forEach(child => {
+            if(child.id == e.target.value) {
+              this.category_query.push({
+                id: child.id,
+                name: child.name,
+                group: p_item.group_name
+              })
+            }
+          });
+        });
+
+      // this.query.category_id = e.target.value;
+      this.getData();
     },
     handleCateChange(option){
       let opt_groud_name = "";
@@ -1103,13 +1135,15 @@ console.log(this.tempMenu)
     },
     removeUpdateCategory(idx) {
       this.selected_categories.splice(idx, 1);
-      // this.updateForm.cases.category.splice(idx, 1);
-      // console.log(this.updateForm.cases.category);
     },
     formatPrice(value) {
       let val = (value/1).toFixed(0);
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
+    handleCancelCat(index) {
+      this.category_query.splice(index, 1);
+      this.getData();
+    }
   }
 }
 </script>

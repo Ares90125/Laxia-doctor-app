@@ -31,6 +31,29 @@
             }
         }
 
+        .selected-category {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+
+            .selected-treat-subcategory {
+                display: flex;
+                margin-right: 10px;
+                background-color: aliceblue;
+                align-items: center;
+                padding: 3px 10px;
+
+                p {
+                    color: #5CA3F6;
+                    margin-right: 15px;
+                }
+
+                a {
+                    cursor: pointer;
+                }
+            }
+        }
+
         .main-content {
             padding: 30px 30px 50px;
             border-radius: 10px;

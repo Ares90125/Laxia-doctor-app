@@ -37,9 +37,12 @@ class DoctorCaseService
         $query->where('doctor_id', $search['doctor_id']);
       }
 
-      if (isset($search['category_id']) && $search['category_id'] != '-1') {
+      if (isset($search['category_id']) && $search['category_id'] != '') {
+        $cat_ids = explode('_', $search['category_id']);
+
         $query->join('doctor_case_category_relation as dccr', 'doctor_cases.id', '=', 'dccr.case_id')
-              ->where('dccr.category_id', $search['category_id']);
+              // ->where('dccr.category_id', $search['category_id']);
+              ->whereIn('dccr.category_id', $cat_ids);
       }
       
       $query->orderby('created_at', 'desc');
