@@ -377,12 +377,16 @@ export default {
             page: 1
           }
           this.$refs.fileUploadComponent.removeAllFiles();
-          this.getData()
+          this.updateUser();
         })
         .catch(error => {
           this.errors = { ...error.response.data.errors }
           this.$store.dispatch('state/removeIsLoading')
         })
+    },
+
+    async updateUser() {
+      await this.$store.dispatch('auth/fetchUser')
     },
 
     handleFileSaved(fileUrl) {
