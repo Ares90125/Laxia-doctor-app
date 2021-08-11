@@ -13,10 +13,14 @@
     @vdropzone-queue-complete="handleQueueComplete"
     @vdropzone-complete="handleUploadComplete"
     @vdropzone-complete-multiple="handleMultipleUploadComplete"
+    @vdropzone-drag-enter="handleDragEnter"
+    @vdropzone-drag-leave="handleDragLeave"
+    @vdropzone-drop="handleDrop"
     >
       <div class="dropzone-wrapper">
         <div class="dropzone-in">
-          <div class="dropzone-title">
+          <textarea class="form-control answer-sub-txt" v-model="answer" @change="handleAnswerChange($event)" v-bind:style="{ display: txtDisplay }" :placeholder="placeholder" @click="disablePass($event)"></textarea>
+          <div class="dropzone-title answer-tit" v-bind:style="{ display: titDisplay }">
             <p>画像をアップロードする</p>
           </div>
       </div>
@@ -60,11 +64,22 @@
         type: Boolean,
         default: false,
       },
+      placeholder: {
+        type: String,
+        default: undefined
+      },
+      textarea: {
+        type: String,
+        default: ''
+      }
     },
     
     data() {
       return {
         dropzoneOptions: undefined,
+        txtDisplay: 'block',
+        titDisplay: 'none',
+        answer: ''
       }
     },
 
@@ -98,6 +113,8 @@
       this.$nextTick(() => {
         this.setPhoto();
       });
+
+      this.answer = this.textarea;
     },
 
     methods: {
@@ -144,6 +161,10 @@
         })
       },
 
+      handleAnswerChange(event) {
+        this.$emit('change-answer', event.target.value)
+      },
+
       processQueue() {
         this.$refs.changePhotoDropzone.processQueue()
       },
@@ -155,6 +176,25 @@
       getQueuedFiles() {
         return this.$refs.changePhotoDropzone.getQueuedFiles().length
       },
+
+      disablePass(e) {
+        e.stopPropagation();
+      },
+
+      handleDragEnter() {
+        this.txtDisplay = 'none';
+        this.titDisplay = 'block';
+      },
+
+      handleDragLeave() {
+        this.txtDisplay = 'block';
+        this.titDisplay = 'none';
+      },
+
+      handleDrop() {
+        this.txtDisplay = 'block';
+        this.titDisplay = 'none';
+      }
     }
   }
 </script>

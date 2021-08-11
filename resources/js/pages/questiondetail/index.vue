@@ -50,8 +50,20 @@
 
       <div class="row"> 
         <div class="col-12">
-          <div class="more-add-image-container">
-            <textarea rows="5" id="user_profile" class="form-control comment-area" :class="{ 'fulled-status' : doctorAnswer ? 'fulled-input': '' }" v-model="doctorAnswer" placeholder="コメントやアドバイスをする"></textarea>
+          <div class="more-add-image-container file-upload-answer-con">
+            <file-upload-answer
+              ref="answerImageUploadComponent"
+              uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
+              :maxFiles="10"
+              :autoStatus="true"
+              placeholder="コメントやアドバイスをする"
+              name="menu-images"
+              @file-upload-success="handleAnswerMultiFileSaved"
+              @file-removed="hanleAnswerMultiFileRemove"
+              @file-added="handleAnswerMultiFileAdded"
+              @queue-complete="handleAnswerMultiFilesQueueComplete"
+              @change-answer="handleChangeAnswer"
+            />
             <a @click="handleMoreAddImageClick()" class="more-add-image-clicker">
               <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.56015 0H2.04016C1.00616 0 0.169556 0.9 0.169556 2L0.160156 18C0.160156 19.1 0.996756 20 2.03076 20H13.3202C14.3542 20 15.2002 19.1 15.2002 18V6L9.56015 0ZM13.3202 18H2.04016V2H8.62015V7H13.3202V18ZM3.92016 13.01L5.24555 14.42L6.74016 12.84V17H8.62015V12.84L10.1148 14.43L11.4402 13.01L7.68956 9L3.92016 13.01Z" fill="#5F6377"/>
@@ -65,19 +77,6 @@
                 <img src="/img/delete-icon.svg" class="remove-img-icon"/>
               </a>
             </div>
-          </div>
-          <div class="file-upload-answer-con" v-if="isuploadfileBlock">
-            <file-upload-answer
-              ref="answerImageUploadComponent"
-              uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
-              :maxFiles="10"
-              :autoStatus="true"
-              name="menu-images"
-              @file-upload-success="handleAnswerMultiFileSaved"
-              @file-removed="hanleAnswerMultiFileRemove"
-              @file-added="handleAnswerMultiFileAdded"
-              @queue-complete="handleAnswerMultiFilesQueueComplete"
-            />
           </div>
         </div>
       </div>
@@ -125,8 +124,22 @@
         <div class="detail-edit-con" v-if="item.edit_flag">
           <div class="row"> 
             <div class="col-12">
-              <div class="more-add-image-container">
-                <textarea rows="5" class="form-control comment-area" :class="{ 'fulled-status' : item.answer ? 'fulled-input': '' }" v-model="item.answer"></textarea>
+
+              <div class="more-add-image-container file-upload-answer-con">
+                <file-upload-answer
+                  ref="answerEditImageUploadComponent"
+                  uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
+                  :maxFiles="10"
+                  :autoStatus="true"
+                  placeholder="コメントやアドバイスをする"
+                  :textarea="item.answer"
+                  name="menu-images"
+                  @file-upload-success="handleAnswerEditMultiFileSaved"
+                  @file-removed="hanleAnswerEditMultiFileRemove"
+                  @file-added="handleAnswerEditMultiFileAdded"
+                  @queue-complete="handleAnswerEditMultiFilesQueueComplete"
+                  @change-answer="handleChangeUpdateAnswer(item, ...arguments)"
+                />
                 <a @click="handleMoreEditImageClick(item)" class="more-add-image-clicker">
                   <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9.56015 0H2.04016C1.00616 0 0.169556 0.9 0.169556 2L0.160156 18C0.160156 19.1 0.996756 20 2.03076 20H13.3202C14.3542 20 15.2002 19.1 15.2002 18V6L9.56015 0ZM13.3202 18H2.04016V2H8.62015V7H13.3202V18ZM3.92016 13.01L5.24555 14.42L6.74016 12.84V17H8.62015V12.84L10.1148 14.43L11.4402 13.01L7.68956 9L3.92016 13.01Z" fill="#5F6377"/>
@@ -140,19 +153,6 @@
                     <img src="/img/delete-icon.svg" class="remove-img-icon"/>
                   </a>
                 </div>
-              </div>
-              <div class="file-upload-answer-con" v-if="item.upload_flag">
-                <file-upload-answer
-                  ref="answerEditImageUploadComponent"
-                  uploadUrl="/api/doctor/questions/uploadAnswerPhoto"
-                  :maxFiles="10"
-                  :autoStatus="true"
-                  name="menu-images"
-                  @file-upload-success="handleAnswerEditMultiFileSaved"
-                  @file-removed="hanleAnswerEditMultiFileRemove"
-                  @file-added="handleAnswerEditMultiFileAdded"
-                  @queue-complete="handleAnswerEditMultiFilesQueueComplete"
-                />
               </div>
             </div>
           </div>
@@ -202,7 +202,6 @@ export default {
   data() {
     return {
       detailid: '',
-      isuploadfileBlock: false,
       isEditing: false,
       errors: undefined,
       questionDetail: undefined,
@@ -290,9 +289,9 @@ export default {
         .then(res => {
           this.doctorAnswer = '';
           this.photos = [];
-          this.answers.push(
+          this.answers.unshift(
             {...res.data.data}
-          )
+          );
           this.questionDetail.comments_count = this.questionDetail.comments_count + 1;
           
           // this.query = {
@@ -304,7 +303,6 @@ export default {
           // }
 
           this.$refs.answerImageUploadComponent.removeAllFiles();
-          this.isuploadfileBlock = false;
           this.$store.dispatch('state/removeIsLoading');
         })
         .catch(error => {
@@ -348,12 +346,12 @@ export default {
 
     },
     handleMoreAddImageClick(){
-      if(this.isuploadfileBlock){
-        this.isuploadfileBlock = false;
-      }
-      else{
-        this.isuploadfileBlock = true;
-      }
+      // if(this.isuploadfileBlock){
+      //   this.isuploadfileBlock = false;
+      // }
+      // else{
+      //   this.isuploadfileBlock = true;
+      // }
     },
     handleEditQuestion(item) {
       this.answers.forEach((answer) => {
@@ -397,11 +395,11 @@ export default {
         });
     },
     handleMoreEditImageClick(item) {
-      this.answers.forEach((answer) => {
-        if(answer.id == item.id) answer.upload_flag = !answer.upload_flag;
-      });
+      // this.answers.forEach((answer) => {
+      //   if(answer.id == item.id) answer.upload_flag = !answer.upload_flag;
+      // });
 
-      this.$forceUpdate();
+      // this.$forceUpdate();
     },
     handleRemoveAnswerEditImageClick(item, index) {
       item.deleted_photo.push(item.photos[index].id);
@@ -454,6 +452,14 @@ export default {
     handleAnswerEditMultiFilesQueueComplete() {
       // this.form.beforeFileChanged = false
     },
+
+    handleChangeAnswer(data) {
+      this.doctorAnswer = data;
+    },
+
+    handleChangeUpdateAnswer(item, data) {
+      item.answer = data;
+    }
   }
 }
 </script>
