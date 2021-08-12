@@ -144,6 +144,12 @@ export default {
         wheelPropagation: false
       },
       tab_status: 0,
+      query: {
+        per_page: 10,
+        page: 1,
+        orderby: 'updated_at',
+        status: 0
+      },
     }
   },
 
@@ -179,21 +185,19 @@ export default {
     },
 
     getData() {
-      this.$store.dispatch('state/setIsLoading')
-      let formData = {
-        per_page: 20,
-        orderby: "updated_at"
-      }
-      axios.post(`/api/doctor/questions/search`, formData)
+      this.$store.dispatch('state/setIsLoading');
+
+      axios.post(`/api/doctor/questions/search`, this.query)
         .then(res => {
           this.questionArr = this.setParentCategory(res.data.data.questions.data);
-          // this.query = {
-          //   ...this.query,
-          //   per_page: res.data.menus.per_page
-          // }
-          // this.pageInfo = {
-          //   last_page: res.data.menus.last_page,
-          // }
+          this.query = {
+            ...this.query,
+            per_page: res.data.data.questions.per_page
+          }
+          this.pageInfo = {
+            last_page: res.data.data.questions.last_page,
+          }
+          console.log(this.pageInfo);
           this.$store.dispatch('state/removeIsLoading')
         })
         .catch(error => {
@@ -223,31 +227,14 @@ export default {
     handleStatusChange(status) {
       this.tab_status = status;
 
-      this.$store.dispatch('state/setIsLoading')
-      let formData = {
-        per_page: 20,
-        orderby: "updated_at",
+      this.query = {
+        ...this.query,
+        page: 1,
         status: status // 0: 最新の質問, 1: 人気の質問, 2: 自分の回答した質問
-      }
-      axios.post(`/api/doctor/questions/search`, formData)
-        .then(res => {
-          this.questionArr = this.setParentCategory(res.data.data.questions.data);
-          
-          this.$store.dispatch('state/removeIsLoading')
-        })
-        .catch(error => {
-          this.$store.dispatch('state/removeIsLoading')
-        })
-    },
+      };
 
-    // handleStatusChange(status) {
-    //   this.query = {
-    //     ...this.query,
-    //     page: 1,
-    //     status: status
-    //   }
-    //   this.getData()
-    // },
+      this.getData();
+    },
 
     handleShowMenu(id){
       this.$router.push({ name: 'user_questiondetail', params: {id: id}})
@@ -285,26 +272,17 @@ export default {
         this.tmpSelectedTreatSubCategory: 
           (this.selectedTreatSubCategory.length > 0 ? this.selectedTreatSubCategory : undefined);
 
-      let formData = {
-        per_page: 20,
-        orderby: "updated_at",
+      this.query = {
+        ...this.query,
+        page: 1,
         category_id: this.formCategories
-      }
+      };
 
-      this.$store.dispatch('state/setIsLoading')
-      axios.post(`/api/doctor/questions/search`, formData)
-        .then(res => {
-          this.questionArr = this.setParentCategory(res.data.data.questions.data);
-          // this.formCategories = []
-          this.$store.dispatch('state/removeIsLoading')
+      this.getData();
 
-          this.isSelectedTreatSubCategory = true;
-        })
-        .catch(error => {
-          this.$store.dispatch('state/removeIsLoading')
-        })
-      
+      this.isSelectedTreatSubCategory = true;
       this.category_top_id = 0;
+
       this.$refs.modal.hide();
     },
 
@@ -341,38 +319,19 @@ export default {
 
       let tempArr = []
       $.each(this.selectedTreatSubCategory, function (key, value){
-
         tempArr.push(value.childCate.id);
       })
       this.formCategories = tempArr
 
-      let formData;
-      if(!this.formCategories.length){
-        formData = {
-          per_page: 20,
-          orderby: "updated_at",
-        }
-      }
-      else{
-        formData = {
-          per_page: 20,
-          orderby: "updated_at",
-          category_id: this.formCategories
-        }
-      }
+      this.query = {
+        ...this.query,
+        page: 1,
+        category_id: this.formCategories
+      };
 
-      this.$store.dispatch('state/setIsLoading')
-      axios.post(`/api/doctor/questions/search`, formData)
-        .then(res => {
-          this.questionArr = this.setParentCategory(res.data.data.questions.data);
-          // this.formCategories = []
-          this.$store.dispatch('state/removeIsLoading')
+      this.getData();
 
-          this.isSelectedTreatSubCategory = true
-        })
-        .catch(error => {
-          this.$store.dispatch('state/removeIsLoading')
-        })
+      this.isSelectedTreatSubCategory = true;
     },
 
     handlePaginate(pageNum) {

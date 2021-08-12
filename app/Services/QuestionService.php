@@ -26,7 +26,7 @@ class QuestionService
         'answer'
       ]);
 
-    if (isset($search['category_id']))
+    if (isset($search['category_id']) && !empty($search['category_id']))
     {
       $ids = $search['category_id'];
       $query->whereHas('categories', function($subquery) use ($ids) {
