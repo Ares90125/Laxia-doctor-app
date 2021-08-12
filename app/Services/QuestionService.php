@@ -36,11 +36,14 @@ class QuestionService
 
     if (isset($search['orderby'])) {
       $orderby = $search['orderby'];
+
       if ($orderby == 'comments_count') {
         $query->withCount('comments')
           ->orderby('comments_count', 'DESC');
       } else if ($orderby == 'news') {
         $query->orderby('updated_at', 'DESC');
+      } else {
+        $query->orderby('updated_at', 'desc');
       }
     } else {
       $query->orderby('updated_at', 'desc');
