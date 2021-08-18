@@ -7,11 +7,14 @@
         <a href="#" :class="{'active': tab_status == 2}" @click="handleStatusChange(2)">{{ $t('自分の回答した質問') }}</a>
       </div>
       <div class="staff-header">
-        <p>
+        <!-- <p>
           <select class="staff-sort form-control" :class="{ 'fulled-status' : category_top_id ? 'fulled-input': '' }" v-model="category_top_id" @click="handleSearchSelect(category_top_id, $event)">
             <option value="0">施術で絞り込む</option>
             <option v-for="item in treatCategories" :key="item.id" :value="item.id">{{ item.name }}</option>
           </select>
+        </p> -->
+        <p>
+          <input type="text" class="staff-sort form-control" placeholder="施術で絞り込む" @click="handleSearchSelect(category_top_id, $event)" readonly />
         </p>
       </div>
       <div class="row selected-category" v-if="isSelectedTreatSubCategory">
@@ -242,7 +245,7 @@ export default {
 
     handleSearchSelect(id, $event){
 
-      $event.target.blur();
+      // $event.target.blur();
       
       let tmp = [];
       $.each(this.formCategories, (key, item) => tmp.push(item));
