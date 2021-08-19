@@ -106,7 +106,6 @@ class Doctor extends Model
     return $job ? $job->name : null;
   }
 
-
   public function speciality0()
   {
     return $this->belongsTo(Speciality::class, 'spec0');
@@ -115,7 +114,9 @@ class Doctor extends Model
   public function getSpec0NameAttribute()
   {
     $speciality = $this->speciality0()->where('id', $this->spec0)->first();
-    return $speciality ? $speciality->name : null;
+    $parent = Speciality::where('id', $speciality->parent_id)->first();
+
+    return $speciality ? $parent->name . ' / ' . $speciality->name : null;
   }
 
 
@@ -127,7 +128,9 @@ class Doctor extends Model
   public function getSpec1NameAttribute()
   {
     $speciality = $this->speciality1()->where('id', $this->spec1)->first();
-    return $speciality ? $speciality->name : null;
+    $parent = Speciality::where('id', $speciality->parent_id)->first();
+
+    return $speciality ? $parent->name . ' / ' . $speciality->name : null;
   }
 
 
@@ -139,6 +142,8 @@ class Doctor extends Model
   public function getSpec2NameAttribute()
   {
     $speciality = $this->speciality2()->where('id', $this->spec2)->first();
-    return $speciality ? $speciality->name : null;
+    $parent = Speciality::where('id', $speciality->parent_id)->first();
+
+    return $speciality ? $parent->name . ' / ' . $speciality->name : null;
   }
 }
