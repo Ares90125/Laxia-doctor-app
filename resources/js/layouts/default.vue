@@ -77,6 +77,7 @@ export default {
           this.$store.dispatch('data/saveCategories', { categories : res.data.categories })
           this.$store.dispatch('data/savePrefs', { prefs : res.data.prefs })
           this.$store.dispatch('data/savetreatCategories', { treatCategories : res.data.treatCategories })
+          this.$store.dispatch('data/saveMenus', { menus : res.data.menus })
           this.$store.dispatch('state/setIsMasterLoaded')
         })
     },

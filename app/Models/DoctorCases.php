@@ -73,7 +73,9 @@ class DoctorCases extends Model
 
   public function caseMenus()
   {
-    return $this->hasMany(DoctorCaseMenus::class, 'case_id', 'id');
+    // return $this->hasMany(DoctorCaseMenus::class, 'case_id', 'id');
+    
+    return $this->belongsToMany(Menu::class, 'doctor_case_menus', 'case_id', 'menu_id');
   }
 
   public function getMenuPropertyAttribute()

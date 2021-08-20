@@ -157,6 +157,9 @@ class MasterDataController extends Controller
         // $stuffs = $this->stuffService->toArray($params);
         // $menus = $this->menuService->toArray($params);
 
+        $doctor_id = auth()->guard('api')->check() ? auth()->guard('api')->user()->id : '';
+        $menus = $this->menuService->toArrayByDoctor($doctor_id);
+
         return response()->json([
             'jobs' => $jobs,
             'rsvContents' => $rsvContents,
@@ -166,7 +169,7 @@ class MasterDataController extends Controller
             'concernCategories' => $concenrCategories,
             'prefs' => $prefs,
             // 'stuffs' => $stuffs,
-            // 'menus' => $menus
+            'menus' => $menus
         ], 200);
     }
 

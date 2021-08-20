@@ -15,7 +15,7 @@ class CreateMenusTable extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('clinic_id')->unsigned();
+            $table->bigInteger('clinic_id')->nullable()->unsigned();
             $table->string('name')->nullable()->comment('メニュー名');
             $table->smallInteger('category_id')->unsigned()->nullable()->comment('カテゴリー');
             $table->integer('price')->nullable()->comment('料金');

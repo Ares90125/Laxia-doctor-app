@@ -169,7 +169,6 @@ export default {
         confirmBtnTitle: '検索'
       }
       this.form = {...this.doctor}
-      console.log(this.form);
 
       this.isEmailModal = true
       this.$refs.emailModal.show();

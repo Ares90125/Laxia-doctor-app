@@ -129,11 +129,11 @@
       },
 
       handleMultipleUploadComplete(response) {
-        console.log('Multiple Complete')
+        // console.log('Multiple Complete')
       },
 
       handleUploadComplete(response) {
-        console.log('Complete')
+        // console.log('Complete')
       },
 
       handleUploadError(file, message, xhr) {

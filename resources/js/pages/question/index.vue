@@ -200,7 +200,6 @@ export default {
           this.pageInfo = {
             last_page: res.data.data.questions.last_page,
           }
-          console.log(this.pageInfo);
           this.$store.dispatch('state/removeIsLoading')
         })
         .catch(error => {

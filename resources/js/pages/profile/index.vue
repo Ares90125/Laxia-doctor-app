@@ -398,6 +398,8 @@ export default {
             page: 1
           }
           this.$refs.fileUploadComponent.removeAllFiles();
+      
+          this.loadDbData();
           this.updateUser();
         })
         .catch(error => {
@@ -407,11 +409,24 @@ export default {
     },
 
     async updateUser() {
-      await this.$store.dispatch('auth/fetchUser')
+      await this.$store.dispatch('auth/fetchUser');
+    },
+
+    loadDbData() {
+      axios.get('/api/doctor/load/master')
+        .then(res => {
+          this.$store.dispatch('data/saveJobs', { jobs : res.data.jobs })
+          this.$store.dispatch('data/saveRsvContents', { rsv_contents : res.data.rsvContents })
+          this.$store.dispatch('data/saveSpecialities', { specialities : res.data.specialities })
+          this.$store.dispatch('data/saveCategories', { categories : res.data.categories })
+          this.$store.dispatch('data/savePrefs', { prefs : res.data.prefs })
+          this.$store.dispatch('data/savetreatCategories', { treatCategories : res.data.treatCategories })
+          this.$store.dispatch('data/saveMenus', { menus : res.data.menus })
+          this.$store.dispatch('state/setIsMasterLoaded')
+        })
     },
 
     handleFileSaved(fileUrl) {
-      console.log(fileUrl);
       this.form.user.photo = fileUrl
 
       this.form.fileChanged = false
@@ -453,7 +468,7 @@ export default {
       // console.log(evt)
     },
     clinicChangeEvent(val){
-        console.log(val);
+        // console.log(val);
     },
     clinicSelectEvent({id, text}){
       let item = this.clinics.filter(function(el) {

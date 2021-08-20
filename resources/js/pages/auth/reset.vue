@@ -99,8 +99,7 @@ export default {
   methods: {
     async reset () {
       try{
-        const { data } = await this.form.post('/api/user/password/reset')
-        console.log(data);
+        const { data } = await this.form.post('/api/user/password/reset');
 
         if(data.reset_flag == 'successed') this.$refs.modal.show();
       } catch(e) {

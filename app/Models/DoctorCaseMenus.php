@@ -20,12 +20,14 @@ class DoctorCaseMenus extends Model
    */
   protected $fillable = [
     'case_id',
+    'menu_id',
     'name',
     'cost'
   ];
 
   protected $hidden = [
     'case_id',
+    'menu_id',
     'updated_at',
     'created_at',
   ];

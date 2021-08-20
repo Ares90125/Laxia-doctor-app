@@ -65,7 +65,6 @@ export default {
     
     async send () {
       // const { data } = await this.form.post('/api/user/password/email');
-      // console.log('data=>', data);
 
       // if(data.send_flag == 'successed') this.isSendingEmail = false;
       this.isSendingEmail = false;

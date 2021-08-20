@@ -7,6 +7,7 @@ use App\Models\DoctorCaseImages;
 use App\Models\DoctorCaseMenus;
 use App\Models\DoctorCaseCategoryRelation;
 use App\Enums\Doctor\PhotoType;
+use App\Models\Menu;
 use DB;
 use Auth;
 use Throwable;
@@ -85,13 +86,39 @@ class DoctorCaseService
 
     if (isset($attributes['menuProperty'])) {
       for ($i = 0; $i < count($attributes['menuProperty']); $i++) {
-        DoctorCaseMenus::create([
-          'case_id' => $doctorCase->id,
-          'name' => $attributes['menuProperty'][$i]['name'],
-          'cost' => $attributes['menuProperty'][$i]['cost']
-        ]);
+
+        if(empty($attributes['menuProperty'][$i]['name'])) continue;
+        
+        if(empty($attributes['menuProperty'][$i]['id'])) {
+          $menu_id = \DB::table('menus')->insertGetId([
+              'name' => $attributes['menuProperty'][$i]['name'],
+              'price' => $attributes['menuProperty'][$i]['price']
+          ]);
+  
+          DoctorCaseMenus::create([
+              'case_id' => $doctorCase->id,
+              'menu_id' => $menu_id
+          ]);
+        } else {
+          DoctorCaseMenus::create([
+            'case_id' => $doctorCase->id,
+            'menu_id' => $attributes['menuProperty'][$i]['id']
+          ]);
+        }
       }
     }
+
+    // if (isset($attributes['existedMenuProperty'])) {
+    //   for ($i = 0; $i < count($attributes['existedMenuProperty']); $i++) {
+
+    //     if(empty($attributes['existedMenuProperty'][$i]['id'])) continue;
+
+    //     DoctorCaseMenus::create([
+    //       'case_id' => $doctorCase->id,
+    //       'menu_id' => $attributes['existedMenuProperty'][$i]['id']
+    //     ]);
+    //   }
+    // }
 
     if (isset($attributes['category'])) {
       for ($i = 0; $i < count($attributes['category']); $i++) {
@@ -210,27 +237,38 @@ class DoctorCaseService
       $menuProperty = $attributes['menuProperty'];
       if (isset($menuProperty['add'])) {
         for ($i = 0; $i < count($menuProperty['add']); $i++) {
-          DoctorCaseMenus::create([
-            'case_id' => $id,
-            'name' => $menuProperty['add'][$i]['name'],
-            'cost' => $menuProperty['add'][$i]['cost']
-          ]);
+
+          if(empty($menuProperty['add'][$i]['id'])) {
+            $menu_id = \DB::table('menus')->insertGetId([
+              'name' => $menuProperty['add'][$i]['name'],
+              'price' => $menuProperty['add'][$i]['price']
+            ]);
+  
+            DoctorCaseMenus::create([
+                'case_id' => $id,
+                'menu_id' => $menu_id
+            ]);
+          } else {
+            DoctorCaseMenus::create([
+              'case_id' => $id,
+              'menu_id' => $menuProperty['add'][$i]['id']
+            ]);
+          }          
         }
       }
 
       if (isset($menuProperty['update'])) {
         for ($i = 0; $i < count($menuProperty['update']); $i++) {
-          $caseMenu = DoctorCaseMenus::where('id', $menuProperty['update'][$i]['id'])
-            ->where('case_id', $id)
+          $menu = Menu::where('id', $menuProperty['update'][$i]['id'])
             ->first();
-          $caseMenu->fill($menuProperty['update'][$i]);
-          $caseMenu->save();
+          $menu->fill($menuProperty['update'][$i]);
+          $menu->save();
         }
       }
 
       if (isset($menuProperty['delete'])) {
         for ($i = 0; $i < count($menuProperty['delete']); $i++) {
-          DoctorCaseMenus::where('id', $menuProperty['delete'][$i])
+          DoctorCaseMenus::where('menu_id', $menuProperty['delete'][$i]['id'])
             ->where('case_id', $id)
             ->delete();
         }

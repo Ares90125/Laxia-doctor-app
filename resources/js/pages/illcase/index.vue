@@ -152,29 +152,80 @@
             </div>
           </div>
 
-          <div class="row name-price-row" v-for="item in form.cases.menuProperty" :key="item.id">
-            <div class="col-8">
-              <div class="form-group">
-                <label for="menuName_1" class="caseinfo-title">メニュー名</label>
-                <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName_1" placeholder="例：二重切開" />
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="form-group">
-                <label for="cost_1" class="caseinfo-title">料金</label>
-                <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost_1" placeholder="例：250000円" >
+          <div v-if="menus.length" class="row">
+            <div class="col-12">
+              <label for="category_1" class="caseinfo-title">メニュー名</label>
+              <multiselect
+                class="m-multiselect"
+                :class="{'is-invalid' : errors && errors['category'] }"
+                id="menu_items"
+                :options="menu_options"
+                :multiple="true"
+                track-by="name"
+                label="name"
+                selectLabel=""
+                selectGroupLabel=""
+                placeholder=""
+                selectedLabel="選択済み"
+                deselectLabel="削除"
+                deselectGroupLabel="削除"
+                @select="handleAddExistedItemMenu"
+              ></multiselect>
+              <div v-if="form.cases.menuProperty.length && form.cases.menuProperty[0].name" class="view-menu-panel">
+                <div class="row mb-2 selected_menu--lbl-con">
+                  <div class="col-7">
+                        <p>メニュー名</p>
+                    </div>
+                    <div class="col-3">
+                        <p>料金</p>
+                    </div>
+                    <div class="col-2 text-center">
+                      <p>削除</p>
+                    </div>
+                </div>
+                <div class="row mb-2"  v-for="(item, idx) in form.cases.menuProperty" :key="'selected-menus_'+item.id">
+                    <div class="col-7">
+                        <p>{{item.name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <p>{{item.price}}</p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p>
+                          <svg @click="removeSelectedMenuItem(idx)" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.99997 0C4.47721 0 0 4.47736 0 10.0001C0 15.5229 4.47721 19.9999 9.99997 19.9999C15.5229 19.9999 20.0001 15.5229 20.0001 10.0001C20.0001 4.47736 15.5229 0 9.99997 0ZM14.635 13.0096L13.0101 14.635L9.99997 11.6248L6.99011 14.635L5.36514 13.0096L8.37512 9.9995L5.36514 6.98996L6.98999 5.36495L9.99997 8.37512L13.01 5.36495L14.635 6.98964L11.6248 9.9995L14.635 13.0096Z" fill="#131340"/>
+                          </svg>
+                        </p>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
+          <div v-else>
+            <div class="row name-price-row" v-for="(item, idx) in form.cases.menuProperty" :key="idx+'_'+item.id">
+              <div class="col-8">
+                <div class="form-group">
+                  <label for="menuName_1" class="caseinfo-title">メニュー名</label>
+                  <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName_1" placeholder="例：二重切開" />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="cost_1" class="caseinfo-title">料金</label>
+                  <input type="text" v-model="item.price" :class="{ 'fulled-status' : item.price ? 'fulled-input': '' }" class="form-control" id="cost_1" placeholder="例：250000円" >
+                </div>
+              </div>
+            </div>
 
-          <div class="row d-flex justify-content-center">
-            <div class="col-3">
-              <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
-                <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
-                </svg>
-              </a>
-              <p class="d-flex justify-content-center">メニューを追加</p>
+            <div class="row d-flex justify-content-center">
+              <div class="col-3">
+                <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItem">
+                  <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
+                  </svg>
+                </a>
+                <p class="d-flex justify-content-center">メニューを追加</p>
+              </div>
             </div>
           </div>
 
@@ -331,7 +382,7 @@
               <p class="caseinfo-content">{{item.name}}</p>
             </div>
             <div class="col-4">
-              <p class="caseinfo-content">{{formatPrice(item.cost)}}</p>
+              <p class="caseinfo-content">{{formatPrice(item.price)}}</p>
             </div>
           </div>
 
@@ -465,29 +516,80 @@
             </div>
           </div>
 
-          <div class="row" v-for="item in updateForm.cases.menuProperty" :key="item.id">
-            <div class="col-8">
-              <div class="form-group">
-                <label for="menuName" class="caseinfo-title">メニュー名</label>
-                <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName" placeholder="例：二重切開" />
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="form-group">
-                <label for="cost" class="caseinfo-title">料金</label>
-                <input type="text" v-model="item.cost" :class="{ 'fulled-status' : item.cost ? 'fulled-input': '' }" class="form-control" id="cost" placeholder="例：250000円" >
+          <div v-if="menus.length" class="row">
+            <div class="col-12">
+              <label for="category_1" class="caseinfo-title">メニュー名</label>
+              <multiselect
+                class="m-multiselect"
+                :class="{'is-invalid' : errors && errors['category'] }"
+                id="menu_items"
+                :options="menu_options"
+                :multiple="true"
+                track-by="name"
+                label="name"
+                selectLabel=""
+                selectGroupLabel=""
+                placeholder=""
+                selectedLabel="選択済み"
+                deselectLabel="削除"
+                deselectGroupLabel="削除"
+                @select="handleAddMenuExistItemUpdateForm"
+              ></multiselect>
+              <div v-if="updateForm.cases.menuProperty.length" class="view-menu-panel">
+                <div class="row mb-2 selected_menu--lbl-con">
+                  <div class="col-7">
+                        <p>メニュー名</p>
+                    </div>
+                    <div class="col-3">
+                        <p>料金</p>
+                    </div>
+                    <div class="col-2 text-center">
+                      <p>削除</p>
+                    </div>
+                </div>
+                <div class="row mb-2"  v-for="(item, idx) in updateForm.cases.menuProperty" :key="'selected-update-menus_'+item.id">
+                    <div class="col-7">
+                        <p>{{item.name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <p>{{item.price}}</p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p>
+                          <svg @click="removeUpdateSelectedMenuItem(idx)" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.99997 0C4.47721 0 0 4.47736 0 10.0001C0 15.5229 4.47721 19.9999 9.99997 19.9999C15.5229 19.9999 20.0001 15.5229 20.0001 10.0001C20.0001 4.47736 15.5229 0 9.99997 0ZM14.635 13.0096L13.0101 14.635L9.99997 11.6248L6.99011 14.635L5.36514 13.0096L8.37512 9.9995L5.36514 6.98996L6.98999 5.36495L9.99997 8.37512L13.01 5.36495L14.635 6.98964L11.6248 9.9995L14.635 13.0096Z" fill="#131340"/>
+                          </svg>
+                        </p>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
+          <div v-else>
+            <div class="row" v-for="item in updateForm.cases.menuProperty" :key="item.id">
+              <div class="col-8">
+                <div class="form-group">
+                  <label for="menuName" class="caseinfo-title">メニュー名</label>
+                  <input type="text" v-model="item.name" :class="{ 'fulled-status' : item.name ? 'fulled-input': '' }" class="form-control" id="menuName" placeholder="例：二重切開" />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="cost" class="caseinfo-title">料金</label>
+                  <input type="text" v-model="item.price" :class="{ 'fulled-status' : item.price ? 'fulled-input': '' }" class="form-control" id="cost" placeholder="例：250000円" >
+                </div>
+              </div>
+            </div>
 
-          <div class="row d-flex justify-content-center">
-            <div class="col-3">
-              <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItemUpdateForm">
-                <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
-                </svg>
-              </a>
-              <p class="d-flex justify-content-center">メニューを追加</p>
+            <div class="row d-flex justify-content-center">
+              <div class="col-3">
+                <a class="add-stuff-btn d-flex justify-content-center" @click="handleAddMenuItemUpdateForm">
+                  <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM19.25 14.25H14.25V19.25H11.75V14.25H6.75V11.75H11.75V6.75H14.25V11.75H19.25V14.25Z" fill="#8D909E"/>
+                  </svg>
+                </a>
+                <p class="d-flex justify-content-center">メニューを追加</p>
+              </div>
             </div>
           </div>
 
@@ -643,15 +745,20 @@ export default {
         before_photo: [],
         after_photo: [],
         menuProperty:[{
+          id: '',
           name:'',
-          cost:''
-        }]
+          price:'',
+          add_flag: false,
+        }],
+        existedMenuProperty: [],
       },
       beforePhoto:'',
       afterPhoto:'',
       menuItem:{
+        id: '',
         name:'',
-        cost:''
+        price:'',
+        add_flag: false,
       },
       menuProperty:[],
       tmp: {
@@ -713,6 +820,16 @@ export default {
       });
     },
 
+    menu_options() {
+      return this.menus.map(el => {
+        return {
+          id: el.id,
+          name: el.name,
+          price: el.price
+        }
+      });
+    },
+
     search_categories() {
       let tc = [];
       
@@ -730,7 +847,7 @@ export default {
   },
 
   mounted() {
-    this.getData()
+    this.getData();
   },
 
   methods: {
@@ -779,6 +896,7 @@ export default {
       this.form.cases.before_photo = [];
       this.form.cases.after_photo = [];
       this.selected_categories = [];
+     
       this.$refs.illcaseModal.show();
     },
 
@@ -792,7 +910,8 @@ export default {
 
       this.updateForm = {
         cases: { ...selected }
-      }
+      };
+      
       this.selected_categories = [];
       this.tempMenu = JSON.parse(JSON.stringify(selected.menuProperty));
       
@@ -817,10 +936,54 @@ export default {
     handleAddMenuItem(){
       this.form.cases.menuProperty.push({...this.menuItem})
     },
+    handleAddExistedItemMenu(option) {
+      let menuProperty = this.form.cases.menuProperty;
+
+      this.menus.forEach(item => {
+        if(item.id == option.id && !menuProperty.map(item => item.id).includes(option.id)) {
+          if(menuProperty[0].id == '') {
+              menuProperty[0].id = item.id;
+              menuProperty[0].name = item.name;
+              menuProperty[0].price = this.formatPrice(item.price);
+              menuProperty[0].add_flag = item.add_flag;
+          } else {
+            menuProperty.push({...{
+                id: item.id,
+                name: item.name,
+                price: this.formatPrice(item.price),
+                add_flag: true,
+              }
+            });
+          }
+        }
+      });
+    },
     handleAddMenuItemUpdateForm() {
       this.updateForm.cases.menuProperty.push({...this.menuItem});
     },
-    handleSaveCases(){
+    handleAddMenuExistItemUpdateForm(option) {
+      let menuProperty = this.updateForm.cases.menuProperty;
+
+      this.menus.forEach(item => {
+        if(item.id == option.id && !menuProperty.map(item => item.id).includes(option.id)) {
+          if(menuProperty[0].id == '') {
+              menuProperty[0].id = item.id;
+              menuProperty[0].name = item.name;
+              menuProperty[0].price = this.formatPrice(item.price);
+              menuProperty[0].add_flag = true;
+          } else {
+            menuProperty.push({...{
+                id: item.id,
+                name: item.name,
+                price: this.formatPrice(item.price),
+                add_flag: true,
+              }
+            });
+          }
+        }
+      });
+    },
+    handleSaveCases() {
       let url = '/api/doctor/cases';
       axios.post(url, this.form.cases)
         .then(res => {
@@ -838,9 +1001,9 @@ export default {
           this.getData();
         })
         .catch(error => {
-          this.errors = { ...error.response.data.errors }
-          this.$store.dispatch('state/removeIsLoading')
-        })
+          this.errors = { ...error.response.data.errors };
+          this.$store.dispatch('state/removeIsLoading');
+        });
     },
 
     handleUpdateCases(id){
@@ -901,7 +1064,7 @@ export default {
         category: {...tempCategory}
       }
 
-      let tempMenu = {
+      let m_tempMenu = {
         delete: [],
         add: [],
         update: []
@@ -909,31 +1072,39 @@ export default {
 
       let menuProperty_add = undefined;
       let menuProperty_add_arr = [];
-      
+
       menuProperty_add = this.updateForm.cases.menuProperty.filter(function (el){
-        return isNaN(el.id);
+        return (el.id == '' || (el.hasOwnProperty('add_flag') && el.add_flag));
       });
       $.each(menuProperty_add, function (key, value){
         menuProperty_add_arr.push(value);
       });
 
-      tempMenu.add = menuProperty_add_arr;
+      m_tempMenu.add = menuProperty_add_arr;
 
       let o_items = this.tempMenu;
 
       $.each(this.updateForm.cases.menuProperty, function(c_key, c_item) {
         $.each(o_items, function(o_key, o_item) {
           if(c_item.id == o_item.id) {
-            if(c_item.name != o_item.name || c_item.cost != o_item.cost) {
-              tempMenu.update.push(c_item);
+            if(c_item.name != o_item.name || c_item.price != o_item.price) {
+              m_tempMenu.update.push(c_item);
             }
           }
         });
       });
 
+      let m_menuProperty = this.updateForm.cases.menuProperty;
+
+      this.tempMenu.forEach(item => {
+        if(!m_menuProperty.map(sub_item => sub_item.id).includes(item.id)) {
+          m_tempMenu.delete.push(item);
+        }
+      });
+
       this.updateForm.cases = {
         ...this.updateForm.cases,
-        menuProperty: {...tempMenu}
+        menuProperty: {...m_tempMenu}
       }
 
       let url = '/api/doctor/cases/' + id;
@@ -1126,12 +1297,22 @@ export default {
           })
         })
     },
+    formatPrice(value) {
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
     scrollHanle(evt) {
       // console.log(evt)
     },
     removeCategory(idx) {
       this.selected_categories.splice(idx, 1);
       this.form.cases.category.splice(idx, 1);
+    },
+    removeSelectedMenuItem(idx) {
+      this.form.cases.menuProperty.splice(idx, 1);
+    },
+    removeUpdateSelectedMenuItem(idx) {
+      this.updateForm.cases.menuProperty.splice(idx, 1);
     },
     removeUpdateCategory(idx) {
       this.selected_categories.splice(idx, 1);

@@ -113,18 +113,18 @@ class DoctorCaseController extends Controller
         $doctor_id = auth()->guard('doctor')->user()->id;
 
         \DB::beginTransaction();
-        try {
+        // try {
             $case = $this->service->store($request->all(), $doctor_id);
 
             \DB::commit();
-        } catch (\Throwable $e) {
-            \DB::rollBack();
-            \Log::error($e->getMessage());
+        // } catch (\Throwable $e) {
+        //     \DB::rollBack();
+        //     \Log::error($e->getMessage());
 
-            return response()->json([
-                'message' => 'エラーが発生しました。'
-            ], 500);
-        }
+        //     return response()->json([
+        //         'message' => 'エラーが発生しました。'
+        //     ], 500);
+        // }
 
         return response()->json([
             'status' => 1,

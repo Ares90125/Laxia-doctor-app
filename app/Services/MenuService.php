@@ -1,9 +1,11 @@
 <?php
 namespace App\Services;
 
+use App\Models\Clinic;
 use Illuminate\Support\Arr;
 use App\Models\Master\Category;
 use App\Models\Menu;
+use App\Models\ClinicDoctorsRelation;
 use DB;
 use Auth;
 use Throwable;
@@ -88,6 +90,19 @@ class MenuService
     return $query->get()
       ->pluck('name', 'id')
       ->toArray();
+  }
+
+  public function toArrayByDoctor($doctor_id) {
+    $clinics = ClinicDoctorsRelation::where('doctor_id', $doctor_id)->select('clinic_id')->get();
+
+    if(empty($clinics)) return array();
+
+    $clinic_ids = array();
+    foreach($clinics as $item) {
+      $clinic_ids[] = Clinic::where('user_id', $item->clinic_id)->first()->id;
+    }
+
+    return Menu::whereIn('clinic_id', $clinic_ids)->get();
   }
 
   public function get($id)

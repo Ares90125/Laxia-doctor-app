@@ -74,11 +74,8 @@ export default {
 
       // Must verify email fist.
       if (data.status) {
-        console.log(data.status)
-      
         this.mustVerifyEmail = true
       } else {
-        console.log(data.status)
         // Log in the user.
         const { data: { token } } = await this.form.post('/api/doctor/login')
 
