@@ -189,7 +189,7 @@
                   <label for="spec0" class="caseinfo-title">得意分野①</label>
                   <select id="spec0" v-model="form.user.spec0" :class="{ 'fulled-status' : form.user.spec0 ? 'fulled-input': '' }" class="form-control">
                     <option></option>
-                    <option v-for="(item) in skill_categories" :key="'spec0-'+item.id" :value="item.id">{{ item.parent_name + '/' + item.name }}</option>
+                    <option v-for="(item) in skill_categories" :key="'spec0-'+item.id" :value="item.id">{{ item.name }}</option>
                   </select>
                 </div>
               </div>
@@ -198,7 +198,7 @@
                   <label for="spec1" class="caseinfo-title">得意分野②</label>
                   <select id="spec1" v-model="form.user.spec1" :class="{ 'fulled-status' : form.user.spec1 ? 'fulled-input': '' }" class="form-control">
                     <option></option>
-                    <option v-for="(item) in skill_categories" :key="'spec1-'+item.id" :value="item.id">{{ item.parent_name + '/' + item.name }}</option>
+                    <option v-for="(item) in skill_categories" :key="'spec1-'+item.id" :value="item.id">{{ item.name }}</option>
                   </select>
                 </div>
               </div>
@@ -207,7 +207,7 @@
                   <label for="spec2" class="caseinfo-title">得意分野③</label>
                   <select id="spec2" v-model="form.user.spec2" :class="{ 'fulled-status' : form.user.spec2 ? 'fulled-input': '' }" class="form-control">
                     <option></option>
-                    <option v-for="(item) in skill_categories" :key="'spec2-'+item.id" :value="item.id">{{ item.parent_name + '/' + item.name }}</option>
+                    <option v-for="(item) in skill_categories" :key="'spec2-'+item.id" :value="item.id">{{ item.name }}</option>
                   </select>
                 </div>
               </div>
@@ -264,19 +264,32 @@ export default {
       categories: 'data/categories',
     }),
 
+    // skill_categories() {
+    //   let tc = [];
+      
+    //   this.categories.map(el => {
+    //     el.all_children.map(item => {
+    //       tc.push({
+    //         id: item.id,
+    //         name: item.name,
+    //         parent_name: el.name,
+    //       });
+    //     });
+    //   });
+
+    //   return tc;
+    // },
+    
     skill_categories() {
       let tc = [];
       
-      this.categories.map(el => {
-        el.all_children.map(item => {
-          tc.push({
+      $.each(this.categories, function (key, item){
+        tc.push({
             id: item.id,
             name: item.name,
-            parent_name: el.name,
           });
-        });
-      });
-
+      })
+console.log(tc);
       return tc;
     },
   },

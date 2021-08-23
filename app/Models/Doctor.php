@@ -118,7 +118,9 @@ class Doctor extends Model
     if(empty($speciality)) return null;
 
     $parent = Speciality::where('id', $speciality->parent_id)->first();
-    return $speciality ? $parent->name . ' / ' . $speciality->name : null;
+    $parent_name = empty($parent) ? '' : $parent->name . ' / ';
+
+    return $speciality ? $parent_name . $speciality->name : null;
   }
 
 
@@ -130,11 +132,13 @@ class Doctor extends Model
   public function getSpec1NameAttribute()
   {
     $speciality = $this->speciality1()->where('id', $this->spec1)->first();
-    
+
     if(empty($speciality)) return null;
 
     $parent = Speciality::where('id', $speciality->parent_id)->first();
-    return $speciality ? $parent->name . ' / ' . $speciality->name : null;
+    $parent_name = empty($parent) ? '' : $parent->name . ' / ';
+
+    return $speciality ? $parent_name . $speciality->name : null;
   }
 
 
@@ -146,10 +150,12 @@ class Doctor extends Model
   public function getSpec2NameAttribute()
   {
     $speciality = $this->speciality2()->where('id', $this->spec2)->first();
-    
+
     if(empty($speciality)) return null;
 
     $parent = Speciality::where('id', $speciality->parent_id)->first();
-    return $speciality ? $parent->name . ' / ' . $speciality->name : null;
+    $parent_name = empty($parent) ? '' : $parent->name . ' / ';
+
+    return $speciality ? $parent_name . $speciality->name : null;
   }
 }
