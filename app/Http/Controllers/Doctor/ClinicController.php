@@ -21,7 +21,9 @@ class ClinicController extends Controller
 
     public function get()
     {
-        $clinics = $this->service->getAllList();
+        $doctor_id = auth()->guard('doctor')->user()->id;
+
+        $clinics = $this->service->getAllListByDoctor($doctor_id);
         $options = array();
 
         foreach($clinics as $clinic) {

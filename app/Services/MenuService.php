@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use App\Models\Master\Category;
 use App\Models\Menu;
 use App\Models\ClinicDoctorsRelation;
+use App\Models\DoctorClinics;
 use DB;
 use Auth;
 use Throwable;
@@ -93,7 +94,7 @@ class MenuService
   }
 
   public function toArrayByDoctor($doctor_id) {
-    $clinics = ClinicDoctorsRelation::where('doctor_id', $doctor_id)->select('clinic_id')->get();
+    $clinics = DoctorClinics::where('doctor_id', $doctor_id)->select('clinic_id')->get();
 
     if(empty($clinics)) return array();
 

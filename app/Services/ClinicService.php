@@ -5,6 +5,7 @@ use App\Http\Controllers\Clinic\ClinicController;
 use Illuminate\Support\Arr;
 use App\Models\Clinic;
 use App\Models\Attachment;
+use App\Models\ClinicDoctorsRelation;
 use DB;
 use Auth;
 use Throwable;
@@ -101,5 +102,16 @@ class ClinicService
 
   public function getAllList() {
     return Clinic::get();
+  }
+
+  public function getAllListByDoctor($doctor_id) {
+    $relations = ClinicDoctorsRelation::where('doctor_id', $doctor_id)->get();
+
+    $clinc_ids_arr = array();
+    foreach($relations as $item) {
+      if (!in_array($item->m_clinic_id, $clinc_ids_arr)) $clinc_ids_arr[] = $item->m_clinic_id;
+    }
+
+    return Clinic::whereIn('user_id', $clinc_ids_arr)->get();
   }
 }

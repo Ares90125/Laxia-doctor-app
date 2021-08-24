@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Illuminate\Support\Arr;
 use App\Models\Doctor;
+use App\Models\DoctorClinics;
 use App\Models\Attachment;
 use DB;
 use Auth;
@@ -84,18 +85,18 @@ class DoctorService
 
     if(isset($attributes['added_clinics']) && !empty($attributes['added_clinics'])) {
       foreach($attributes['added_clinics'] as $clinic_id) {
-        $clinicDoctorRelationInfo = ClinicDoctorsRelation::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])
+        $clinicDoctorRelationInfo = DoctorClinics::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])
           ->first();
 
         if (!$clinicDoctorRelationInfo) {
-          $clinicDoctorRelationInfo = ClinicDoctorsRelation::create(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id]);
+          $clinicDoctorRelationInfo = DoctorClinics::create(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id]);
         }
       }
     }
 
     if(isset($attributes['deleted_clinics']) && !empty($attributes['deleted_clinics'])) {
       foreach($attributes['deleted_clinics'] as $clinic_id) {
-        $clinicDoctorRelationInfo = ClinicDoctorsRelation::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])
+        $clinicDoctorRelationInfo = DoctorClinics::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])
           ->delete();
       }
     }

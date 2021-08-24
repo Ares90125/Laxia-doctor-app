@@ -42,6 +42,7 @@ class ClinicDoctorsRelation extends Model
     'name',
     'email',
     'role',
+    'm_clinic_id'
   ];
 
   public function getFirebaseKeyAttribute()
@@ -122,5 +123,9 @@ class ClinicDoctorsRelation extends Model
   {
     $speciality = $this->speciality2()->where('id', $this->spec2)->first();
     return $speciality ? $speciality->name : null;
+  }
+
+  public function getMClinicIdAttribute() {
+    return $this->clinic_id;
   }
 }
