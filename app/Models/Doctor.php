@@ -95,6 +95,10 @@ class Doctor extends Model
     return $this->belongsToMany(Clinic::class, 'doctor_clinics', 'doctor_id', 'clinic_id', 'doctor_id', 'user_id');
   }
 
+  public function linkclinics() {
+    return $this->belongsToMany(Clinic::class, 'clinic_doctors_relation', 'doctor_id', 'clinic_id', 'doctor_id', 'user_id');
+  }
+
   public function job()
   {
     return $this->belongsTo(Job::class, 'job_id');

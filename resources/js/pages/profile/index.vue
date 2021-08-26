@@ -65,7 +65,7 @@
           </div>
           <div class="profile-item">
             <label>紐づいているクリニック</label>
-            <div class="profile-item--value" v-for="item in user.clinics" :key="item.id" >{{ item.name }}</div>
+            <div class="profile-item--value" v-for="item in user.linkclinics" :key="item.id" >{{ item.name }}</div>
           </div>
         </div>
       </div>

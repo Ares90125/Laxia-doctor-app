@@ -64,7 +64,8 @@ class DoctorService
   {
     return Doctor::with([
         'images',
-        'clinics'
+        'clinics',
+        'linkclinics'
       ])
       ->where('doctor_id', $id)
       ->firstOrFail();
