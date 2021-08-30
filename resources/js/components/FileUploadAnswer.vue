@@ -108,6 +108,7 @@
         addRemoveLinks: true,
         dictMaxFilesExceeded: `最高${this.maxFiles}つまで選択してください。`,
         dictFileTooBig: 'ファイルサイズの上限は {{maxFilesize}} MB です\n(size: {{filesize}} MB)',
+        clickable: '.dropzone-trigger'
       }
 
       this.$nextTick(() => {
