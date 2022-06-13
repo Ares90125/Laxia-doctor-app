@@ -66,7 +66,7 @@ class Doctor extends Model
 
   public function user()
   {
-    return $this->belongsTo(User::class, 'doctor_id');
+    return $this->belongsTo(User::class, 'user_id');
   }
 
   public function getNameAttribute()
