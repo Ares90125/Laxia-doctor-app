@@ -67,7 +67,7 @@ class DoctorService
         'clinics',
         'linkclinics'
       ])
-      ->where('doctor_id', $id)
+      ->where('user_id', $id)
       ->firstOrFail();
   }
 
