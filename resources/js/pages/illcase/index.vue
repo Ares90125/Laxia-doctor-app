@@ -52,7 +52,7 @@
         :page-count="pageInfo.last_page"
         :click-handler="handlePaginate" />
     </div>
-    
+
     <form-modal
       ref="illcaseModal"
       id="case-modal"
@@ -129,6 +129,7 @@
           </div>
 
           <div v-if="form.cases.before_photo.length" class="">
+            
             <p class="caseinfo-title">Before画像</p>
             <div class="row">
               <div class="photo-container" v-for="(item, index) in form.cases.before_photo" :key="index">
@@ -832,7 +833,7 @@ export default {
 
     search_categories() {
       let tc = [];
-      
+
       this.categories.map(el => {
         el.all_children.map(item => {
           tc.push({
@@ -875,7 +876,7 @@ export default {
           this.$store.dispatch('state/removeIsLoading')
         })
     },
-    
+
     handlePaginate(pageNum) {
       this.query = {
         ...this.query,
@@ -896,7 +897,7 @@ export default {
       this.form.cases.before_photo = [];
       this.form.cases.after_photo = [];
       this.selected_categories = [];
-     
+
       this.$refs.illcaseModal.show();
     },
 
@@ -911,10 +912,10 @@ export default {
       this.updateForm = {
         cases: { ...selected }
       };
-      
+
       this.selected_categories = [];
       this.tempMenu = JSON.parse(JSON.stringify(selected.menuProperty));
-      
+
       let opt_groud_name = "";
       this.category_options.forEach(item => {
         opt_groud_name = item.group_name;
@@ -1177,7 +1178,7 @@ export default {
     handleBeforeMultiFilesQueueComplete() {
       this.form.beforeFileChanged = false
     },
-    
+
     handleAfterMultiFilesQueueComplete() {
       this.form.afterFileChanged = false
     },

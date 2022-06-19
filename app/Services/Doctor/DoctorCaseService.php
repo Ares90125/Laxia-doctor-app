@@ -33,11 +33,9 @@ class DoctorCaseService
       $per_page = isset($search['per_page']) ? $search['per_page'] : 20;
       $query = DoctorCases::query()
         ->with([]);
-
-      if (isset($search['doctor_id'])) {
-        $query->where('doctor_id', $search['doctor_id']);
+      if (isset($search['user_id'])) {
+        $query->where('doctor_id', $search['user_id']);
       }
-
       if (isset($search['category_id']) && $search['category_id'] != '') {
         $cat_ids = explode('_', $search['category_id']);
 
@@ -45,10 +43,9 @@ class DoctorCaseService
               // ->where('dccr.category_id', $search['category_id']);
               ->whereIn('dccr.category_id', $cat_ids);
       }
-      
+
       $query->orderby('created_at', 'desc');
       $query->select('doctor_cases.*');
-
       return $query->paginate($per_page);
   }
 
@@ -88,13 +85,13 @@ class DoctorCaseService
       for ($i = 0; $i < count($attributes['menuProperty']); $i++) {
 
         if(empty($attributes['menuProperty'][$i]['name'])) continue;
-        
+
         if(empty($attributes['menuProperty'][$i]['id'])) {
           $menu_id = \DB::table('menus')->insertGetId([
               'name' => $attributes['menuProperty'][$i]['name'],
               'price' => $attributes['menuProperty'][$i]['price']
           ]);
-  
+
           DoctorCaseMenus::create([
               'case_id' => $doctorCase->id,
               'menu_id' => $menu_id
@@ -243,7 +240,7 @@ class DoctorCaseService
               'name' => $menuProperty['add'][$i]['name'],
               'price' => $menuProperty['add'][$i]['price']
             ]);
-  
+
             DoctorCaseMenus::create([
                 'case_id' => $id,
                 'menu_id' => $menu_id
@@ -253,7 +250,7 @@ class DoctorCaseService
               'case_id' => $id,
               'menu_id' => $menuProperty['add'][$i]['id']
             ]);
-          }          
+          }
         }
       }
 

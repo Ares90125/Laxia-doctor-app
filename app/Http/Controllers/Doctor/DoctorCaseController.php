@@ -83,7 +83,7 @@ class DoctorCaseController extends Controller
     }
 
     // public function uploadAfterPhoto(Request $request)
-    // {    
+    // {
     //     $uploadedFile = $request->file;
     //     $disk = 'public';
     //     $filename = null;
@@ -159,8 +159,8 @@ class DoctorCaseController extends Controller
     public function get(Request $request)
     {
         $params = $request->all();
-        $params['doctor_id'] = auth()->guard('doctor')->user()->id;
-        
+        $params['user_id'] = auth()->guard('doctor')->user()->id;
+
         $cases = $this->service->paginate($params);
 
         return response()->json([

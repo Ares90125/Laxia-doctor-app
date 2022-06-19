@@ -65,7 +65,7 @@ class ProfileController extends Controller
 
         \DB::beginTransaction();
         try {
-            $doctor = $this->service->update($data, ['doctor_id' => $user_id], $user_id);
+            $doctor = $this->service->update($data, ['user_id' => $user_id], $user_id);
             $name = $this->userService->updateName($data['name'], $user_id);
             $profile = $this->service->get($user_id);
 

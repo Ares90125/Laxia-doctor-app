@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DoctorImages;
 use App\Models\Master\Pref;
 use App\Models\Master\Job;
 use App\Models\Master\Speciality;
@@ -49,6 +50,7 @@ class Doctor extends Model
     'name',
     'email',
     'role',
+    'docimages'
   ];
 
   protected $hidden = [
@@ -62,6 +64,15 @@ class Doctor extends Model
       return $this->user()->first()->firebase_key;
     }
     return null;
+  }
+  public function docimages()
+  {
+    return $this->belongsTo(DoctorImages::class, 'user_id','doctor_id');
+  }
+
+  public function getDocimagesAttribute()
+  {
+    return $this->docimages()->get();
   }
 
   public function user()

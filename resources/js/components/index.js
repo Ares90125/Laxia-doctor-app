@@ -9,6 +9,7 @@ import ResetConfirmModal from './ResetConfirmModal'
 import QuestionMenuModal from './QuestionMenuModal'
 import QuestionDeleteModal from './QuestionDeleteModal'
 import FileUpload from './FileUpload'
+import FileUploaded from './FileUploaded'
 import FileUploadSingle from './FileUploadSingle'
 import FileUploadAnswer from './FileUploadAnswer'
 import QuestionAddBox from './QuestionAddBox'
@@ -29,6 +30,7 @@ import { HasError, AlertError, AlertSuccess } from 'vform'
   QuestionMenuModal,
   QuestionDeleteModal,
   FileUpload,
+  FileUploaded,
   FileUploadSingle,
   FileUploadAnswer,
   QuestionAddBox,

@@ -40,7 +40,7 @@ class Answers extends Model
 
   public function doctor()
   {
-    return $this->belongsTo(Doctor::class, 'doctor_id', 'doctor_id');
+    return $this->belongsTo(Doctor::class, 'doctor_id', 'user_id');
   }
 
   public function getDoctorAttribute()
@@ -62,8 +62,8 @@ class Answers extends Model
     $current_time = new DateTime('now');
     $updated_time = new DateTime($this->updated_at);
 
-    // $dteDiff  = $updated_time->diff($current_time); 
-    
+    // $dteDiff  = $updated_time->diff($current_time);
+
     // // return $dteDiff->format("%H時間 %I分 %S秒前");
     // return $dteDiff->format("%h時間 %i分前");
 
