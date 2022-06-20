@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Illuminate\Support\Arr;
 use App\Models\Doctor;
+use App\Models\DoctorImages;
 use App\Models\DoctorClinics;
 use App\Models\Attachment;
 use DB;
@@ -67,7 +68,7 @@ class DoctorService
         'clinics',
         'linkclinics'
       ])
-      ->where('doctor_id', $id)
+      ->where('user_id', $id)
       ->firstOrFail();
   }
 
@@ -94,7 +95,25 @@ class DoctorService
         }
       }
     }
+    if (isset($attributes['imagesinfo'])) {
+        $images = $attributes['imagesinfo'];
+        if (isset($images['add'])) {
+          for ($i = 0; $i < count($images['add']); $i++) {
+            DoctorImages::create([
+              'doctor_id' => $doctor_id,
+              'photo' => $images['add'][$i]
+            ]);
+          }
+        }
 
+        if (isset($images['delete'])) {
+          for ($i = 0; $i < count($images['delete']); $i++) {
+            DoctorImages::where('id', $images['delete'][$i])
+              ->where('doctor_id', $doctor_id)
+              ->delete();
+          }
+        }
+      }
     if(isset($attributes['deleted_clinics']) && !empty($attributes['deleted_clinics'])) {
       foreach($attributes['deleted_clinics'] as $clinic_id) {
         $clinicDoctorRelationInfo = DoctorClinics::where(['clinic_id' => $clinic_id, 'doctor_id' => $doctor_id])

@@ -21,6 +21,14 @@
           <path opacity="0.3" d="M99.1379 78.2378C97.3861 74.8907 95.3703 71.8751 93.3866 69.7364C95.8448 66.04 97.2862 61.6093 97.2862 56.8293C97.2826 43.9258 86.8113 33.464 73.896 33.4604C60.9808 33.464 50.5094 43.9258 50.5094 56.8293C50.5094 61.6022 51.9508 66.04 54.409 69.7364C52.4217 71.8751 50.4095 74.8943 48.6577 78.2378C46.8988 81.6276 45.4396 85.2598 44.8866 88.6782C44.7047 89.8153 44.619 90.9238 44.619 91.9968C44.6048 95.5684 45.6359 98.7943 47.4447 101.396C50.1562 105.324 54.3447 107.805 58.9685 109.352C63.6102 110.892 68.7906 111.534 73.896 111.537C80.7068 111.52 87.6426 110.422 93.2618 107.474C96.066 105.995 98.5527 104.013 100.351 101.396C102.153 98.7943 103.184 95.572 103.177 91.9968C103.177 90.9203 103.091 89.8153 102.905 88.6782C102.356 85.2598 100.897 81.6312 99.1379 78.2378ZM61.9048 44.849C64.9838 41.7729 69.2009 39.8837 73.896 39.8837C78.5876 39.8837 82.8118 41.7729 85.8872 44.849C88.9591 47.9252 90.8571 52.142 90.8571 56.8293C90.8535 61.5167 88.9626 65.7299 85.8872 68.8097C82.8083 71.8787 78.5876 73.7714 73.8924 73.7714C69.2009 73.7679 64.9802 71.8787 61.9012 68.8097C58.8258 65.7335 56.9314 61.5202 56.9314 56.8293C56.9349 52.142 58.8294 47.9252 61.9048 44.849ZM95.0492 97.7713C93.4509 100.113 90.5717 102.006 86.7863 103.264C83.0188 104.522 78.4556 105.121 73.8924 105.114C67.8166 105.132 61.7264 104.034 57.5307 101.796C55.4293 100.691 53.8167 99.3325 52.7428 97.7641C51.6725 96.1886 51.0553 94.3921 51.0446 92.0003C51.0446 91.2874 51.1052 90.5104 51.2337 89.6798C51.5869 87.3843 52.8106 84.1549 54.3554 81.2106C55.7362 78.5514 57.388 76.1062 58.7152 74.5842C62.8003 78.0774 68.0984 80.1982 73.896 80.1982C79.6972 80.1982 84.9917 78.0774 89.0804 74.5877C90.404 76.1098 92.0594 78.5514 93.4402 81.2141C94.985 84.1584 96.2087 87.3879 96.5584 89.6834C96.6904 90.5139 96.751 91.2839 96.751 92.0039C96.7368 94.3921 96.1231 96.1886 95.0492 97.7713Z" fill="#666E6E"/>
         </svg>
       </div>
+      <div class="row ">
+        <div class="col-12">
+          <div class="images-group">
+            <img class="photo-img" v-for="image in user.docimages" :src="image.photo" :key="image.id" />
+          </div>
+        </div>
+      </div>
+
       <div class="profile-con">
         <div class="profile-con--left-con">
           <div class="profile-item">
@@ -69,7 +77,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
 
     <form-modal
@@ -107,7 +115,45 @@
               </div>
             </div>
 
+             <!-- upload -->
+             <div class="photo-con--sub-con before-con">
+              <p class="caseinfo-maintitle">ドクター紹介写真</p>
+              <p class="caseinfo-title">カウンセリングや施術中の写真、実績などの写真をアップしてください。</p>
+              <div class="file-upload-con">
+                <file-uploaded
+                  ref="UploadDocimage"
+                  uploadUrl="/api/doctor/profile/photoupload"
+                  :photo="afterPhoto"
+                  @file-upload-success="handleUpdateImagesSaved"
+                  :maxFiles="10"
+                  :autoStatus="true"
+                />
+              </div>
+              <div class="file-upload-btn-con" style="margin-top:20px; margin-bottom:20px">
+                <button class="btn btn-sm non-bootstrap-btn d-flex" style="margin:auto"  @click="handleUpdateUploadBeforeImage">
+                  <p class="">
+                    <svg width="16" height="20" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.458008 22.8333H18.5413V20.25H0.458008V22.8333ZM0.458008 9.91667H5.62468V17.6667H13.3747V9.91667H18.5413L9.49968 0.875L0.458008 9.91667Z" fill="#5CA3F6"/>
+                    </svg>
+                  </p>
+                  写真をアップロード</button>
+              </div>
+              <!--<div v-if="updateErrors && updateErrors['before_photo']" class="error invalid-feedback without-is-invlid">{{ updateErrors['before_photo'][0] }}</div>-->
+            </div>
+
+             <!-- upload inages -->
             <div class="profile-item modal-id-item">
+                <div v-if="user.docimages" class="">
+
+                  <div class="row">
+                    <div class="photo-container" v-for="(item, index) in form.user.docimages" :key="index">
+                      <img :src="item.photo" class="case-img-list"/>
+                      <a @click="handleUpdateRemoveBeforeImageClick(item.id)" class="remove-img-clicker">
+                        <img src="/img/delete-icon.svg" class="remove-img-icon"/>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               <label for="userId" class="caseinfo-title">ID名</label>
               <input type="text" @keyup="handleCheckId" :class="{ 'is-invalid': idValidation === 1, 'is-valid': idValidation=== 2, 'fulled-status' : form.user.name ? 'fulled-input': '' }" v-model="form.user.name" class="form-control" id="userId"/>
               <div v-if="idValidation === 1" class="error invalid-feedback-custom">このID名はすでに利用されています</div>
@@ -131,7 +177,7 @@
             <div class="row profile-item">
               <label for="clinic_id" class="caseinfo-title">所属クリニック</label>
               <Select2
-                :options="clinics" 
+                :options="clinics"
                 :settings="{
                   'minimumInputLength': 1,
                   'placeholder': '',
@@ -148,7 +194,7 @@
                   'escapeMarkup': function(m) {
                       return m;
                   }
-                }" 
+                }"
                 @change="clinicChangeEvent($event)"
                 @select="clinicSelectEvent($event)"
                 @open="clinicSelectOpenEvent($event)"
@@ -266,7 +312,7 @@ export default {
 
     // skill_categories() {
     //   let tc = [];
-      
+
     //   this.categories.map(el => {
     //     el.all_children.map(item => {
     //       tc.push({
@@ -279,10 +325,10 @@ export default {
 
     //   return tc;
     // },
-    
+
     skill_categories() {
       let tc = [];
-      
+
       $.each(this.categories, function (key, item){
         tc.push({
             id: item.id,
@@ -296,11 +342,14 @@ console.log(tc);
 
   data() {
     return {
+      afterPhoto:'',
+      autoStaticId: 0,
       isModal: false,
       modalInfo: {
         title: '',
         confirmBtnTitle: '',
       },
+      errors: undefined,
       form: undefined,
       user: undefined,
       idValidation: 0,
@@ -331,11 +380,16 @@ console.log(tc);
     },
 
     handleEditProfile() {
+      //console.log(this.user.docimages);
       this.modalInfo = {
         title: 'プロフィールを編集する',
         confirmBtnTitle: '検索'
       }
       this.form = {
+        imagesinfo:{
+            add:[],
+            delete:[]
+        },
         user: { ...this.user},
         specialities: {...this.specialities}
       }
@@ -344,7 +398,7 @@ console.log(tc);
       this.tmpClinics = [];
 
       $.each(this.form.user.clinics, function (key, value){
-        tp.push(value);        
+        tp.push(value);
       });
 
       this.tmpClinics = tp;
@@ -391,7 +445,7 @@ console.log(tc);
 
       this.form.user.added_clinics = added_clinics;
       this.form.user.deleted_clinics = deleted_clinics;
-
+       this.form.user.imagesinfo = this.form.imagesinfo;
       axios.put(url, this.form.user)
         .then(res => {
           this.user = res.data.data;
@@ -411,7 +465,7 @@ console.log(tc);
             page: 1
           }
           this.$refs.fileUploadComponent.removeAllFiles();
-      
+
           this.loadDbData();
           this.updateUser();
         })
@@ -459,7 +513,10 @@ console.log(tc);
       // this.$refs.fileUploadComponent.removeAllFiles();
       document.getElementsByClassName("dropzone")[0].click();
     },
-
+    handleUpdateUploadBeforeImage(){
+      this.$refs.UploadDocimage.processQueue();
+      this.$refs.UploadDocimage.$el.click()
+    },
     handleCheckId(){
 
       let url = '/api/doctor/id_checker';
@@ -476,6 +533,30 @@ console.log(tc);
             this.idValidation = 1;
           }
         })
+    },
+     handleUpdateImagesSaved(fileUrl){
+      let id = "a" + this.autoStaticId++;
+      let objImage = {
+        id: id,
+        photo: fileUrl
+      }
+      this.form.user.docimages.push(objImage);
+      this.$refs.UploadDocimage.removeAllFiles();
+      this.form.imagesinfo.add.push(fileUrl);
+    },
+      handleUpdateRemoveBeforeImageClick(id){
+        if(id.toString().indexOf("a") !== -1){
+
+
+          this.form.imagesinfo.add.filter(function (el){
+            return el.id !== id;
+          })
+        }else{
+          this.form.imagesinfo.delete.push(id);
+        }
+      this.form.user.docimages = this.form.user.docimages.filter(function (el){
+        return el.id !== id;
+      });
     },
     scrollHanle(evt) {
       // console.log(evt)
@@ -516,7 +597,7 @@ console.log(tc);
 
       let t_result = result.substr(0, pos) + '<b>' + typed + '</b>' + result.substr(pos_1, len_1);
 
-      return t_result; 
+      return t_result;
     },
     handleCancelSelectedClinic(item, index) {
       this.form.user.clinics.splice(index, 1);
@@ -524,3 +605,43 @@ console.log(tc);
   }
 }
 </script>
+<style scoped>
+.images-group{
+  margin:30px;
+}
+.photo-img{
+  width: 200px;
+  height: 133px;
+  margin-right: 20px;
+}
+.remove-img-clicker{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  cursor: pointer;
+}
+.remove-img-icon{
+  width: 18px;
+  height: auto;
+}
+.caseinfo-maintitle{
+  color: #7d7d7d;
+  font-size: 15px;
+  margin: 5px 0;
+}
+.case-img-list{
+  height: 80px;
+  width: 120px;
+}
+.photo-container{
+  position: relative;
+  margin-right: 12px;
+  margin-bottom: 12px;
+}
+.upload_image_picker{
+  margin-left: 150px;
+  margin-right: 150px;
+
+}
+
+</style>

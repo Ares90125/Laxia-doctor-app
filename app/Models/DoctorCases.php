@@ -46,7 +46,7 @@ class DoctorCases extends Model
 
   public function doctor()
   {
-    return $this->belongsTo(Doctor::class, 'doctor_id', 'doctor_id');
+    return $this->belongsTo(Doctor::class, 'doctor_id', 'user_id');
   }
 
   public function getDoctorAttribute()
@@ -74,7 +74,7 @@ class DoctorCases extends Model
   public function caseMenus()
   {
     // return $this->hasMany(DoctorCaseMenus::class, 'case_id', 'id');
-    
+
     return $this->belongsToMany(Menu::class, 'doctor_case_menus', 'case_id', 'menu_id');
   }
 

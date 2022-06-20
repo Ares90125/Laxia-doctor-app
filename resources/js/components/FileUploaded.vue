@@ -14,7 +14,7 @@
     @vdropzone-complete="handleUploadComplete"
     @vdropzone-complete-multiple="handleMultipleUploadComplete"
     >
-      <div class="dropzone-wrapper">
+      <div class="dropzone-wrapper" style="padding-top:50%">
         <div class="dropzone-in">
           <div class="">
             <div><img src="/img/file.png"/></div>
@@ -30,7 +30,7 @@
   import vue2Dropzone from 'vue2-dropzone'
 
   export default {
-    name: 'FileUpload',
+    name: 'FileUploaded',
 
     components: {
       vueDropzone: vue2Dropzone
