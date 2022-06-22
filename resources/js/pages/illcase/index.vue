@@ -80,7 +80,7 @@
                 <file-upload
                   ref="beforeFileUploadComponent"
                   uploadUrl="/api/doctor/cases/before/photoupload"
-                  :maxFiles="10"
+                  :maxFiles="4"
                   :autoStatus="true"
                   name="menu-images"
                   @file-upload-success="handleBeforeMultiFileSaved"
@@ -106,7 +106,7 @@
                 <file-upload
                   ref="afterFileUploadComponent"
                   uploadUrl="/api/doctor/cases/after/photoupload"
-                  :maxFiles="10"
+                  :maxFiles="4"
                   :autoStatus="true"
                   name="menu-images"
                   @file-upload-success="handleAfterMultiFileSaved"
