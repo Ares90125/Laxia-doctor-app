@@ -8,7 +8,7 @@
           <div class="form-group">
             <label class="col-form-label text-md-right">{{ $t('メールアドレスもしくはID名') }}</label>
             <div>
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" v-bind:placeholder="$t('例：XXX@example.com or ID')" />
+              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" v-bind:placeholder="$t('example or ID')" />
               <has-error :form="form" field="email" />
             </div>
           </div>

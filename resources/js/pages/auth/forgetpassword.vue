@@ -9,7 +9,7 @@
           <!-- Email -->
           <div class="form-group">
             <label for="emailform" class="col-form-label caseinfo-title">{{ $t('メールアドレス') }}</label>
-            <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" id="emailform" placeholder="例：XXX@example.com">
+            <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email" id="emailform" placeholder="example or ID">
             <has-error :form="form" field="email" />
           </div>
 
@@ -62,7 +62,7 @@ export default {
     reSendEmail(){
       this.isSendingEmail = true;
     },
-    
+
     async send () {
       // const { data } = await this.form.post('/api/user/password/email');
 
