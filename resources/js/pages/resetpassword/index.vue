@@ -73,11 +73,10 @@
                 <label class="sm-lab">{{ $t('パスワードを忘れた場合') }}</label>
               </div>
               <div class="input-group">
-                <input  v-if="'text' === curPwType" type="text" class="form-control" :class="{ 'fulled-status' : passwordForm.current_password ? 'fulled-input': '' }" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
-                <input v-else type="password" class="form-control" :class="{ 'fulled-status' : passwordForm.current_password ? 'fulled-input': '' }" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
+                <input :type="'text' === curPwType ? 'text' : 'password'" class="form-control" :class="{ 'fulled-status' : passwordForm.current_password }" v-model="passwordForm.current_password" @keyup="checkPassFormStatus" />
                 <a @click="showCurPassword" class="icon-eye"></a>
               </div>
-              <div v-if="errors && errors.current_password" class="error invalid-feedback-custom">{{ errors.current_password[0] }}</div>
+              <div v-if="errors && errors.current_password && show_current_password_error" class="error invalid-feedback-custom">{{ errors.current_password[0] }}</div>
           </div>
           <div class="password-item new-pass">
             <label>{{ $t('新しいメールアドレス') }}</label>
@@ -86,12 +85,12 @@
               <input v-else type="password" class="form-control" :class="{ 'fulled-status' : passwordForm.new_password ? 'fulled-input': '' }" v-model="passwordForm.new_password" @keyup="checkPassFormStatus" />
               <a @click="showNewPassword" class="icon-eye"></a>
             </div>
-            <div v-if="errors && errors.new_password" class="error invalid-feedback-custom">{{ errors.new_password[0] }}</div>
+            <div v-if="errors && errors.new_password && show_new_password_error" class="error invalid-feedback-custom">{{ errors.new_password[0] }}</div>
           </div>
           <div class="password-item confirm-pass">
             <label>{{ $t('新しいパスワード(再入力)') }}</label>
             <input class="form-control" type="password" :class="{ 'fulled-status' : passwordForm.new_password_confirmation ? 'fulled-input': '' }" v-model="passwordForm.new_password_confirmation" @keyup="checkPassFormStatus" />
-            <div v-if="errors && errors.new_password_confirmation" class="error invalid-feedback-custom">{{ errors.new_password_confirmation[0] }}</div>
+            <div v-if="errors && errors.new_password_confirmation && show_new_password_confirmation_error" class="error invalid-feedback-custom">{{ errors.new_password_confirmation[0] }}</div>
           </div>
           <div class="btn-grp-con">
             <button class="btn btn-secondary btn-sm"  @click="handleCancelPassword">キャンセル</button>
@@ -114,6 +113,30 @@ export default {
     ...mapGetters({
       user: 'auth/user',
     }),
+  },
+
+  watch: {
+    'passwordForm.current_password': function (newVal, oldVal) {
+      if (newVal) {
+        this.show_current_password_error = false;
+      } else {
+        this.show_current_password_error = true;
+      }
+    },
+    'passwordForm.new_password': function (newVal, oldVal) {
+      if (newVal) {
+        this.show_new_password_error = false;
+      } else {
+        this.show_new_password_error = true;
+      }
+    },
+    'passwordForm.new_password_confirmation': function (newVal, oldVal) {
+      if (newVal) {
+        this.show_new_password_confirmation_error = false;
+      } else {
+        this.show_new_password_confirmation_error = true;
+      }
+    },
   },
 
   mounted () {
@@ -145,6 +168,10 @@ export default {
 
       activeEmailClass: '',
       activePassClass: '',
+
+      show_current_password_error: false,
+      show_new_password_error: false,
+      show_new_password_confirmation_error: false,
     }
   },
 
@@ -211,6 +238,9 @@ export default {
         .catch(error => {
           this.$store.dispatch('state/removeIsLoading')
           this.errors = {...error.response.data.errors}
+          if (this.errors.current_password) this.show_current_password_error = true;
+          if (this.errors.new_password) this.show_new_password_error = true;
+          if (this.errors.new_password_confirmation) this.show_new_password_confirmation_error = true;
         })
     },
 
@@ -245,7 +275,9 @@ export default {
         this.activePassClass = '';
       else
         this.activePassClass = 'active-btn';
-    }
+      
+    },
+
   }
 }
 </script>
