@@ -43,7 +43,7 @@
                   現在は仮登録の状態です。
                   <br><br>
                   本会員登録を完了するには下記URLにアクセスしてください。</p>
-                  <a href="{{ route('user.email.verify', $user->confirmation_code) }}">{{ route('user.email.verify', $user->confirmation_code) }}</a>
+                  <a href="{{ route('password.newset', ['email'=>$user['email'],'token'=>$user['token']]) }}">{{ route('password.newset') }}</a>
               </td>
             <td style="width:10%;"></td>
           </tr>

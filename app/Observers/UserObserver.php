@@ -26,7 +26,7 @@ class UserObserver
             ]);
         } else if ($user->role == 'doctor') {
             Doctor::create([
-                'doctor_id' => $user->id
+                'user_id' => $user->id
             ]);
         } else if ($user->role == 'patient') {
             $patient = Patient::create([

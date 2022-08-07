@@ -50,7 +50,6 @@ class AnswerService
         ]);
       }
     }
-    
     return $answer;
   }
 
@@ -101,7 +100,7 @@ class AnswerService
         ]);
       }
     }
-    
+
     return $answer;
   }
 }

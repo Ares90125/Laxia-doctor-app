@@ -8,7 +8,7 @@ export default [
   { path: '/login', name: 'login', component: page('auth/login.vue') },
   { path: '/register', name: 'user_register', component: page('auth/register.vue') },
   { path: '/forgetpassword', name: 'forgetpassword', component: page('auth/forgetpassword.vue') },
-  { path: '/password/reset/:token', name: 'reset', component: page('auth/reset.vue') },
+  { path: '/password/newset', name: 'reset', component: page('auth/reset.vue') },
   { path: '/profile', name: 'user_profile', component: page('profile/index.vue') },
   { path: '/illcase', name: 'user_illcase', component: page('illcase/index.vue') },
   { path: '/question', name: 'user_question', component: page('question/index.vue') },

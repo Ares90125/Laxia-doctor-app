@@ -56,14 +56,14 @@
         </form>
       </div>
     </div>
-    
+
     <reset-confirm-modal
       ref="modal"
       id="modal"
     >
-      
+
     </reset-confirm-modal>
-    
+
   </div>
 </template>
 
@@ -92,7 +92,7 @@ export default {
   }),
 
   mounted(){
-    this.form.token=this.$route.params.token;
+    this.form.token=this.$route.query.token;
     this.form.email=this.$route.query.email;
   },
 
@@ -101,11 +101,9 @@ export default {
       try{
         const { data } = await this.form.post('/api/user/password/reset');
 
-        if(data.reset_flag == 'successed') this.$refs.modal.show();
+        if(data.success == true) this.$refs.modal.show();
       } catch(e) {
-        if(e.response.status === 400) {
-          alert(e.response.data.email);
-        } else if(e.response.status !== 422) {
+         if(e.response.status == 400) {
           alert('操作が失敗しました。');
         }
       }
