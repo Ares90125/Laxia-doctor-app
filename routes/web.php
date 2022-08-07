@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/welcome', function () {
 //     return view('welcome');
 // });
+Route::get('/password/newset/{code}', 'User\Auth\RegisterController@verifyUser')->name('password.newset');
 Route::get('/user/email/verify/{code}', 'User\Auth\RegisterController@verifyUser')->name('user.email.verify');
 Route::get('/user/email/complete', 'User\Auth\RegisterController@complete')->name('user.register.complete_email');
 

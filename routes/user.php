@@ -22,13 +22,13 @@ Route::get('diaries', 'DiaryController@search');
 Route::get('counselings', 'CounselingController@search');
 Route::get('questions', 'QuestionController@search');
 
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::group(['middleware' => 'guest:api'], function () {
   Route::post('login', 'Auth\LoginController@login');
   Route::post('login/sns', 'Auth\RegisterController@registerWithSocial');
   Route::post('register/email', 'Auth\RegisterController@register');
 
   Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-  Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
   // Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
   // Route::post('email/resend', 'Auth\VerificationController@resend');
@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth.patient']], function() {
 
   //  フォローする
   Route::post('patients/{patient}/toggleFollow', 'PatientController@toggleFollow');
-  
+
   // フォロー・フォロワー
   Route::get('follows', 'PatientController@getFollows');
   Route::get('followers', 'PatientController@getFollowers');

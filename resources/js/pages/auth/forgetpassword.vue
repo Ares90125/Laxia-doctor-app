@@ -62,12 +62,12 @@ export default {
     reSendEmail(){
       this.isSendingEmail = true;
     },
-    
-    async send () {
-      // const { data } = await this.form.post('/api/user/password/email');
 
-      // if(data.send_flag == 'successed') this.isSendingEmail = false;
-      this.isSendingEmail = false;
+    async send () {
+      const { data } = await this.form.post('/api/doctor/password/email');
+      console.log('data=>', data);
+      if(data.send_flag == 'successed')
+        this.isSendingEmail = false;
     }
   }
 

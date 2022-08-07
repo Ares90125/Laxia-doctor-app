@@ -1,45 +1,41 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card :title="$t('reset_password')">
+  <div class="bg-blue-gray auth-wrapper login-wrapper auth">
+    <div class="auth--wrapper">
+      <div class="auth--form">
         <form @submit.prevent="send" @keydown="form.onKeydown($event)">
-          <alert-success :form="form" :message="status" />
-
+          <h2 class="auth--title reset-title" >パスワードをリセット</h2>
           <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email'), 'fulled-status' : form.email ? 'fulled-input': '' }" class="form-control" type="text" name="email">
+          <span class="auth--title__tip">登録したメールアドレスを入力してください。</span>
+          <div class="form-group">
+            <label class="col-form-label text-md-right">{{ $t('メールアドレス') }}</label>
+            <div>
+              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control mb-0" type="text" name="email" placeholder="例：XXX@example.com">
               <has-error :form="form" field="email" />
             </div>
           </div>
 
-          <!-- Submit Button -->
-          <div class="form-group row">
-            <div class="col-md-9 ml-md-auto">
-              <v-button :loading="form.busy">
-                {{ $t('send_password_reset_link') }}
-              </v-button>
-            </div>
+          <div class="auth--btnwrap reset-btn">
+            <v-button :loading="form.busy">{{ $t('パスワードリセットのメールを送信') }}</v-button>
           </div>
         </form>
-      </card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
 import Form from 'vform'
 
 export default {
+  layout: 'basic',
   middleware: 'guest',
 
   metaInfo () {
-    return { title: this.$t('reset_password') }
+    return { title: this.$t('パスワード再設定') }
   },
 
   data: () => ({
-    status: '',
     form: new Form({
       email: ''
     })
@@ -47,11 +43,13 @@ export default {
 
   methods: {
     async send () {
-      const { data } = await this.form.post('/api/password/email')
+      const { data } = await this.form.post('/api/doctor/password/email');
+      console.log('data=>', data);
+      // this.status = data.status
+      // this.form.reset()
 
-      this.status = data.status
-
-      this.form.reset()
+      if(data.send_flag == 'successed')
+		    this.$router.push({name: 'password.sent', params: { mail: this.form.email }});
     }
   }
 }
